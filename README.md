@@ -1,2 +1,5 @@
 # Frontend Prototype
- Frontend prototype of UniCourse, a modern course information platform for NTNU students.
+
+The frontend of UniCourse, a modern course information platform for NTNU students.
+
+![](./public/banner.svg)
