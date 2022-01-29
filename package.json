@@ -1,5 +1,5 @@
 {
-    "name": "unicourse-frontend-prototype",
+    "name": "unicourse-frontend",
     "version": "0.1.0",
     "scripts": {
         "dev": "vite",
