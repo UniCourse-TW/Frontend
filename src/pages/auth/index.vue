@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 const route = useRoute();
+const router = useRouter();
 
 const conv: { [key: string]: string } = {
     register: "註冊",
@@ -16,6 +17,11 @@ const r_password = ref("");
 const r_email = ref("");
 
 useHead({ title: conv[type.value] + " | UniCourse" });
+
+function switch_type() {
+    type.value = type.value === "login" ? "register" : "login";
+    router.push({ query: { type: type.value } });
+}
 
 async function login() {
     if (processing.value) {
@@ -57,9 +63,16 @@ async function register() {
 <template>
     <div w="full">
         <div w="full" max-w="500px" p="x-4 t-8" m="auto" flex="~ col" class="justify-start items-center">
-            <h1 text="transparent 3xl sm:4xl lg:5xl" bg="clip-text gradient-to-br" class="from-cyan-500 via-indigo-500 to-fuchsia-500">
-                {{ conv[type] }}
-            </h1>
+            <transition name="up" mode="out-in">
+                <h1
+                    :key="conv[type]"
+                    text="transparent 3xl sm:4xl lg:5xl"
+                    bg="clip-text gradient-to-br"
+                    class="from-cyan-500 via-indigo-500 to-fuchsia-500"
+                >
+                    {{ conv[type] }}
+                </h1>
+            </transition>
             <transition name="fade" mode="out-in">
                 <div v-if="type === 'login'" w="full" m="y-4">
                     <div w="full" m="y-2">
@@ -96,31 +109,28 @@ async function register() {
                             />
                         </label>
                     </div>
+                    <div w="full" m="y-2" h="4">
+                        <span
+                            float="right"
+                            text="blue-500 hover:fuchsia-500"
+                            class="transition-all cursor-pointer"
+                            @click="$router.push({ path: '/auth/reset' })"
+                        >
+                            忘記密碼？
+                        </span>
+                    </div>
                     <div text="center xl" m="t-8">
                         <button
                             p="y-2 x-4"
                             bg="gradient-to-br"
                             text="white shadow-xl"
-                            w="1/4"
+                            w="1/3 sm:1/4"
                             outline="none"
                             :filter="processing ? '~ -hue-rotate-20' : 'hover:~ hover:-hue-rotate-20'"
                             class="rounded from-cyan-500 via-indigo-500 to-fuchsia-500 transition-all duration-200"
                             @click="login"
                         >
                             {{ processing ? "登入中" : "登入" }}
-                        </button>
-                    </div>
-                    <div text="center" m="t-8">
-                        <button
-                            p="y-2 x-4"
-                            bg="clip-text gradient-to-br"
-                            text="transparent hover:xl"
-                            w="1/3"
-                            outline="none"
-                            class="rounded from-cyan-500 via-indigo-500 to-fuchsia-500 transition-all duration-200"
-                            @click="type = type === 'login' ? 'register' : 'login'"
-                        >
-                            {{ type === "login" ? "想要註冊嗎？" : "是要登入嗎？" }}
                         </button>
                     </div>
                 </div>
@@ -182,7 +192,7 @@ async function register() {
                                 p="y-2 x-4"
                                 bg="gradient-to-br"
                                 text="white shadow-xl"
-                                w="1/4"
+                                w="1/3 sm:1/4"
                                 outline="none"
                                 :filter="processing ? '~ -hue-rotate-20' : 'hover:~ hover:-hue-rotate-20'"
                                 class="rounded from-cyan-500 via-indigo-500 to-fuchsia-500 transition-all duration-200"
@@ -192,19 +202,20 @@ async function register() {
                             </button>
                         </div>
                     </div>
-                    <div text="center" m="t-8">
-                        <button
-                            p="y-2 x-4"
-                            bg="clip-text gradient-to-br"
-                            text="transparent hover:xl"
-                            w="1/3"
-                            outline="none"
-                            class="rounded from-cyan-500 via-indigo-500 to-fuchsia-500 transition-all duration-200"
-                            @click="type = type === 'login' ? 'register' : 'login'"
-                        >
-                            {{ type === "login" ? "想要註冊嗎？" : "是要登入嗎？" }}
-                        </button>
-                    </div>
+                </div>
+            </transition>
+            <transition name="down" mode="out-in">
+                <div text="center" m="t-8" w="full" :key="type">
+                    <button
+                        p="y-2 x-4"
+                        bg="clip-text gradient-to-br"
+                        text="transparent hover:xl"
+                        outline="none"
+                        class="rounded from-cyan-500 via-indigo-500 to-fuchsia-500 transition-all duration-200"
+                        @click="switch_type"
+                    >
+                        {{ type === "login" ? "想要註冊嗎？" : "是要登入嗎？" }}
+                    </button>
                 </div>
             </transition>
         </div>
@@ -220,5 +231,25 @@ async function register() {
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+}
+
+.up-enter-active,
+.up-leave-active {
+    transition: transform 0.5s;
+}
+
+.up-enter-from,
+.up-leave-to {
+    transform: translateY(-100px);
+}
+
+.down-enter-active,
+.down-leave-active {
+    transition: transform 0.5s;
+}
+
+.down-enter-from,
+.down-leave-to {
+    transform: translateY(1000px);
 }
 </style>

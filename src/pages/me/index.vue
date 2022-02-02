@@ -2,7 +2,7 @@
 useHead({ title: "帳號 | UniCourse" });
 
 const router = useRouter();
-router.push("/me/auth");
+router.push("/auth");
 </script>
 
 <template>

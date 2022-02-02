@@ -8,6 +8,7 @@ const query_body = ref("");
 const query_results = reactive(<CourseMeta[]>[]);
 const locked = ref(false);
 const first = ref(true);
+const adv = ref(false);
 
 function rand_placeholder(): string {
     const holders = ["紀博文", "資工系", "程式設計", "UI", "本部", "週四"];
@@ -31,7 +32,16 @@ async function query() {
 
 <template>
     <div>
-        <SearchBar v-model="query_body" :action="query" :placeholder="'搜尋課程 試試「' + rand_placeholder() + '」？'" />
+        <SearchBar
+            v-model="query_body"
+            :search="query"
+            :advanced="() => (adv = !adv)"
+            :placeholder="'搜尋課程 試試「' + rand_placeholder() + '」？'"
+        />
+
+        <div v-if="adv" p="x-6 lg:x-10" flex="~" class="justify-center">
+            <div w="11/12">進階選項</div>
+        </div>
 
         <div w="full">
             <div

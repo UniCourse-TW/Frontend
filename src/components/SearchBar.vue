@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 const props = defineProps({
     placeholder: { default: "搜尋..." },
-    action: { default: <any>(() => undefined) },
+    search: { default: <any>(() => undefined) },
+    advanced: { default: <any>undefined },
     modelValue: { default: "" },
 });
 
@@ -20,11 +21,12 @@ const emits = defineEmits(["update:modelValue"]);
                 z="1"
                 outline="none hover:solid-blue-300 focus:solid-indigo-300"
                 class="transition-all duration-200"
-                @keyup.enter="props.action"
+                @keyup.enter="props.search"
                 :value="props.modelValue"
                 @input="$emit('update:modelValue', ($event.target as any).value)"
             />
-            <button p="x-4" bg="hover:gray-200" class="transition-all duration-200" @click="props.action">搜尋</button>
+            <button v-if="props.advanced" p="x-4" bg="hover:gray-200" class="transition-all duration-200" @click="props.advanced">+</button>
+            <button p="x-4" bg="hover:gray-200" class="transition-all duration-200" @click="props.search">搜尋</button>
         </div>
     </div>
 </template>

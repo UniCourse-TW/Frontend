@@ -216,3 +216,10 @@ export interface CourseInfo extends CourseMeta {
      */
     reviews: CourseReview[];
 }
+
+export interface User {
+    jwt: string;
+    username: string;
+    display: string;
+    email: string;
+}

@@ -1,13 +1,24 @@
 <script setup lang="ts">
+import store from "../store";
+
 const nav = {
-    帳號: "/me",
+    [store.user ? "我" : "登入"]: store.user ? "/me" : "/auth",
     論壇: "/forum",
     課程: "/course",
+    部落格: "/blog",
 };
 </script>
 
 <template>
-    <div h="16" w="full" sticky="~" flex="~ row-reverse" shadow="~ indigo-100" bg="white" class="top-0 z-10">
+    <div
+        h="16"
+        w="full"
+        sticky="~"
+        flex="~ row-reverse"
+        :shadow="$route.path === '/' ? '' : '~ indigo-100'"
+        :bg="$route.path === '/' ? 'transparent' : 'white'"
+        class="transition-all duration-200 top-0 z-10"
+    >
         <!-- Logo on the left side -->
         <div id="logo" h="full" w="32" flex="~" class="absolute justify-center items-center left-0 top-0">
             <router-link to="/" h="full" w="full" flex="~" class="justify-center items-center">
@@ -17,7 +28,7 @@ const nav = {
                     bg="clip-text gradient-to-br"
                     m="hover:l-2"
                     outline="none"
-                    filter="hover:~ hover:-hue-rotate-90"
+                    filter="hover:~ hover:-hue-rotate-20"
                     class="from-cyan-500 via-indigo-500 to-fuchsia-500 transition-all duration-200"
                 >
                     UniCourse
@@ -27,7 +38,7 @@ const nav = {
 
         <!-- Links on the right side -->
         <div v-for="(link, name) in nav" h="full" w="16 sm:20 lg:24">
-            <router-link :to="link">
+            <router-link :to="link" v-if="name !== '部落格' || $route.path === '/' || $route.path.startsWith('/blog')">
                 <div
                     h="full"
                     w="full"
