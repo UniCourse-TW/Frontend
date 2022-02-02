@@ -3,34 +3,20 @@ useHead({ title: "UniCourse" });
 </script>
 
 <template>
-    <div id="cover" w="screen" h="screen" bg="gradient-to-br" class="absolute top-0 from-cyan-400 via-indigo-200 to-fuchsia-200">
-        <img src="../assets/banner.svg" w="full" h="1/5 sm:1/4 lg:1/3" />
-        <div w="full" h="4/5 sm:3/4 lg:2/3" p="2 sm:x-4 lg:x-6">
-            <div w="full lg:1/2" h="1/2 lg:full" p="b-1 sm:b-2 lg:r-3" class="inline-block">
-                <div w="full" h="full" p="3" bg="white opacity-40" text="center" shadow="lg hover:xl" class="rounded-lg transition-all">
+    <div id="cover" class="absolute top-0 h-screen w-screen bg-gradient-to-br from-cyan-400 via-indigo-200 to-fuchsia-200">
+        <img src="../assets/banner.svg" class="h-1/5 w-full sm:h-1/4 lg:h-1/3" />
+        <div class="h-4/5 w-full p-2 sm:h-3/4 sm:px-4 lg:h-2/3 lg:px-6">
+            <div class="inline-block h-1/2 w-full pb-1 sm:pb-2 lg:h-full lg:w-1/2 lg:pr-3">
+                <div class="h-full w-full rounded-lg bg-white bg-opacity-40 p-3 text-center shadow-lg transition-all hover:shadow-xl">
                     <RainbowText content="最完整的課程資訊" class="text-2xl" />
-                    <hr
-                        w="3/4"
-                        h="0.5"
-                        m="y-1.5 x-auto"
-                        border="none"
-                        bg="gradient-to-r"
-                        class="from-cyan-600 via-indigo-600 to-fuchsia-600"
-                    />
+                    <hr class="mx-auto my-1.5 h-0.5 w-3/4 border-none bg-gradient-to-r from-cyan-600 via-indigo-600 to-fuchsia-600" />
                     <p>多少課程？ 從哪些平台整合？ 總共被查詢了多少次？ 其他數據？</p>
                 </div>
             </div>
-            <div w="full lg:1/2" h="1/2 lg:full" p="t-1 sm:t-2 lg:l-3" class="inline-block">
-                <div w="full" h="full" p="3" bg="white opacity-40" shadow="lg hover:xl" text="center" class="rounded-lg transition-all">
+            <div class="inline-block h-1/2 w-full pt-1 sm:pt-2 lg:h-full lg:w-1/2 lg:pl-3">
+                <div class="h-full w-full rounded-lg bg-white bg-opacity-40 p-3 text-center shadow-lg transition-all hover:shadow-xl">
                     <RainbowText content="廣大的使用者社群" class="text-2xl" />
-                    <hr
-                        w="3/4"
-                        h="0.5"
-                        m="y-1.5 x-auto"
-                        border="none"
-                        bg="gradient-to-r"
-                        class="from-cyan-600 via-indigo-600 to-fuchsia-600"
-                    />
+                    <hr class="mx-auto my-1.5 h-0.5 w-3/4 border-none bg-gradient-to-r from-cyan-600 via-indigo-600 to-fuchsia-600" />
                     <p>多少人使用？ 有多少文章？ 有多少提問已被回答？ 其他數據？</p>
                 </div>
             </div>

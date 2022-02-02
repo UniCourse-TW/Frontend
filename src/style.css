@@ -1,12 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
-    position: relative;
+    @apply relative;
 }
 
 html,
 body,
 #root {
-    min-height: 100%;
-    width: 100%;
+    @apply min-h-full w-full;
 }
 
 #root {

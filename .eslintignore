@@ -1,3 +1,11 @@
-dist
+# Public files
 public
+
+# Configurations
 .eslintrc.js
+tailwind.config.js
+postcss.config.js
+
+# Auto generated files
+dist
+src/auto/**

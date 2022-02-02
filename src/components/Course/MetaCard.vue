@@ -16,9 +16,13 @@ function hide() {
 </script>
 
 <template>
-    <div v-if="meta" bg="white" border="~ gray-400" w="full" h="40" p="4 sm:5 lg:6" class="rounded cursor-pointer" @click="show">
+    <div
+        v-if="meta"
+        class="h-40 w-full cursor-pointer rounded border bg-white p-4 shadow shadow-blue-200 transition-all hover:shadow-md hover:shadow-indigo-200 sm:p-5 lg:p-6"
+        @click="show"
+    >
         <div>
-            <span text="lg"> {{ meta.name }} </span> <br />
+            <span class="text-lg"> {{ meta.name }} </span> <br />
             <span> 教授：{{ meta.teachers.join(" and ") }} </span> <br />
             More Course Meta...
         </div>
