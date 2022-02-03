@@ -1,7 +1,10 @@
 import type { User } from "./types";
+import { defineStore } from "pinia";
 
-const store = reactive({
-    user: null as User | null,
+const use_store = defineStore("coolest-store", {
+    state: () => ({
+        user: null as User | null,
+    }),
 });
 
-export default store;
+export default use_store;

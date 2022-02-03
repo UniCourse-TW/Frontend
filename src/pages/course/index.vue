@@ -28,6 +28,29 @@ async function query() {
         first.value = false;
     }
 }
+
+const course_animation = {
+    before_enter(el: Element) {
+        const elm = el as HTMLElement;
+        elm.style.opacity = "0";
+        elm.style.top = "-2rem";
+        elm.style.transition = "all 0.25s";
+    },
+    enter(el: Element, done: () => void) {
+        const elm = el as HTMLElement;
+        const idx = +(elm.dataset.idx || "0");
+        setTimeout(() => {
+            elm.style.opacity = "1";
+            elm.style.top = "0";
+            setTimeout(done, 250);
+        }, idx * (query_results.length < 300 ? 50 : 1500 / query_results.length));
+    },
+    leave(el: Element, done: () => void) {
+        const elm = el as HTMLElement;
+        elm.style.opacity = "0";
+        setTimeout(done, 50);
+    },
+};
 </script>
 
 <template>
@@ -39,33 +62,33 @@ async function query() {
             :placeholder="'搜尋課程 試試「' + rand_placeholder() + '」？'"
         />
 
-        <div v-if="adv" p="x-6 lg:x-10" flex="~" class="justify-center">
-            <div w="11/12">進階選項</div>
+        <div v-if="adv" class="flex justify-center px-6 lg:px-10">
+            <div class="w-11/12">進階選項</div>
         </div>
 
-        <div w="full">
-            <div
-                v-show="query_results.length"
-                v-for="meta in query_results"
-                w="full"
-                max-w="1400px"
-                flex="~"
-                p="2 sm:4 lg:6"
-                m="auto"
-                class="justify-center items-center"
+        <div class="w-full">
+            <transition-group
+                name="course-list"
+                :css="false"
+                @before-enter="course_animation.before_enter"
+                @enter="course_animation.enter"
+                @leave="course_animation.leave"
             >
-                <MetaCard :meta="meta" />
-            </div>
+                <div
+                    v-show="query_results.length"
+                    v-for="(meta, idx) of query_results"
+                    :key="[meta.year, meta.term, meta.serial].join('-')"
+                    :data-idx="idx"
+                    class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6"
+                >
+                    <MetaCard :meta="meta" />
+                </div>
+            </transition-group>
             <div
                 v-show="query_results.length === 0 && !first"
-                w="full"
-                max-w="1400px"
-                flex="~"
-                p="2 sm:4 lg:6"
-                m="auto"
-                class="justify-center items-center"
+                class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6"
             >
-                <div bg="white" border="~ gray-400" w="full" h="40" p="4 sm:5 lg:6" class="rounded cursor-pointer">
+                <div class="h-40 w-full cursor-pointer rounded border border-gray-400 bg-white p-4 sm:p-5 lg:p-6">
                     <div>查無結果，請換個關鍵字試試？</div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 <template>
-    <h1 p="5">
+    <h1 class="p-5">
         {{ $route.path }}
     </h1>
 </template>

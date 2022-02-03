@@ -25,9 +25,9 @@ function hide(evt: MouseEvent) {
 </script>
 
 <template>
-    <div bg="black opacity-50" w="screen" h="screen" z="100" p="sm:x-8 lg:x-12 t-4 sm:t-6 lg:t-8" class="fixed top-0 left-0" @click="hide">
-        <div data-locator="card" bg="white" w="full" h="full" p="4" class="card-body rounded-t-2xl overflow-hidden">
-            <div h="full" class="overflow-y-auto overflow-x-hidden break-words">
+    <div class="fixed top-0 left-0 z-20 h-screen w-screen bg-black bg-opacity-50 pt-4 sm:px-8 sm:pt-6 lg:px-12 lg:pt-8" @click="hide">
+        <div data-locator="card" class="card-body h-full w-full overflow-hidden rounded-t-2xl bg-white p-4">
+            <div class="h-full overflow-y-auto overflow-x-hidden break-words">
                 <div v-if="!course_info">Fetching ...</div>
                 <div v-if="course_info">
                     <span> {{ course_info.name }} </span> <br />
@@ -36,7 +36,7 @@ function hide(evt: MouseEvent) {
                     Course Informations (including some reviews related to this course)... <br />
 
                     <div v-for="review in course_info.reviews">
-                        <div my="4">
+                        <div class="my-4">
                             <span> {{ review.user }} </span> <br />
                             <span> {{ review.content }} </span> <br />
                             <span> {{ new Date(review.time).toLocaleString() }} </span> <br />
@@ -47,7 +47,7 @@ function hide(evt: MouseEvent) {
                     </div>
                 </div>
             </div>
-            <span p="2" class="absolute top-3 right-3 cursor-pointer" @click="hide">X</span>
+            <span class="absolute top-3 right-3 cursor-pointer p-2" @click="hide">X</span>
         </div>
     </div>
 </template>

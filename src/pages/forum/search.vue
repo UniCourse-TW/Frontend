@@ -14,6 +14,6 @@ function query() {
 
 <template>
     <div>
-        <SearchBar v-model="query_body" :action="query" placeholder="搜尋文章及提問" />
+        <SearchBar v-model="query_body" :search="query" placeholder="搜尋文章及提問" />
     </div>
 </template>

@@ -7,5 +7,5 @@ useHead({ title: username + " | UniCourse" });
 </script>
 
 <template>
-    <div w="full"></div>
+    <div class="w-full"></div>
 </template>

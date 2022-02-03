@@ -8,5 +8,7 @@ console.log(article_id);
 </script>
 
 <template>
-    <div w="full"></div>
+    <h1 class="p-5">
+        {{ $route.path }}
+    </h1>
 </template>

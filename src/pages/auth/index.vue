@@ -61,161 +61,49 @@ async function register() {
 </script>
 
 <template>
-    <div w="full">
-        <div w="full" max-w="500px" p="x-4 t-8" m="auto" flex="~ col" class="justify-start items-center">
+    <div class="w-full">
+        <div class="m-auto flex w-full max-w-lg flex-col items-center justify-start px-4 pt-8">
             <transition name="up" mode="out-in">
-                <h1
-                    :key="conv[type]"
-                    text="transparent 3xl sm:4xl lg:5xl"
-                    bg="clip-text gradient-to-br"
-                    class="from-cyan-500 via-indigo-500 to-fuchsia-500"
-                >
-                    {{ conv[type] }}
-                </h1>
+                <RainbowText :content="conv[type]" :key="conv[type]" class="text-3xl sm:text-4xl lg:text-5xl" />
             </transition>
             <transition name="fade" mode="out-in">
-                <div v-if="type === 'login'" w="full" m="y-4">
-                    <div w="full" m="y-2">
-                        <label text="blue-500 lg">
-                            帳號 <br />
-                            <input
-                                type="text"
-                                placeholder="請輸入帳號"
-                                text="indigo-500"
-                                w="full"
-                                m="2"
-                                p="x-2 y-2"
-                                outline="none"
-                                border="b-3 b-blue-300 focus:b-indigo-500"
-                                class="transition-all duration-200"
-                                v-model="l_username"
-                            />
-                        </label>
-                    </div>
-                    <div w="full" m="y-2">
-                        <label text="blue-500 lg">
-                            密碼 <br />
-                            <input
-                                type="password"
-                                placeholder="請輸入密碼"
-                                text="indigo-500"
-                                w="full"
-                                m="2"
-                                p="x-2 y-2"
-                                outline="none"
-                                border="b-3 b-blue-300 focus:b-indigo-500"
-                                class="transition-all duration-200"
-                                v-model="l_password"
-                            />
-                        </label>
-                    </div>
-                    <div w="full" m="y-2" h="4">
-                        <span
-                            float="right"
-                            text="blue-500 hover:fuchsia-500"
-                            class="transition-all cursor-pointer"
-                            @click="$router.push({ path: '/auth/reset' })"
+                <div v-if="type === 'login'" class="my-4 w-full">
+                    <Input label="帳號" placeholder="請輸入帳號" v-model="l_username" />
+                    <Input label="密碼" placeholder="請輸入密碼" v-model="l_password" />
+                    <div class="my-2 h-4 w-full">
+                        <router-link
+                            to="/auth/reset"
+                            class="float-right cursor-pointer text-blue-500 transition-all hover:text-fuchsia-500"
                         >
                             忘記密碼？
-                        </span>
-                    </div>
-                    <div text="center xl" m="t-8">
-                        <button
-                            p="y-2 x-4"
-                            bg="gradient-to-br"
-                            text="white shadow-xl"
-                            w="1/3 sm:1/4"
-                            outline="none"
-                            :filter="processing ? '~ -hue-rotate-20' : 'hover:~ hover:-hue-rotate-20'"
-                            class="rounded from-cyan-500 via-indigo-500 to-fuchsia-500 transition-all duration-200"
-                            @click="login"
-                        >
-                            {{ processing ? "登入中" : "登入" }}
-                        </button>
+                        </router-link>
                     </div>
                 </div>
-                <div v-else w="full" m="y-4">
-                    <div w="full">
-                        <div w="full" m="y-2">
-                            <label text="blue-500 lg">
-                                帳號 <br />
-                                <input
-                                    type="text"
-                                    placeholder="請輸入帳號"
-                                    text="indigo-500"
-                                    w="full"
-                                    m="2"
-                                    p="x-2 y-2"
-                                    outline="none"
-                                    border="b-3 b-blue-300 focus:b-indigo-500"
-                                    class="transition-all duration-200"
-                                    v-model="r_username"
-                                />
-                            </label>
-                        </div>
-                        <div w="full" m="y-2">
-                            <label text="blue-500 lg">
-                                密碼 <br />
-                                <input
-                                    type="password"
-                                    placeholder="請輸入密碼"
-                                    text="indigo-500"
-                                    w="full"
-                                    m="2"
-                                    p="x-2 y-2"
-                                    outline="none"
-                                    border="b-3 b-blue-300 focus:b-indigo-500"
-                                    class="transition-all duration-200"
-                                    v-model="r_password"
-                                />
-                            </label>
-                        </div>
-                        <div w="full" m="y-2">
-                            <label text="blue-500 lg">
-                                電子郵件 <br />
-                                <input
-                                    type="email"
-                                    placeholder="請輸入電子郵件"
-                                    text="indigo-500"
-                                    w="full"
-                                    m="2"
-                                    p="x-2 y-2"
-                                    outline="none"
-                                    border="b-3 b-blue-300 focus:b-indigo-500"
-                                    class="transition-all duration-200"
-                                    v-model="r_email"
-                                />
-                            </label>
-                        </div>
-                        <div text="center xl" m="t-8">
-                            <button
-                                p="y-2 x-4"
-                                bg="gradient-to-br"
-                                text="white shadow-xl"
-                                w="1/3 sm:1/4"
-                                outline="none"
-                                :filter="processing ? '~ -hue-rotate-20' : 'hover:~ hover:-hue-rotate-20'"
-                                class="rounded from-cyan-500 via-indigo-500 to-fuchsia-500 transition-all duration-200"
-                                @click="register"
-                            >
-                                {{ processing ? "處理中" : "註冊" }}
-                            </button>
-                        </div>
-                    </div>
+                <div v-else class="my-4 w-full">
+                    <Input label="帳號" placeholder="請輸入帳號" v-model="r_username" />
+                    <Input label="密碼" placeholder="請輸入密碼" v-model="r_password" />
+                    <Input label="電子郵件" placeholder="請輸入電子郵件" v-model="r_email" />
                 </div>
             </transition>
-            <transition name="down" mode="out-in">
-                <div text="center" m="t-8" w="full" :key="type">
+
+            <transition name="fade" mode="out-in">
+                <div class="mt-8 w-full text-center text-xl" :key="type">
                     <button
-                        p="y-2 x-4"
-                        bg="clip-text gradient-to-br"
-                        text="transparent hover:xl"
-                        outline="none"
-                        class="rounded from-cyan-500 via-indigo-500 to-fuchsia-500 transition-all duration-200"
-                        @click="switch_type"
+                        class="w-1/3 rounded bg-gradient-to-br from-cyan-500 via-indigo-500 to-fuchsia-500 p-2 px-4 text-white outline-none transition-all hover:hue-rotate-15 sm:w-1/4"
+                        @click="() => (type === 'login' ? login() : register())"
                     >
-                        {{ type === "login" ? "想要註冊嗎？" : "是要登入嗎？" }}
+                        {{ processing ? conv[type] + "中" : conv[type] }}
                     </button>
+                </div>
+            </transition>
+
+            <transition name="down" mode="out-in">
+                <div :key="type" class="mt-8 w-full text-center">
+                    <RainbowText
+                        :content="type === 'login' ? '想要註冊嗎？' : '是要登入嗎？'"
+                        class="cursor-pointer p-2 px-4 outline-none transition-all duration-200 hover:text-xl"
+                        @click="switch_type"
+                    />
                 </div>
             </transition>
         </div>
@@ -240,7 +128,7 @@ async function register() {
 
 .up-enter-from,
 .up-leave-to {
-    transform: translateY(-100px);
+    transform: translateY(-100vh);
 }
 
 .down-enter-active,
@@ -250,6 +138,6 @@ async function register() {
 
 .down-enter-from,
 .down-leave-to {
-    transform: translateY(1000px);
+    transform: translateY(100vh);
 }
 </style>
