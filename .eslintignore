@@ -9,3 +9,6 @@ postcss.config.js
 # Auto generated files
 dist
 src/auto/**
+
+# Storybook
+stories
