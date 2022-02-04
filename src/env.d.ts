@@ -7,3 +7,6 @@ declare module "*.vue" {
     const component: DefineComponent<{}, {}, any>;
     export default component;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare type AnyObj = { [key: string]: any };

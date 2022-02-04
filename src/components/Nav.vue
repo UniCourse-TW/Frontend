@@ -28,9 +28,10 @@ const computed_nav = computed(() => {
         <div id="logo" class="absolute left-0 top-0 flex h-full w-32 items-center justify-center">
             <router-link to="/" class="flex h-full w-full items-center justify-center">
                 <RainbowText
-                    content="UniCourse"
                     class="text-xl font-bold outline-none transition-all duration-200 hover:ml-2 hover:text-2xl hover:hue-rotate-15"
-                />
+                >
+                    UniCourse
+                </RainbowText>
             </router-link>
         </div>
 

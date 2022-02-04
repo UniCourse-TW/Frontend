@@ -64,7 +64,7 @@ async function register() {
     <div class="w-full">
         <div class="m-auto flex w-full max-w-lg flex-col items-center justify-start px-4 pt-8">
             <transition name="up" mode="out-in">
-                <RainbowText :content="conv[type]" :key="conv[type]" class="text-3xl sm:text-4xl lg:text-5xl" />
+                <RainbowText :key="conv[type]" class="text-3xl sm:text-4xl lg:text-5xl"> {{ conv[type] }} </RainbowText>
             </transition>
             <transition name="fade" mode="out-in">
                 <div v-if="type === 'login'" class="my-4 w-full">
@@ -100,10 +100,11 @@ async function register() {
             <transition name="down" mode="out-in">
                 <div :key="type" class="mt-8 w-full text-center">
                     <RainbowText
-                        :content="type === 'login' ? '想要註冊嗎？' : '是要登入嗎？'"
                         class="cursor-pointer p-2 px-4 outline-none transition-all duration-200 hover:text-xl"
                         @click="switch_type"
-                    />
+                    >
+                        {{ type === "login" ? "想要註冊嗎？" : "是要登入嗎？" }}
+                    </RainbowText>
                 </div>
             </transition>
         </div>
