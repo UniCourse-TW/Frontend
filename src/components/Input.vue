@@ -3,10 +3,14 @@ const props = defineProps({
     label: { default: "" },
     placeholder: { default: "" },
     modelValue: { default: "" },
-    enter: { default: (payload?: KeyboardEvent) => undefined },
+    enter: { default: false, type: Function },
 });
 
-defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue"]);
+
+function default_func(evt: unknown) {
+    console.log(evt);
+}
 </script>
 
 <template>
@@ -17,9 +21,9 @@ defineEmits(["update:modelValue"]);
                 type="text"
                 :placeholder="props.placeholder"
                 class="m-2 w-full border-b-[3px] border-blue-300 p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500"
-                @keyup.enter="props.enter"
+                @keyup.enter="(props.enter || default_func)($event)"
                 :value="props.modelValue"
-                @input="$emit('update:modelValue', ($event.target as any).value)"
+                @input="emit('update:modelValue', ($event.target as any).value)"
             />
         </label>
     </div>
