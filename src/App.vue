@@ -1,5 +1,12 @@
+<script lang="ts" setup>
+import use_store from "./store";
+
+const route = useRoute();
+const store = use_store();
+</script>
+
 <template>
-    <Nav />
+    <Nav :route="route" :store="store" />
 
     <router-view v-slot="{ Component }">
         <transition name="page-transition" mode="out-in">

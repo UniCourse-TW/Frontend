@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import type { CourseMeta } from "../../types";
 
-defineProps({ meta: { default: <CourseMeta | null>null } });
+defineProps({
+    meta: { default: <CourseMeta | null>null },
+});
 
 const show_full = ref(false);
 

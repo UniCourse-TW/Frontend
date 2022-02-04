@@ -16,6 +16,12 @@ module.exports = {
             }),
         );
 
+        config.plugins.push(
+            require("unplugin-vue-components/vite")({
+                dts: "./src/auto/components.auto.d.ts",
+            }),
+        );
+
         return config;
     },
 };

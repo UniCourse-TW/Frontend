@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import use_store from "../store";
+const props = defineProps({
+    route: { default: () => ({}), type: Object },
+    store: { default: () => ({}), type: Object },
+});
 
-const route = useRoute();
-const store = use_store();
+const store = props.store;
+const route = props.route;
 
 const nav = reactive<[string, string, () => boolean][]>([
     ["我", "/me", () => !!store.user],
@@ -21,7 +24,7 @@ const computed_nav = computed(() => {
     <div
         :class="
             'sticky top-0 z-10 flex h-16 w-full flex-row-reverse transition-all duration-200 ' +
-            ($route.path === '/' ? ' bg-transparent' : 'bg-white shadow shadow-indigo-100')
+            (route.path === '/' ? ' bg-transparent' : 'bg-white shadow shadow-indigo-100')
         "
     >
         <!-- Logo on the left side -->
