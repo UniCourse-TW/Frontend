@@ -7,7 +7,7 @@ module.exports = {
         "@typescript-eslint/explicit-module-boundary-types": ["error", { allowArgumentsExplicitlyTypedAsAny: true }],
         "@typescript-eslint/naming-convention": [
             "error",
-            { selector: "default", format: ["snake_case", "UPPER_CASE"], leadingUnderscore: "allow" },
+            { selector: "default", format: ["snake_case", "UPPER_CASE", "PascalCase"], leadingUnderscore: "allow" },
             { selector: "memberLike", modifiers: ["private"], format: ["snake_case", "UPPER_CASE"], leadingUnderscore: "require" },
             { selector: "typeLike", format: ["PascalCase"] },
         ],
