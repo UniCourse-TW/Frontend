@@ -29,6 +29,9 @@ jobs:
                   version: latest
                   run_install: false
 
+            - name: Install Dependencies
+              run: pnpm i
+
             - name: Build and Publish to Chromatic
               uses: chromaui/action@v1
               with:
