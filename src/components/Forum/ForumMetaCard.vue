@@ -15,37 +15,20 @@ function handle_click() {
 <template>
     <div
         v-if="meta"
-        class="h-40 w-full cursor-pointer rounded border bg-white p-4 shadow shadow-blue-200 transition-all hover:shadow-md hover:shadow-indigo-200 sm:p-5 lg:p-6"
+        class="h-48 w-full cursor-pointer rounded border bg-white p-4 shadow shadow-blue-200 transition-all hover:shadow-md hover:shadow-indigo-200 sm:p-5 lg:p-6"
         @click="handle_click"
     >
-        <div>
-            <span class="text-lg"> {{ meta.title }} </span> <br />
-            <span> 課程：{{ `${meta.course.year}-${meta.course.term} ${meta.course.name}` }} </span> <br />
-            More Course Meta...
+        <div class="flex h-full flex-col gap-y-2">
+            <div class="flex items-center gap-x-2">
+                <img src="https://picsum.photos/seed/1/32/32" class="rounded-full" />
+                <span class="text-lg">{{ meta.title }}</span>
+            </div>
+            <div v-if="meta.course" class="text-gray-600">課程：{{ `${meta.course.year}-${meta.course.term} ${meta.course.name}` }}</div>
+
+            <div class="flex-1"></div>
+
+            <div>{{ meta.tags.map((t) => `#${t}`).join(" ") }}</div>
+            <div>{{ meta.time }}</div>
         </div>
     </div>
 </template>
-
-<style scoped>
-.full-card-enter-active {
-    transition: all 0.3s ease;
-}
-.full-card-leave-active {
-    transition: all 0.3s ease 0.2s;
-}
-
-.full-card-enter-from,
-.full-card-leave-to {
-    opacity: 0;
-}
-
-.full-card-enter-active >>> [data-locator="card"],
-.full-card-leave-active >>> [data-locator="card"] {
-    transition: all 0.25s ease-in-out;
-}
-
-.full-card-enter-from >>> [data-locator="card"],
-.full-card-leave-to >>> [data-locator="card"] {
-    transform: translateY(100vh);
-}
-</style>

@@ -7,12 +7,14 @@ useHead({ title: "論壇 | UniCourse" });
 const router = useRouter();
 
 const query_body = ref("");
+const latest_questions = reactive(<PostMeta[]>[]);
 const latest_posts = reactive(<PostMeta[]>[]);
 const is_fetching = ref(true);
 
 get_latest_post()
     .then((meta) => {
-        latest_posts.splice(0, latest_posts.length, ...meta);
+        latest_questions.splice(0, latest_questions.length, ...meta.filter((m) => m.type === "question"));
+        latest_posts.splice(0, latest_posts.length, ...meta.filter((m) => m.type !== "question"));
     })
     .catch(console.error)
     .finally(() => {
@@ -77,6 +79,26 @@ const course_animation = {
             </div>
             <div class="flex-1 px-4 lg:border-l-2 lg:border-l-blue-200">
                 <h2 class="text-lg lg:text-xl">即時提問</h2>
+                <div class="w-full">
+                    <transition-group
+                        name="course-list"
+                        :css="false"
+                        @before-enter="course_animation.before_enter"
+                        @enter="course_animation.enter"
+                        @leave="course_animation.leave"
+                    >
+                        <div
+                            v-show="latest_questions.length"
+                            v-for="(meta, idx) of latest_questions"
+                            :key="meta.id"
+                            :data-idx="idx"
+                            class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6"
+                        >
+                            <ForumMetaCard :meta="meta" />
+                        </div>
+                    </transition-group>
+                    <div v-if="is_fetching">loading...</div>
+                </div>
             </div>
         </div>
     </div>

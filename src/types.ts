@@ -236,17 +236,21 @@ export interface PostMeta {
     time: string;
     vote: PostVote;
     tags: string[];
-    course: Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
-        teacher: string;
-    };
+    course:
+        | null
+        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+              teacher: string;
+          });
 }
 
 export interface PostInfo extends PostMeta {
     content: string;
-    course: Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
-        teacher: string;
-        rating: PostRating;
-    };
+    course:
+        | null
+        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+              teacher: string;
+              rating: PostRating;
+          });
 }
 
 export interface User {
