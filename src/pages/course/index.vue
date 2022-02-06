@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { CourseMeta } from "../../types";
 import { get_course_meta } from "../../api";
+import type { CourseInfo, CourseMeta } from "../../types";
+import { courses } from "../../api";
 import SearchBar from "../../components/SearchBar.vue";
 useHead({ title: "課程查詢 | UniCourse" });
 
@@ -19,7 +21,7 @@ async function query() {
     if (locked.value) return;
     locked.value = true;
     try {
-        const metae = await get_course_meta(query_body.value);
+        const metae = await courses.list({ q: query_body.value, limit: 100, offset: 0, sort: "default", desc: false });
         query_results.splice(0, query_results.length, ...metae);
     } catch (e) {
         console.error(e);
