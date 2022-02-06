@@ -2,18 +2,18 @@
 // We suggest you to commit this file into source control
 // Read more: https://github.com/vuejs/vue-next/pull/3399
 
-declare module 'vue' {
-  export interface GlobalComponents {
-    BigScreen: typeof import('./../components/BigScreen.vue')['default']
-    ForumMetaCard: typeof import('./../components/Forum/ForumMetaCard.vue')['default']
-    FullScreenCard: typeof import('./../components/Course/FullScreenCard.vue')['default']
-    Input: typeof import('./../components/Input.vue')['default']
-    MetaCard: typeof import('./../components/Course/MetaCard.vue')['default']
-    Modal: typeof import('./../components/Modal.vue')['default']
-    Nav: typeof import('./../components/Nav.vue')['default']
-    RainbowText: typeof import('./../components/RainbowText.vue')['default']
-    SearchBar: typeof import('./../components/SearchBar.vue')['default']
-  }
+declare module "vue" {
+    export interface GlobalComponents {
+        BigScreen: typeof import("./../components/BigScreen.vue")["default"];
+        ForumMetaCard: typeof import("./../components/Forum/ForumMetaCard.vue")["default"];
+        FullScreenCard: typeof import("./../components/Course/FullScreenCard.vue")["default"];
+        Input: typeof import("./../components/Input.vue")["default"];
+        MetaCard: typeof import("./../components/Course/MetaCard.vue")["default"];
+        Modal: typeof import("./../components/Modal.vue")["default"];
+        Nav: typeof import("./../components/Nav.vue")["default"];
+        RainbowText: typeof import("./../components/RainbowText.vue")["default"];
+        SearchBar: typeof import("./../components/SearchBar.vue")["default"];
+    }
 }
 
-export { }
+export {};

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import type { CourseMeta } from "../../types";
-import { get_course_meta } from "../../api";
+import type { CourseInfo, CourseMeta } from "../../types";
+import { courses } from "../../api";
 import SearchBar from "../../components/SearchBar.vue";
+
 useHead({ title: "課程查詢 | UniCourse" });
 
 const query_body = ref("");
@@ -9,6 +10,7 @@ const query_results = reactive(<CourseMeta[]>[]);
 const locked = ref(false);
 const first = ref(true);
 const adv = ref(false);
+const detail_course = ref(<CourseInfo>{});
 
 function rand_placeholder(): string {
     const holders = ["紀博文", "資工系", "程式設計", "UI", "本部", "週四"];
@@ -19,7 +21,7 @@ async function query() {
     if (locked.value) return;
     locked.value = true;
     try {
-        const metae = await get_course_meta(query_body.value);
+        const metae = await courses.list({ q: query_body.value, limit: 100, offset: 0, sort: "default", desc: false });
         query_results.splice(0, query_results.length, ...metae);
     } catch (e) {
         console.error(e);
@@ -29,6 +31,13 @@ async function query() {
     }
 }
 
+async function show(key: string) {
+    detail_course.value = await courses.info(key);
+}
+
+/**
+ * Animations for course card list
+ */
 const course_animation = {
     before_enter(el: Element) {
         const elm = el as HTMLElement;
@@ -55,43 +64,51 @@ const course_animation = {
 
 <template>
     <div>
-        <SearchBar
-            v-model="query_body"
-            :search="query"
-            :advanced="() => (adv = !adv)"
-            :placeholder="'搜尋課程 試試「' + rand_placeholder() + '」？'"
-        />
+        <div>
+            <SearchBar
+                v-model="query_body"
+                :search="query"
+                :advanced="() => (adv = !adv)"
+                :placeholder="'搜尋課程 試試「' + rand_placeholder() + '」？'"
+            />
 
-        <div v-if="adv" class="flex justify-center px-6 lg:px-10">
-            <div class="w-11/12">進階選項</div>
-        </div>
+            <div v-if="adv" class="flex justify-center px-6 lg:px-10">
+                <div class="w-11/12">進階選項</div>
+            </div>
 
-        <div class="w-full">
-            <transition-group
-                name="course-list"
-                :css="false"
-                @before-enter="course_animation.before_enter"
-                @enter="course_animation.enter"
-                @leave="course_animation.leave"
-            >
+            <div class="w-full">
+                <transition-group
+                    name="course-list"
+                    :css="false"
+                    @before-enter="course_animation.before_enter"
+                    @enter="course_animation.enter"
+                    @leave="course_animation.leave"
+                >
+                    <div
+                        v-show="query_results.length"
+                        v-for="(meta, idx) of query_results"
+                        :key="[meta.year, meta.term, meta.serial].join('-')"
+                        :data-idx="idx"
+                        class="p2 m-auto flex w-full max-w-[1400px] cursor-pointer items-center justify-center sm:p-4 lg:p-6"
+                        @click="show([meta.year, meta.term, meta.serial].join('-'))"
+                    >
+                        <MetaCard v-bind="meta" />
+                    </div>
+                </transition-group>
                 <div
-                    v-show="query_results.length"
-                    v-for="(meta, idx) of query_results"
-                    :key="[meta.year, meta.term, meta.serial].join('-')"
-                    :data-idx="idx"
+                    v-show="query_results.length === 0 && !first"
                     class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6"
                 >
-                    <MetaCard :meta="meta" />
-                </div>
-            </transition-group>
-            <div
-                v-show="query_results.length === 0 && !first"
-                class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6"
-            >
-                <div class="h-40 w-full cursor-pointer rounded border border-gray-400 bg-white p-4 sm:p-5 lg:p-6">
-                    <div>查無結果，請換個關鍵字試試？</div>
+                    <div class="h-40 w-full rounded border border-gray-400 bg-white p-4 sm:p-5 lg:p-6">
+                        <div>查無結果，請換個關鍵字試試？</div>
+                    </div>
                 </div>
             </div>
         </div>
+        <transition name="detail">
+            <div v-if="detail_course && detail_course.name" class="fixed top-0 left-0 h-screen w-screen pt-2 sm:px-2 lg:px-4">
+                <FullScreenCard v-bind="(detail_course as any)" class="h-full w-full rounded-t-lg sm:rounded-t-xl" />
+            </div>
+        </transition>
     </div>
 </template>
