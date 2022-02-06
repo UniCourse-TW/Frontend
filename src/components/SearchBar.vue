@@ -30,8 +30,7 @@ function default_func(evt: unknown) {
                 class="px-4 transition-all duration-200 hover:bg-gray-200"
                 @click="(props.advanced || default_func)($event)"
             >
-                <RainbowText v-if="colorful">+</RainbowText>
-                <span v-else><i-octicon-filter-16 /></span>
+                <i-octicon-filter-16 />
             </button>
             <button class="px-4 transition-all duration-200 hover:bg-gray-200" @click="(props.search || default_func)($event)">
                 <RainbowText v-if="colorful">搜尋</RainbowText>
