@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 const props = defineProps({
     placeholder: { default: "搜尋..." },
-    search: { default: false, type: Function },
-    advanced: { default: false, type: Function },
+    search: { default: () => {}, type: Function },
+    advanced: { default: () => {}, type: Function },
     modelValue: { default: "" },
     colorful: { default: false },
 });
