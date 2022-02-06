@@ -6,7 +6,7 @@ const store = use_store();
 </script>
 
 <template>
-    <Nav :route="route" :store="store" />
+    <Nav :path="route.path" :logged_in="!!store.user" />
 
     <router-view v-slot="{ Component }">
         <transition name="page-transition" mode="out-in">
