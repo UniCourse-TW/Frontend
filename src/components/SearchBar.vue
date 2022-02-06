@@ -36,8 +36,7 @@ function default_func(evt: unknown) {
                 class="break-normal px-2 transition-all duration-200 hover:bg-gray-200 sm:px-4"
                 @click="(props.search || default_func)($event)"
             >
-                <RainbowText v-if="colorful">搜尋</RainbowText>
-                <span v-else>搜尋</span>
+                <span :class="colorful ? 'text-rainbow' : ''">搜尋</span>
             </button>
         </div>
     </div>
