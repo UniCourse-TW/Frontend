@@ -15,24 +15,27 @@ function default_func(evt: unknown) {
 </script>
 
 <template>
-    <div class="flex w-full items-center justify-center p-6 lg:p-10">
-        <div class="flex h-10 w-11/12 max-w-7xl flex-row bg-gray-100 lg:h-14">
+    <div class="flex w-full items-center justify-center p-2 sm:p-6 lg:p-10">
+        <div class="flex h-10 w-full max-w-7xl flex-row bg-gray-100 lg:h-14">
             <input
                 type="text"
                 :placeholder="props.placeholder"
-                class="z-[1] flex-1 bg-gray-100 px-4 outline-none transition-all duration-200 hover:bg-gray-200 hover:outline-blue-300 focus:outline-indigo-300"
+                class="z-[1] flex-1 bg-gray-100 px-2 outline-none transition-all duration-200 hover:bg-gray-200 hover:outline-blue-300 focus:outline-indigo-300 sm:px-4"
                 @keyup.enter="(props.search || default_func)($event)"
                 :value="props.modelValue"
                 @input="emit('update:modelValue', ($event.target as any).value)"
             />
             <button
                 v-if="props.advanced"
-                class="px-4 transition-all duration-200 hover:bg-gray-200"
+                class="px-2 transition-all duration-200 hover:bg-gray-200 sm:px-4"
                 @click="(props.advanced || default_func)($event)"
             >
                 <i-octicon-filter-16 />
             </button>
-            <button class="px-4 transition-all duration-200 hover:bg-gray-200" @click="(props.search || default_func)($event)">
+            <button
+                class="break-normal px-2 transition-all duration-200 hover:bg-gray-200 sm:px-4"
+                @click="(props.search || default_func)($event)"
+            >
                 <RainbowText v-if="colorful">搜尋</RainbowText>
                 <span v-else>搜尋</span>
             </button>
