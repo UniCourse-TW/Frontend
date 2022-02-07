@@ -24,5 +24,6 @@ module.exports = {
         ]
             .map((c) => [`text-${c}-500`, `text-${c}-50`, `border-${c}-500`, `bg-${c}-500`])
             .flat(),
+        ...Array.from({ length: 8 }, (_, i) => `text-gray-${(i + 1) * 100}`),
     ],
 };
