@@ -33,10 +33,10 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
 <template>
     <div
         v-if="props.name"
-        :class="
-            'h-40 w-full overflow-hidden overflow-y-auto rounded border bg-white p-3 shadow shadow-blue-200 transition-all hover:shadow-md hover:shadow-indigo-200 sm:px-5 lg:px-6' +
-            (props.featured ? ' border-purple-300 bg-gradient-to-r from-indigo-50 via-fuchsia-50 to-fuchsia-50' : '')
-        "
+        :class="[
+            'h-40 w-full overflow-hidden overflow-y-auto rounded border bg-white p-3 shadow shadow-blue-200 transition-all hover:shadow-md hover:shadow-indigo-200 sm:px-5 lg:px-6',
+            props.featured ? 'border-purple-300 bg-gradient-to-r from-indigo-50 via-fuchsia-50 to-fuchsia-50' : '',
+        ]"
     >
         <div>
             <h2 title="授課系所與教師" class="my-1 text-sm text-gray-600">{{ props.department }} {{ props.teachers.join("、") }}</h2>
