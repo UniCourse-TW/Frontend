@@ -6,13 +6,14 @@ declare module "vue" {
     export interface GlobalComponents {
         BigScreen: typeof import("./../components/BigScreen.vue")["default"];
         Card: typeof import("./../components/Card.vue")["default"];
+        CourseMetaCard: typeof import("./../components/Course/CourseMetaCard.vue")["default"];
         ForumMetaCard: typeof import("./../components/Forum/ForumMetaCard.vue")["default"];
         FullScreenCard: typeof import("./../components/Course/FullScreenCard.vue")["default"];
         Input: typeof import("./../components/Input.vue")["default"];
         IOcticonFilter16: typeof import("~icons/octicon/filter16")["default"];
-        MetaCard: typeof import("./../components/Course/MetaCard.vue")["default"];
         Nav: typeof import("./../components/Nav.vue")["default"];
         SearchBar: typeof import("./../components/SearchBar.vue")["default"];
+        Tag: typeof import("./../components/Tag.vue")["default"];
     }
 }
 
