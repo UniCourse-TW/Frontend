@@ -92,7 +92,7 @@ const course_animation = {
                         class="p2 m-auto flex w-full max-w-[1400px] cursor-pointer items-center justify-center sm:p-4 lg:p-6"
                         @click="show([meta.year, meta.term, meta.serial].join('-'))"
                     >
-                        <MetaCard v-bind="meta" />
+                        <CourseMetaCard v-bind="meta" />
                     </div>
                 </transition-group>
                 <div
