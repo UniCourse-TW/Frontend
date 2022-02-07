@@ -14,18 +14,18 @@ type T = typeof Template & { args?: unknown; decorators?: unknown[] };
 
 export const home = Template.bind({}) as T;
 home.args = {
-    route: { path: "/" },
-    store: { user: null },
+    path: "/",
+    logged_in: false,
 };
 
 export const others = Template.bind({}) as T;
 others.args = {
-    route: { path: "/others" },
-    store: { user: null },
+    path: "/others",
+    logged_in: false,
 };
 
 export const logged_in = Template.bind({}) as T;
 logged_in.args = {
-    route: { path: "/others" },
-    store: { user: {} },
+    path: "/others",
+    logged_in: true,
 };

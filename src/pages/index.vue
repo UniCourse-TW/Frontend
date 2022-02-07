@@ -11,14 +11,18 @@ useHead({ title: "UniCourse" });
         <div class="mx-auto h-2/5 w-full p-2 sm:w-full sm:px-4 lg:w-2/3 lg:px-6">
             <div class="inline-block h-full w-full pb-1 sm:pr-2 sm:h-full sm:w-1/2 lg:h-full lg:w-1/2 lg:pr-2">
                 <div class="h-full w-full rounded-lg bg-white bg-opacity-40 p-3 text-center shadow-lg transition-all hover:shadow-xl">
+
                     <RainbowText class="text-2xl">目前有100位<br>使用者<br></RainbowText>
                     <img src="../assets/front/front0L.svg" class="inline-block h-1/2" />
+
                 </div>
             </div>
             <div class="inline-block h-full w-full pt-1 sm:pl-2 sm:h-full sm:w-1/2 lg:h-full lg:w-1/2 lg:pl-2">
                 <div class="h-full w-full rounded-lg bg-white bg-opacity-40 p-3 text-center shadow-lg transition-all hover:shadow-xl">
+
                     <RainbowText class="text-2xl">累計了100篇<br>文章<br></RainbowText>
                     <img src="../assets/front/front0R.svg" class="inline-block h-1/2" />
+
                 </div>
             </div>
         </div>

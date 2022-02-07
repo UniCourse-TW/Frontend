@@ -1,3 +1,87 @@
+// #region General Type Definitions
+export interface ResponseError {
+    title: string;
+    message: string;
+}
+
+export interface Response {
+    /** if the action was successful */
+    success: boolean;
+
+    /** if success is true, then data should be defined, otherwise it should be undefined */
+    data?: unknown;
+
+    /** if success is false, then err should be defined, otherwise it should be undefined */
+    err?: ResponseError;
+
+    /** new jwt */
+    token?: string;
+}
+// #endregion
+
+// #region Course API Type Definitions
+
+// #region type CourseListFilter
+/** 
+department (d) 系所 `d:資工`
+teacher (T) 教師 `T:紀`
+title (t) 課程名稱 `t:程式設計`
+code (c) 科目代碼 `c:CSU0002`
+serial (s) 開課序號 `s:2949`
+year (y) 開課學年度 `y:110`（或者要合併學期 110-2 或 1102）
+term (tm) 開課學期 `tm:2`
+tag (tg) 標籤 `tg:UX`
+program (p) 學分學程 `p:音樂科技`
+general (g) 通識領域 `g:人文`
+rating (r) 綜合評分 `r:>4.5` （> < =）
+usefulness (uf) 實用性 `u:>4`
+sweetness (sw) 甜度 `s:>4`
+easiness (es) 涼度 `e:>4`
+day (d) 週幾授課 `d:1` (考慮與節數時段合併？)
+session (sn) 包含的節數時段 `sn:1-2` `sn:5`
+location (l) 地點 `l:公館`
+quota (q) 名額 `q:>10`
+grading (gd) 評分方法 `gd:作業>49`
+hours (h) 實際每週授課時數 `h:<3`
+methodology (m) 教學方法包含 `m:講述法`
+prerequisite (pr) 先修課程 `pr:程式設計（一）`
+*/
+export type CourseListFilter =
+    | "default"
+    | "department"
+    | "teacher"
+    | "title"
+    | "code"
+    | "serial"
+    | "year"
+    | "term"
+    | "tag"
+    | "program"
+    | "general"
+    | "rating"
+    | "usefulness"
+    | "sweetness"
+    | "easiness"
+    | "day"
+    | "session"
+    | "location"
+    | "quota"
+    | "grading"
+    | "hours"
+    | "methodology"
+    | "prerequisite";
+// #endregion
+
+export interface CourseListQuery {
+    q: string;
+    limit: number;
+    offset: number;
+    sort: CourseListFilter;
+    desc: boolean;
+}
+
+// #endregion
+
 export interface CourseQuota {
     /**
      * 一般名額
@@ -37,6 +121,12 @@ export interface CourseLocation {
      * 教室
      */
     classroom: string;
+}
+
+export interface CourseTag {
+    name: string;
+    weight: number;
+    color: string;
 }
 
 export interface CourseMeta {
@@ -101,6 +191,11 @@ export interface CourseMeta {
      * 精選課程？
      */
     featured: boolean;
+
+    /**
+     * 標籤
+     */
+    tags: CourseTag[];
 }
 
 export interface CourseLecturingMethodology {
@@ -215,6 +310,48 @@ export interface CourseInfo extends CourseMeta {
      * 課程評論
      */
     reviews: CourseReview[];
+}
+
+export interface PostVote {
+    up: number;
+    down: number;
+}
+
+export interface PostRating {
+    sweetness: number;
+    easiness: number;
+    usefulness: number;
+}
+
+export interface PostMeta {
+    id: string;
+    type: "review" | "question" | "others";
+    author: string;
+    title: string;
+    time: string;
+    vote: PostVote;
+    tags: string[];
+    course:
+        | null
+        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+              teacher: string;
+          });
+}
+
+export interface PostInfo extends PostMeta {
+    content: string;
+    course:
+        | null
+        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+              teacher: string;
+              rating: PostRating;
+          });
+}
+
+export interface PostListQuery {
+    q: string;
+    limit: number;
+    offset: number;
 }
 
 export interface User {

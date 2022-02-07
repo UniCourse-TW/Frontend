@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     BigScreen: typeof import('./../components/BigScreen.vue')['default']
+    Card: typeof import('./../components/Card.vue')['default']
     FullScreenCard: typeof import('./../components/Course/FullScreenCard.vue')['default']
     Input: typeof import('./../components/Input.vue')['default']
     MetaCard: typeof import('./../components/Course/MetaCard.vue')['default']

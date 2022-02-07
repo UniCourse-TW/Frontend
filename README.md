@@ -48,6 +48,12 @@ Pinia is something like Vuex, but better and well-typed.
 
 TailwindCSS is a CSS framework that provides a set of useful CSS util classes, which is perfect for building a modern, responsive, and highly customizable web app.
 
+#### Octicons
+
+Octicons provides GitHub's icons, which are imported in our project by unplugin-icons.
+
+Browse Octicons: https://icones.js.org/collection/octicon
+
 ### ⚡️ Used in Development
 
 #### Vite

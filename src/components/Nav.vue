@@ -1,18 +1,15 @@
 <script setup lang="ts">
 const props = defineProps({
-    route: { default: () => ({}), type: Object },
-    store: { default: () => ({}), type: Object },
+    path: { default: "/" },
+    logged_in: { default: false },
 });
 
-const store = props.store;
-const route = props.route;
-
 const nav = reactive<[string, string, () => boolean][]>([
-    ["我", "/me", () => !!store.user],
-    ["登入", "/auth", () => !store.user],
+    ["我", "/me", () => props.logged_in],
+    ["登入", "/auth", () => !props.logged_in],
     ["論壇", "/forum", () => true],
     ["課程", "/course", () => true],
-    ["部落格", "/blog", () => route.path === "/" || route.path.startsWith("/blog")],
+    ["部落格", "/blog", () => props.path === "/" || props.path.startsWith("/blog")],
 ]);
 
 const computed_nav = computed(() => {
@@ -22,26 +19,26 @@ const computed_nav = computed(() => {
 
 <template>
     <div
-        :class="
-            'sticky top-0 z-10 flex h-16 w-full flex-row-reverse transition-all duration-200 ' +
-            (route.path === '/' ? ' bg-transparent' : 'bg-white shadow shadow-indigo-100')
-        "
+        :class="[
+            'sticky top-0 z-10 flex h-16 w-full flex-row-reverse transition-all duration-200',
+            props.path === '/' ? ' bg-transparent' : 'bg-white shadow shadow-indigo-100',
+        ]"
     >
         <!-- Logo on the left side -->
         <div id="logo" class="absolute left-0 top-0 flex h-full w-32 items-center justify-center">
             <router-link to="/" class="flex h-full w-full items-center justify-center">
-                <RainbowText
-                    class="text-xl font-bold outline-none transition-all duration-200 hover:ml-2 hover:text-2xl hover:hue-rotate-15"
+                <span
+                    class="text-rainbow text-xl font-bold outline-none transition-all duration-200 hover:ml-2 hover:text-2xl hover:hue-rotate-15"
                 >
                     UniCourse
-                </RainbowText>
+                </span>
             </router-link>
         </div>
 
         <!-- Links on the right side -->
         <transition-group name="nav-list">
             <div v-for="([name, link], idx) of computed_nav" :key="idx" class="trnasition-all duration-700 ease-out">
-                <div class="h-full w-16 sm:w-20 lg:w-24">
+                <div class="h-full w-12 sm:w-16 lg:w-24">
                     <router-link :to="link">
                         <div
                             class="flex h-full w-full items-center justify-center text-blue-400 transition-all duration-200 hover:text-lg hover:font-bold hover:text-fuchsia-400"
