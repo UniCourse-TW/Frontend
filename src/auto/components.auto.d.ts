@@ -5,9 +5,9 @@
 declare module "vue" {
     export interface GlobalComponents {
         BigScreen: typeof import("./../components/BigScreen.vue")["default"];
+        Card: typeof import("./../components/Card.vue")["default"];
         FullScreenCard: typeof import("./../components/Course/FullScreenCard.vue")["default"];
         Input: typeof import("./../components/Input.vue")["default"];
-        IOcticonFilter16: typeof import("~icons/octicon/filter16")["default"];
         MetaCard: typeof import("./../components/Course/MetaCard.vue")["default"];
         Nav: typeof import("./../components/Nav.vue")["default"];
         RainbowText: typeof import("./../components/RainbowText.vue")["default"];
