@@ -348,6 +348,12 @@ export interface PostInfo extends PostMeta {
           });
 }
 
+export interface PostListQuery {
+    q: string;
+    limit: number;
+    offset: number;
+}
+
 export interface User {
     jwt: string;
     username: string;

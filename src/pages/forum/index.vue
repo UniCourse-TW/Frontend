@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { PostMeta } from "../../types";
-import { get_latest_post } from "../../api";
+import { posts } from "../../api";
 import SearchBar from "../../components/SearchBar.vue";
 useHead({ title: "論壇 | UniCourse" });
 
@@ -11,14 +11,17 @@ const latest_questions = reactive(<PostMeta[]>[]);
 const latest_posts = reactive(<PostMeta[]>[]);
 const is_fetching = ref(true);
 
-get_latest_post()
-    .then((meta) => {
-        latest_questions.splice(0, latest_questions.length, ...meta.filter((m) => m.type === "question"));
-        latest_posts.splice(0, latest_posts.length, ...meta.filter((m) => m.type !== "question"));
+posts
+    .get_latest()
+    .then((data) => {
+        latest_questions.splice(0, latest_questions.length, ...data.filter((e) => e.type === "question"));
+        latest_posts.splice(0, latest_posts.length, ...data.filter((e) => e.type !== "question"));
     })
     .catch(console.error)
     .finally(() => {
-        is_fetching.value = false;
+        // for demo purpose, temporarily extend the duration of loading
+        setTimeout(() => (is_fetching.value = false), 1000);
+        // is_fetching.value = false;
     });
 
 function query() {
@@ -53,8 +56,8 @@ const course_animation = {
     <div>
         <SearchBar v-model="query_body" :search="query" placeholder="搜尋文章及提問" />
 
-        <div class="m-auto flex w-full max-w-[1200px] p-4">
-            <div class="flex-1 px-4">
+        <div class="m-auto grid max-w-[1200px] grid-cols-1 gap-y-8 px-4 lg:grid-cols-2 lg:divide-x-2 lg:divide-blue-200">
+            <div class="px-4 lg:px-6">
                 <h2 class="text-lg lg:text-xl">最新文章</h2>
                 <div class="w-full">
                     <transition-group
@@ -64,20 +67,23 @@ const course_animation = {
                         @enter="course_animation.enter"
                         @leave="course_animation.leave"
                     >
+                        <div v-if="is_fetching" class="my-4"><ForumMetaCard is_loading /></div>
                         <div
-                            v-show="latest_posts.length"
+                            v-else-if="latest_posts.length"
                             v-for="(meta, idx) of latest_posts"
                             :key="meta.id"
                             :data-idx="idx"
-                            class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6"
+                            class="my-4"
                         >
                             <ForumMetaCard :meta="meta" />
                         </div>
+                        <div v-else>
+                            <div class="m-8 rounded border border-gray-300 p-8">目前沒有新文章</div>
+                        </div>
                     </transition-group>
-                    <div v-if="is_fetching">loading...</div>
                 </div>
             </div>
-            <div class="flex-1 px-4 lg:border-l-2 lg:border-l-blue-200">
+            <div class="px-4 lg:px-6">
                 <h2 class="text-lg lg:text-xl">即時提問</h2>
                 <div class="w-full">
                     <transition-group
@@ -87,17 +93,20 @@ const course_animation = {
                         @enter="course_animation.enter"
                         @leave="course_animation.leave"
                     >
+                        <div v-if="is_fetching" class="my-4"><ForumMetaCard is_loading /></div>
                         <div
-                            v-show="latest_questions.length"
+                            v-else-if="latest_questions.length"
                             v-for="(meta, idx) of latest_questions"
                             :key="meta.id"
                             :data-idx="idx"
-                            class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6"
+                            class="my-4"
                         >
                             <ForumMetaCard :meta="meta" />
                         </div>
+                        <div v-else>
+                            <div class="m-8 rounded border border-gray-300 p-8">目前沒有新提問</div>
+                        </div>
                     </transition-group>
-                    <div v-if="is_fetching">loading...</div>
                 </div>
             </div>
         </div>
