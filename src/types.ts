@@ -312,6 +312,48 @@ export interface CourseInfo extends CourseMeta {
     reviews: CourseReview[];
 }
 
+export interface PostVote {
+    up: number;
+    down: number;
+}
+
+export interface PostRating {
+    sweetness: number;
+    easiness: number;
+    usefulness: number;
+}
+
+export interface PostMeta {
+    id: string;
+    type: "review" | "question" | "others";
+    author: string;
+    title: string;
+    time: string;
+    vote: PostVote;
+    tags: string[];
+    course:
+        | null
+        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+              teacher: string;
+          });
+}
+
+export interface PostInfo extends PostMeta {
+    content: string;
+    course:
+        | null
+        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+              teacher: string;
+              rating: PostRating;
+          });
+}
+
+export interface PostListQuery {
+    q: string;
+    limit: number;
+    offset: number;
+}
+
 export interface User {
     jwt: string;
     username: string;
