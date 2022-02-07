@@ -59,7 +59,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
 
                     <h2 title="學分與授課時段" class="my-1 text-sm text-gray-500">
                         {{ props.credit }} 學分，實際授課
-                        <span :class="'font-bold ' + (props.hours > props.credit ? 'text-red-500' : 'text-green-500')">{{
+                        <span :class="['font-bold', props.hours > props.credit ? 'text-red-500' : 'text-green-500']">{{
                             props.hours
                         }}</span>
                         小時 ({{ props.schedule.map(readable_schedule).join("、") }})

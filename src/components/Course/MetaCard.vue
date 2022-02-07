@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import RainbowText from "../RainbowText.vue";
 import { PropType } from "vue";
 import type { CourseLocation, CourseTime, CourseTag } from "../../types";
 
@@ -34,16 +33,16 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
 <template>
     <div
         v-if="props.name"
-        :class="
-            'h-40 w-full overflow-hidden overflow-y-auto rounded border bg-white p-3 shadow shadow-blue-200 transition-all hover:shadow-md hover:shadow-indigo-200 sm:px-5 lg:px-6' +
-            (props.featured ? ' border-purple-300 bg-gradient-to-r from-indigo-50 via-fuchsia-50 to-fuchsia-50' : '')
-        "
+        :class="[
+            'h-40 w-full overflow-hidden overflow-y-auto rounded border bg-white p-3 shadow shadow-blue-200 transition-all hover:shadow-md hover:shadow-indigo-200 sm:px-5 lg:px-6',
+            props.featured ? 'border-purple-300 bg-gradient-to-r from-indigo-50 via-fuchsia-50 to-fuchsia-50' : '',
+        ]"
     >
         <div>
             <h2 title="授課系所與教師" class="my-1 text-sm text-gray-600">{{ props.department }} {{ props.teachers.join("、") }}</h2>
 
             <h1 class="my-1 text-xl font-bold">
-                <component :is="props.featured ? RainbowText : 'span'">{{ props.name }}</component>
+                <span :class="props.featured ? 'text-rainbow' : ''">{{ props.name }}</span>
                 <span class="text-base">
                     <span title="開課學年度" class="text-gray-600">{{ props.year }}</span>
                     <span class="text-gray-400">-</span>
