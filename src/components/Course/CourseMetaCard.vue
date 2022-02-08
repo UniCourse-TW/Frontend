@@ -62,13 +62,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
         </div>
         <div title="標籤" class="absolute bottom-0 left-0 w-full py-2 px-3 sm:px-5 lg:px-6">
             <div class="flex">
-                <div
-                    v-for="tag in props.tags"
-                    class="mr-1 inline-block rounded px-1 py-0.5 text-xs sm:text-sm"
-                    :style="{ background: tag.color || '#e9e9e9' }"
-                >
-                    <span>{{ tag.name }}</span>
-                </div>
+                <Tag v-for="tag in props.tags" :key="tag.name" :content="tag.name" class="mr-1" />
             </div>
         </div>
     </div>

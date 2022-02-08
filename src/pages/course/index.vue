@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { CourseInfo, CourseMeta } from "../../types";
+import type { CourseInfo, CourseListFilter, CourseMeta } from "../../types";
 import { courses } from "../../api";
 import SearchBar from "../../components/SearchBar.vue";
 
@@ -10,7 +10,62 @@ const query_results = reactive(<CourseMeta[]>[]);
 const locked = ref(false);
 const first = ref(true);
 const adv = ref(false);
-const detail_course = ref(<CourseInfo>{});
+const detail_course = ref(<CourseInfo | null>{});
+
+const advanced_search = ref([
+    ["系所", "department", "資工", () => true],
+    ["教師", "teacher", "紀", () => true],
+    ["課程名稱", "title", "程式設計", () => true],
+    ["科目代碼", "code", "CSU0002", (v: string) => !v.match(/[^\w\d]/)],
+    ["開課序號", "serial", "2949", (v: string) => !v.match(/\D/)],
+    ["開課學年度", "year", "110", (v: string) => !v.match(/\D/)],
+    ["開課學期", "term", "2", (v: string) => !v.match(/\D/)],
+    ["標籤", "tag", "UX", () => true],
+    ["學分學程", "program", "音樂科技", () => true],
+    ["通識領域", "general", "人文", () => true],
+    ["綜合評分", "rating", ">4.5", is_compare],
+    ["實用性", "usefulness", ">4", is_compare],
+    ["甜度", "sweetness", ">4", is_compare],
+    ["涼度", "easiness", ">4", is_compare],
+    ["週幾授課", "day", "1", (v: string) => !v.match(/\D/)],
+    ["節數時段", "session", "1-2", (v: string) => !v.match(/[^\d-]/)],
+    ["地點", "location", "公館", () => true],
+    ["名額", "quota", ">10", is_compare],
+    ["評分方法", "grading", "作業>49", (v: string) => v.split(/>|<|>=|<=|!|=/)[1].match(/\D/)],
+    ["實際授課時數", "hours", "<3", is_compare],
+    ["教學方法", "methodology", "講述法", () => true],
+    ["先修課程", "prerequisite", "程式設計（一）", () => true],
+]);
+
+const advanced_values = reactive(<{ [key: string]: string }>{
+    department: "",
+    teacher: "",
+    title: "",
+    code: "",
+    serial: "",
+    year: "",
+    term: "",
+    tag: "",
+    program: "",
+    general: "",
+    rating: "",
+    usefulness: "",
+    sweetness: "",
+    easiness: "",
+    day: "",
+    session: "",
+    location: "",
+    quota: "",
+    grading: "",
+    hours: "",
+    methodology: "",
+    prerequisite: "",
+});
+
+const sort = reactive({
+    by: "default" as CourseListFilter,
+    desc: false,
+});
 
 function rand_placeholder(): string {
     const holders = ["紀博文", "資工系", "程式設計", "UI", "本部", "週四"];
@@ -21,7 +76,15 @@ async function query() {
     if (locked.value) return;
     locked.value = true;
     try {
-        const metae = await courses.list({ q: query_body.value, limit: 100, offset: 0, sort: "default", desc: false });
+        const q = (
+            query_body.value +
+            " " +
+            Object.entries(advanced_values).reduce((acc, [key, value]) => {
+                if (value) acc += `${key}:${value} `;
+                return acc;
+            }, "")
+        ).trim();
+        const metae = await courses.list({ q, limit: 100, offset: 0, sort: sort.by, desc: sort.desc });
         query_results.splice(0, query_results.length, ...metae);
     } catch (e) {
         console.error(e);
@@ -29,6 +92,10 @@ async function query() {
         locked.value = false;
         first.value = false;
     }
+}
+
+function is_compare(v: string): boolean {
+    return !!v.match(/^(>|<|>=|<=|!|=)?\d+$/);
 }
 
 async function show(key: string) {
@@ -72,8 +139,37 @@ const course_animation = {
                 :placeholder="'搜尋課程 試試「' + rand_placeholder() + '」？'"
             />
 
-            <div v-if="adv" class="flex justify-center px-6 lg:px-10">
-                <div class="w-11/12">進階選項</div>
+            <div v-if="adv" class="mb-4 flex justify-center px-6 lg:px-10">
+                <div class="w-full rounded border bg-gray-50 p-2 lg:rounded-lg lg:p-4">
+                    <h2 class="font-bold">進階搜尋</h2>
+                    <div class="mx-2">
+                        <div
+                            v-for="[title, type, placeholder, validator] of advanced_search"
+                            :key="type as string"
+                            class="grid grid-cols-[7rem_auto]"
+                        >
+                            <div class="flex items-center justify-end text-right text-blue-500">{{ title }}</div>
+                            <input
+                                type="text"
+                                :placeholder="(placeholder as string)"
+                                class="m-2 w-full border-b-[3px] border-blue-300 bg-transparent p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500"
+                                @keyup.enter="query"
+                                v-model="advanced_values[type as string]"
+                                @input="(evt) => (validator as (v: string) => boolean)((evt.target as any).value as string) "
+                            />
+                        </div>
+                        <div class="mt-4 grid grid-cols-[7rem_auto]">
+                            <div class="flex items-center justify-end text-right text-blue-500">排序方式</div>
+                            <select
+                                v-model="sort.by"
+                                class="m-2 w-full border-b-[3px] border-blue-300 bg-transparent p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500"
+                            >
+                                <option value="default">自動排序</option>
+                                <option v-for="[title, type] of advanced_search" :key="(type as string)" :value="type">{{ title }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="w-full">
@@ -92,7 +188,7 @@ const course_animation = {
                         class="p2 m-auto flex w-full max-w-[1400px] cursor-pointer items-center justify-center sm:p-4 lg:p-6"
                         @click="show([meta.year, meta.term, meta.serial].join('-'))"
                     >
-                        <MetaCard v-bind="meta" />
+                        <CourseMetaCard v-bind="meta" />
                     </div>
                 </transition-group>
                 <div
@@ -106,8 +202,15 @@ const course_animation = {
             </div>
         </div>
         <transition name="detail">
-            <div v-if="detail_course && detail_course.name" class="fixed top-0 left-0 h-screen w-screen pt-2 sm:px-2 lg:px-4">
+            <div
+                v-if="detail_course && detail_course.name"
+                class="fixed top-0 left-0 z-20 h-screen w-screen bg-black/60 pt-2 sm:px-2 lg:p-4"
+            >
                 <FullScreenCard v-bind="(detail_course as any)" class="h-full w-full rounded-t-lg sm:rounded-t-xl" />
+                <i-octicon-x
+                    class="absolute top-4 right-2 cursor-pointer sm:right-4 lg:top-7 lg:right-7 lg:text-lg"
+                    @click="detail_course = null"
+                />
             </div>
         </transition>
     </div>
