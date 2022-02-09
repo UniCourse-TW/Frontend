@@ -8,6 +8,7 @@ declare module "vue" {
         BigScreen: typeof import("./../components/BigScreen.vue")["default"];
         Card: typeof import("./../components/Card.vue")["default"];
         CourseMetaCard: typeof import("./../components/Course/CourseMetaCard.vue")["default"];
+        CourseReviewCard: typeof import("./../components/Course/CourseReviewCard.vue")["default"];
         ForumMetaCard: typeof import("./../components/Forum/ForumMetaCard.vue")["default"];
         FullScreenCard: typeof import("./../components/Course/FullScreenCard.vue")["default"];
         IconFold: typeof import("./../components/Icon/IconFold.vue")["default"];
