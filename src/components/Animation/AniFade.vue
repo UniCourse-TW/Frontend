@@ -6,6 +6,10 @@ const props = defineProps({
         type: String as PropType<"none" | "up" | "down" | "left" | "right">,
         default: "none",
     },
+    mode: {
+        type: String as PropType<"default" | "out-in" | "in-out">,
+        default: "out-in",
+    },
 });
 
 const outside = computed(() => {
@@ -45,6 +49,7 @@ const inside = computed(() => {
         leave-active-class="duration-150 ease-in"
         :leave-from-class="['opacity-100', inside].join(' ')"
         :leave-to-class="['opacity-0', outside].join(' ')"
+        :mode="props.mode"
     >
         <slot></slot>
     </transition>
