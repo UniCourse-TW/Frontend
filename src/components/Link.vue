@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useLink, useRouter } from "vue-router";
 
+const router = useRouter();
+
 const props = defineProps({
     to: { type: String, required: true },
     replace: { type: Boolean, default: false },
@@ -35,7 +37,6 @@ async function preload() {
 
 function go(): void {
     try {
-        const router = useRouter();
         if (props.replace) {
             router.replace(props.to);
         } else {
