@@ -8,6 +8,7 @@ declare module "vue" {
         BigScreen: typeof import("./../components/BigScreen.vue")["default"];
         Card: typeof import("./../components/Card.vue")["default"];
         CourseMetaCard: typeof import("./../components/Course/CourseMetaCard.vue")["default"];
+        CourseReviewCard: typeof import("./../components/Course/CourseReviewCard.vue")["default"];
         ForumMetaCard: typeof import("./../components/Forum/ForumMetaCard.vue")["default"];
         FullScreenCard: typeof import("./../components/Course/FullScreenCard.vue")["default"];
         IconFold: typeof import("./../components/Icon/IconFold.vue")["default"];
@@ -15,9 +16,10 @@ declare module "vue" {
         Input: typeof import("./../components/Input.vue")["default"];
         IOcticonFilter16: typeof import("~icons/octicon/filter16")["default"];
         IOcticonFold16: typeof import("~icons/octicon/fold16")["default"];
+        IOcticonLinkExternal: typeof import("~icons/octicon/link-external")["default"];
         IOcticonStarFill16: typeof import("~icons/octicon/star-fill16")["default"];
         IOcticonUnfold16: typeof import("~icons/octicon/unfold16")["default"];
-        IOcticonX: typeof import("~icons/octicon/x")["default"];
+        Link: typeof import("./../components/Link.vue")["default"];
         Nav: typeof import("./../components/Nav.vue")["default"];
         SearchBar: typeof import("./../components/SearchBar.vue")["default"];
         Tag: typeof import("./../components/Tag.vue")["default"];

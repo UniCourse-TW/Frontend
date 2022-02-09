@@ -42,10 +42,8 @@ function open_external(url: string) {
                     <div class="m-auto p-3 sm:p-5 lg:p-5">
                         <span class="text-lg text-purple-700">找到你有興趣的課程資訊</span>
                     </div>
-                    <router-link
-                        to="/course"
-                        class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
-                        >搜尋課程</router-link
+                    <Link to="/course" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
+                        >搜尋課程</Link
                     >
                 </div>
             </div>
@@ -61,10 +59,8 @@ function open_external(url: string) {
                     <div class="m-auto p-3 sm:p-5 lg:p-5">
                         <font color="#8242B5">回答他人提出的課程相關問題</font>
                     </div>
-                    <router-link
-                        to="/course"
-                        class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
-                        >解答疑問</router-link
+                    <Link to="/course" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
+                        >解答疑問</Link
                     >
                 </div>
             </div>
@@ -80,10 +76,8 @@ function open_external(url: string) {
                     <div class="m-auto p-3 sm:p-5 lg:p-5">
                         <font color="#8242B5">和其他人分享你的修課心得</font>
                     </div>
-                    <router-link
-                        to="/course"
-                        class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
-                        >撰寫心得</router-link
+                    <Link to="/course" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
+                        >撰寫心得</Link
                     >
                 </div>
             </div>

@@ -26,9 +26,7 @@ async function query() {
     <div class="flex h-screen w-screen items-start justify-center text-lg sm:text-xl lg:text-2xl" v-else>
         <div class="p-8 text-center">
             拍謝，我們找不到這門課！ＱＱ
-            <router-link to="/course" class="hover:text-rainbow m-2 block text-indigo-600 transition-all hover:font-bold">
-                前往課程查詢
-            </router-link>
+            <Link to="/course" class="hover:text-rainbow m-2 block text-indigo-600 transition-all hover:font-bold"> 前往課程查詢 </Link>
         </div>
     </div>
 </template>

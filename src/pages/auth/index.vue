@@ -71,12 +71,9 @@ async function register() {
                     <Input label="帳號" placeholder="請輸入帳號" v-model="l_username" />
                     <Input label="密碼" placeholder="請輸入密碼" v-model="l_password" />
                     <div class="my-2 h-4 w-full">
-                        <router-link
-                            to="/auth/reset"
-                            class="float-right cursor-pointer text-blue-500 transition-all hover:text-fuchsia-500"
-                        >
+                        <Link to="/auth/reset" class="float-right cursor-pointer text-blue-500 transition-all hover:text-fuchsia-500">
                             忘記密碼？
-                        </router-link>
+                        </Link>
                     </div>
                 </div>
                 <div v-else class="my-4 w-full">

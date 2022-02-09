@@ -70,13 +70,41 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         <span :class="['font-bold', course.hours > course.credit ? 'text-yellow-500' : 'text-green-500']">{{
                             course.hours
                         }}</span>
-                        小時 ({{ course.schedule.map(readable_schedule).join("、") }})
+                        小時
+                        <br class="sm:hidden" />
+                        ({{ course.schedule.map(readable_schedule).join("、") }})
                     </h2>
 
                     <h2 title="相關學程" class="my-1 text-xs text-gray-400 sm:text-sm">{{ course.programs.join(" | ") }}</h2>
 
                     <div class="mt-3 mb-6">
                         <span>{{ course.description }}</span>
+                    </div>
+
+                    <div class="mb-4 w-full lg:hidden">
+                        <h1 class="border-l-2 border-indigo-500 pl-1 text-2xl">課程評價</h1>
+                        <p class="m-2">共 {{ course.rating.count }} 個評分</p>
+                        <div class="m-2 grid grid-cols-[4rem_auto]">
+                            <span>甜度</span>
+                            <div>
+                                <IconStars :value="course.rating.sweetness" />
+                                ( {{ course.rating.sweetness }} 分 )
+                            </div>
+                            <span>涼度</span>
+                            <div>
+                                <IconStars :value="course.rating.easiness" />
+                                ( {{ course.rating.easiness }} 分 )
+                            </div>
+                            <span>實用度</span>
+                            <div>
+                                <IconStars :value="course.rating.usefulness" />
+                                ( {{ course.rating.usefulness }} 分 )
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="flex w-full flex-col justify-center">
+                            <CourseReviewCard v-for="(review, idx) of course.reviews" :key="idx" :review="review" class="m-2" />
+                        </div>
                     </div>
 
                     <div class="my-3">
@@ -148,7 +176,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         </AniFade>
                     </div>
                 </div>
-                <div class="hidden h-full lg:inline-block lg:w-1/3 lg:pt-6 lg:pl-1">
+                <div class="hidden lg:inline-block lg:w-1/3 lg:pt-6 lg:pl-1">
                     <h1 class="border-l-2 border-indigo-500 pl-1 text-2xl">課程評價</h1>
                     <p class="m-2">共 {{ course.rating.count }} 個評分</p>
                     <div class="m-2 grid grid-cols-[4rem_auto]">
@@ -169,27 +197,8 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         </div>
                     </div>
                     <hr />
-                    <div v-for="(review, idx) of course.reviews" :key="idx" class="m-2 rounded-md border p-2">
-                        <div class="flex items-center gap-x-2">
-                            <img src="https://picsum.photos/24" class="h-6 w-6 rounded-full bg-gray-200" />
-                            <span class="text-gray-700">{{ review.user }}</span>
-                        </div>
-                        <div class="pl-8 text-xs text-gray-500">{{ new Date(review.time).toLocaleString() }}</div>
-                        <div class="my-2 pl-8 pr-2">{{ review.content }}</div>
-                        <div class="flex items-center justify-between pr-2 text-xs">
-                            <div class="flex flex-col items-center">
-                                <span class="mx-2 inline-block w-full text-sm text-gray-500">甜度</span>
-                                <span><IconStars :value="review.rating.sweetness" /></span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <span class="mx-2 inline-block w-full text-sm text-gray-500">涼度</span>
-                                <span><IconStars :value="review.rating.easiness" /></span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <span class="mx-2 inline-block w-full text-sm text-gray-500">實用度</span>
-                                <span><IconStars :value="review.rating.usefulness" /></span>
-                            </div>
-                        </div>
+                    <div class="flex w-full flex-col justify-center">
+                        <CourseReviewCard v-for="(review, idx) of course.reviews" :key="idx" :review="review" class="m-2" />
                     </div>
                 </div>
             </div>
