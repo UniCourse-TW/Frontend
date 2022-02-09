@@ -14,11 +14,16 @@ declare module "vue" {
         IconFold: typeof import("./../components/Icon/IconFold.vue")["default"];
         IconStars: typeof import("./../components/Icon/IconStars.vue")["default"];
         Input: typeof import("./../components/Input.vue")["default"];
+        IOcticonAlert: typeof import("~icons/octicon/alert")["default"];
         IOcticonFilter16: typeof import("~icons/octicon/filter16")["default"];
         IOcticonFold16: typeof import("~icons/octicon/fold16")["default"];
+        IOcticonIssueDraft16: typeof import("~icons/octicon/issue-draft16")["default"];
+        IOcticonMilestone16: typeof import("~icons/octicon/milestone16")["default"];
+        IOcticonSearch: typeof import("~icons/octicon/search")["default"];
         IOcticonStarFill16: typeof import("~icons/octicon/star-fill16")["default"];
         IOcticonUnfold16: typeof import("~icons/octicon/unfold16")["default"];
         IOcticonX: typeof import("~icons/octicon/x")["default"];
+        IOcticonXCircle16: typeof import("~icons/octicon/x-circle16")["default"];
         Nav: typeof import("./../components/Nav.vue")["default"];
         SearchBar: typeof import("./../components/SearchBar.vue")["default"];
         Tag: typeof import("./../components/Tag.vue")["default"];

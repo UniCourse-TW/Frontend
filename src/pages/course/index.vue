@@ -5,12 +5,8 @@ import SearchBar from "../../components/SearchBar.vue";
 
 useHead({ title: "課程查詢 | UniCourse" });
 
-const query_body = ref("");
-const query_results = reactive(<CourseMeta[]>[]);
-const locked = ref(false);
-const first = ref(true);
-const adv = ref(false);
-const detail_course = ref(<CourseInfo | null>{});
+// #region Constants
+const holders = ["紀博文", "資工系", "程式設計", "UI", "本部", "週四"];
 
 const warnings = {
     num: "只可以有數字！",
@@ -19,7 +15,7 @@ const warnings = {
     range: "必須是範圍格式：數字間以「,」或「-」隔開！",
 };
 
-const advanced_search = ref<[string, string, string, string, (v: string) => boolean][]>([
+const advanced_search: [string, string, string, string, (v: string) => boolean][] = [
     ["系所", "department", "資工", "", () => true],
     ["教師", "teacher", "紀", "", () => true],
     ["課程名稱", "title", "程式設計", "", () => true],
@@ -42,7 +38,16 @@ const advanced_search = ref<[string, string, string, string, (v: string) => bool
     ["實際授課時數", "hours", "<3", warnings.compare, is_compare],
     ["教學方法", "methodology", "講述法", "", () => true],
     ["先修課程", "prerequisite", "程式設計（一）", "", () => true],
-]);
+];
+// #endregion
+
+const query_body = ref("");
+const query_results = reactive(<CourseMeta[]>[]);
+const prev_length = ref(0);
+const searching = ref(false);
+const first = ref(true);
+const adv = ref(false);
+const detail_course = ref(<CourseInfo | null>{});
 
 const advanced_values = reactive(<{ [key: string]: string }>{
     department: "",
@@ -75,23 +80,24 @@ const sort = reactive({
 });
 
 function rand_placeholder(): string {
-    const holders = ["紀博文", "資工系", "程式設計", "UI", "本部", "週四"];
     return holders[Math.floor(Math.random() * holders.length)];
 }
 
 async function query() {
-    if (locked.value) return;
-    locked.value = true;
+    if (searching.value) return;
+    searching.value = true;
     try {
-        for (let i = 0; i < advanced_search.value.length; i++) {
-            if (!validate(advanced_values[advanced_search.value[i][1]], advanced_search.value[i][4])) {
+        for (let i = 0; i < advanced_search.length; i++) {
+            if (!validate(advanced_values[advanced_search[i][1]], advanced_search[i][4])) {
                 throw {
                     title: "進階搜尋錯誤",
-                    message: `欄位「${advanced_search.value[i][0]}」的輸入不符格式！`,
+                    message: `欄位「${advanced_search[i][0]}」的輸入不符格式！`,
                 };
             }
         }
 
+        prev_length.value = query_results.length;
+        query_results.splice(0, query_results.length);
         const q = (
             query_body.value +
             " " +
@@ -100,12 +106,18 @@ async function query() {
                 return acc;
             }, "")
         ).trim();
-        const metae = await courses.list({ q, limit: 100, offset: 0, sort: sort.by, desc: sort.desc });
-        query_results.splice(0, query_results.length, ...metae);
+        const list = await courses.list({ q, limit: 100, offset: 0, sort: sort.by, desc: sort.desc });
+        query_results.push(...list);
+        nextTick(() => {
+            if (query_results.length && adv.value) {
+                const elm = document.querySelector("#scroll-anchor") as HTMLElement;
+                elm.scrollIntoView({ block: "start", behavior: "smooth" });
+            }
+        });
     } catch (e) {
         console.error(e);
     } finally {
-        locked.value = false;
+        searching.value = false;
         first.value = false;
     }
 }
@@ -143,8 +155,11 @@ const course_animation = {
     },
     leave(el: Element, done: () => void) {
         const elm = el as HTMLElement;
-        elm.style.opacity = "0";
-        setTimeout(done, 50);
+        setTimeout(() => {
+            elm.style.opacity = "0";
+            elm.style.top = "-2rem";
+            setTimeout(done, 150);
+        }, 100 / prev_length.value);
     },
 };
 </script>
@@ -226,6 +241,8 @@ const course_animation = {
                 </div>
             </AniFade>
 
+            <div id="scroll-anchor" class="-top-20"></div>
+
             <div class="w-full">
                 <transition-group
                     name="course-list"
@@ -246,11 +263,26 @@ const course_animation = {
                     </div>
                 </transition-group>
                 <div
-                    v-show="query_results.length === 0 && !first"
+                    v-show="query_results.length === 0 && !first && !searching"
                     class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6"
                 >
-                    <div class="h-40 w-full rounded border border-gray-400 bg-white p-4 sm:p-5 lg:p-6">
-                        <div>查無結果，請換個關鍵字試試？</div>
+                    <div class="h-40 w-full rounded bg-white p-4 text-center sm:p-5 lg:p-6">
+                        <span class="text-xl">
+                            <i-octicon-x-circle-16 class="m-1 inline sm:animate-bounce" />
+                            <br class="sm:hidden" />
+                            查無結果，換個關鍵字試試？
+                            <br class="sm:hidden" />
+                            例如「{{ rand_placeholder() }}」
+                            <i-octicon-milestone-16 class="m-1 hidden animate-bounce sm:inline" />
+                        </span>
+                    </div>
+                </div>
+                <div v-show="searching" class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6">
+                    <div class="h-40 w-full rounded bg-white p-4 text-center sm:p-5 lg:p-6">
+                        <span class="animate-pulse text-xl">
+                            <i-octicon-search class="m-1 inline animate-bounce" />
+                            查詢中...
+                        </span>
                     </div>
                 </div>
             </div>
