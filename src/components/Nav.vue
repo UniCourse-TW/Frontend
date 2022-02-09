@@ -26,26 +26,26 @@ const computed_nav = computed(() => {
     >
         <!-- Logo on the left side -->
         <div id="logo" class="absolute left-0 top-0 flex h-full w-32 items-center justify-center">
-            <router-link to="/" class="flex h-full w-full items-center justify-center">
+            <Link to="/" class="flex h-full w-full items-center justify-center">
                 <span
                     class="text-rainbow text-xl font-bold outline-none transition-all duration-200 hover:ml-2 hover:text-2xl hover:hue-rotate-15"
                 >
                     UniCourse
                 </span>
-            </router-link>
+            </Link>
         </div>
 
         <!-- Links on the right side -->
         <transition-group name="nav-list">
             <div v-for="([name, link], idx) of computed_nav" :key="idx" class="trnasition-all duration-700 ease-out">
                 <div class="h-full w-16 lg:w-24">
-                    <router-link :to="link">
+                    <Link :to="link">
                         <div
                             class="flex h-full w-full items-center justify-center text-blue-400 transition-all duration-200 hover:text-lg hover:font-bold hover:text-fuchsia-400"
                         >
                             <span>{{ name }}</span>
                         </div>
-                    </router-link>
+                    </Link>
                 </div>
             </div>
         </transition-group>
