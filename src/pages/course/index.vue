@@ -12,29 +12,36 @@ const first = ref(true);
 const adv = ref(false);
 const detail_course = ref(<CourseInfo | null>{});
 
-const advanced_search = ref([
-    ["系所", "department", "資工", () => true],
-    ["教師", "teacher", "紀", () => true],
-    ["課程名稱", "title", "程式設計", () => true],
-    ["科目代碼", "code", "CSU0002", (v: string) => !v.match(/[^\w\d]/)],
-    ["開課序號", "serial", "2949", (v: string) => !v.match(/\D/)],
-    ["開課學年度", "year", "110", (v: string) => !v.match(/\D/)],
-    ["開課學期", "term", "2", (v: string) => !v.match(/\D/)],
-    ["標籤", "tag", "UX", () => true],
-    ["學分學程", "program", "音樂科技", () => true],
-    ["通識領域", "general", "人文", () => true],
-    ["綜合評分", "rating", ">4.5", is_compare],
-    ["實用性", "usefulness", ">4", is_compare],
-    ["甜度", "sweetness", ">4", is_compare],
-    ["涼度", "easiness", ">4", is_compare],
-    ["週幾授課", "day", "1", (v: string) => !v.match(/\D/)],
-    ["節數時段", "session", "1-2", (v: string) => !v.match(/[^\d-]/)],
-    ["地點", "location", "公館", () => true],
-    ["名額", "quota", ">10", is_compare],
-    ["評分方法", "grading", "作業>49", (v: string) => v.split(/>|<|>=|<=|!|=/)[1].match(/\D/)],
-    ["實際授課時數", "hours", "<3", is_compare],
-    ["教學方法", "methodology", "講述法", () => true],
-    ["先修課程", "prerequisite", "程式設計（一）", () => true],
+const warnings = {
+    num: "只可以有數字！",
+    num_letter: "只可以有數字和英文字母！",
+    compare: "必須是比較格式：<=, >=, <, >, = 加上數字！",
+    range: "必須是範圍格式：數字間以「,」或「-」隔開！",
+};
+
+const advanced_search = ref<[string, string, string, string, (v: string) => boolean][]>([
+    ["系所", "department", "資工", "", () => true],
+    ["教師", "teacher", "紀", "", () => true],
+    ["課程名稱", "title", "程式設計", "", () => true],
+    ["科目代碼", "code", "CSU0002", warnings.num_letter, (v: string) => !v.match(/[^\w\d]/)],
+    ["開課序號", "serial", "2949", warnings.num, (v: string) => !v.match(/\D/)],
+    ["開課學年度", "year", "110", warnings.num, (v: string) => !v.match(/\D/)],
+    ["開課學期", "term", "2", warnings.num, (v: string) => !v.match(/\D/)],
+    ["標籤", "tag", "UX", "", () => true],
+    ["學分學程", "program", "音樂科技", "", () => true],
+    ["通識領域", "general", "人文", "", () => true],
+    ["綜合評分", "rating", ">4.5", warnings.compare, is_compare],
+    ["實用性", "usefulness", ">4", warnings.compare, is_compare],
+    ["甜度", "sweetness", ">4", warnings.compare, is_compare],
+    ["涼度", "easiness", ">4", warnings.compare, is_compare],
+    ["週幾授課", "day", "1", warnings.range, (v: string) => !v.match(/[^\d-,]/)],
+    ["節數時段", "session", "1-2", warnings.range, (v: string) => !v.match(/[^\d-,]/)],
+    ["地點", "location", "公館", "", () => true],
+    ["名額", "quota", ">10", warnings.compare, is_compare],
+    ["評分方法", "grading", "作業>49", warnings.compare, (v: string) => !v.split(/>|<|>=|<=|!|=/)[1].match(/\D/)],
+    ["實際授課時數", "hours", "<3", warnings.compare, is_compare],
+    ["教學方法", "methodology", "講述法", "", () => true],
+    ["先修課程", "prerequisite", "程式設計（一）", "", () => true],
 ]);
 
 const advanced_values = reactive(<{ [key: string]: string }>{
@@ -76,11 +83,20 @@ async function query() {
     if (locked.value) return;
     locked.value = true;
     try {
+        for (let i = 0; i < advanced_search.value.length; i++) {
+            if (!validate(advanced_values[advanced_search.value[i][1]], advanced_search.value[i][4])) {
+                throw {
+                    title: "進階搜尋錯誤",
+                    message: `欄位「${advanced_search.value[i][0]}」的輸入不符格式！`,
+                };
+            }
+        }
+
         const q = (
             query_body.value +
             " " +
             Object.entries(advanced_values).reduce((acc, [key, value]) => {
-                if (value) acc += `${key}:${value} `;
+                if (value) acc += `${key}:${value.replace(/\s/g, "")} `;
                 return acc;
             }, "")
         ).trim();
@@ -100,6 +116,10 @@ function is_compare(v: string): boolean {
 
 async function show(key: string) {
     detail_course.value = await courses.info(key);
+}
+
+function validate(val: string, func: (v: string) => boolean): boolean {
+    return val === "" || func(val);
 }
 
 /**
@@ -139,38 +159,72 @@ const course_animation = {
                 :placeholder="'搜尋課程 試試「' + rand_placeholder() + '」？'"
             />
 
-            <div v-if="adv" class="mb-4 flex justify-center px-6 lg:px-10">
-                <div class="w-full rounded border bg-gray-50 p-2 lg:rounded-lg lg:p-4">
-                    <h2 class="font-bold">進階搜尋</h2>
-                    <div class="mx-2">
-                        <div
-                            v-for="[title, type, placeholder, validator] of advanced_search"
-                            :key="type as string"
-                            class="grid grid-cols-[7rem_auto]"
-                        >
-                            <div class="flex items-center justify-end text-right text-blue-500">{{ title }}</div>
-                            <input
-                                type="text"
-                                :placeholder="(placeholder as string)"
-                                class="m-2 w-full border-b-[3px] border-blue-300 bg-transparent p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500"
-                                @keyup.enter="query"
-                                v-model="advanced_values[type as string]"
-                                @input="(evt) => (validator as (v: string) => boolean)((evt.target as any).value as string) "
-                            />
-                        </div>
-                        <div class="mt-4 grid grid-cols-[7rem_auto]">
-                            <div class="flex items-center justify-end text-right text-blue-500">排序方式</div>
-                            <select
-                                v-model="sort.by"
-                                class="m-2 w-full border-b-[3px] border-blue-300 bg-transparent p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500"
+            <AniFade direction="up">
+                <div v-if="adv" class="m-auto mb-4 flex max-w-7xl justify-center px-6 lg:px-10">
+                    <div class="w-full rounded border bg-gray-50 p-2 lg:rounded-lg lg:p-4">
+                        <h2 class="font-bold">進階搜尋</h2>
+                        <div class="mx-2 max-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden">
+                            <div
+                                v-for="[title, type, placeholder, warning, validator] of advanced_search"
+                                :key="(type as string)"
+                                class="grid grid-cols-[7rem_auto]"
                             >
-                                <option value="default">自動排序</option>
-                                <option v-for="[title, type] of advanced_search" :key="(type as string)" :value="type">{{ title }}</option>
-                            </select>
+                                <div
+                                    :class="[
+                                        'mt-2 text-right transition-colors lg:mt-4',
+                                        advanced_values[type].length ? 'text-blue-500' : 'text-blue-300',
+                                    ]"
+                                >
+                                    {{ title }}
+                                </div>
+                                <div>
+                                    <input
+                                        type="text"
+                                        :placeholder="'例如：' + (placeholder as string)"
+                                        :class="[
+                                            'm-2 mt-0 w-full border-b-[3px] bg-transparent p-2 outline-none transition-all duration-200 lg:mt-2 ',
+                                            validate(advanced_values[type], validator)
+                                                ? 'border-blue-300 text-blue-500 focus:border-indigo-500 focus:text-indigo-500'
+                                                : 'border-red-500 text-red-500',
+                                        ]"
+                                        :value="advanced_values[type]"
+                                        @input="(evt) => {
+                                            const target = evt.target as HTMLInputElement;
+                                            target.value = target.value.replace(/\s/g, '');
+                                            advanced_values[type] = target.value;
+                                        }"
+                                        @keyup.enter="query"
+                                    />
+                                    <AniFade direction="left">
+                                        <p v-if="!validate(advanced_values[type], validator)" class="m-2 w-full text-red-500">
+                                            {{ warning }}（例如：{{ placeholder }}）
+                                        </p>
+                                    </AniFade>
+                                </div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-[7rem_auto]">
+                                <div class="flex items-center justify-end text-right text-blue-500">排序方式</div>
+                                <select
+                                    v-model="sort.by"
+                                    class="m-2 w-full cursor-pointer appearance-none border-b-[3px] border-blue-300 bg-transparent p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500"
+                                >
+                                    <option value="default">自動排序</option>
+                                    <option v-for="[title, type] of advanced_search" :key="(type as string)" :value="type">
+                                        {{ title }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div
+                    v-else-if="!adv && (Object.values(advanced_values).join('').replace(/\s/g, '').length || sort.by !== 'default')"
+                    class="m-auto max-w-7xl p-2 text-sm text-gray-500 sm:px-6 lg:px-10"
+                >
+                    <span v-if="Object.values(advanced_values).join('').replace(/\s/g, '').length">已啟用進階搜尋！</span>
+                    <span v-if="sort.by !== 'default'">排序方式： {{ advanced_search.find((v) => v[1] === sort.by)?.[0] }}</span>
+                </div>
+            </AniFade>
 
             <div class="w-full">
                 <transition-group
@@ -185,7 +239,7 @@ const course_animation = {
                         v-for="(meta, idx) of query_results"
                         :key="[meta.year, meta.term, meta.serial].join('-')"
                         :data-idx="idx"
-                        class="p2 m-auto flex w-full max-w-[1400px] cursor-pointer items-center justify-center sm:p-4 lg:p-6"
+                        class="p2 m-auto flex w-full max-w-7xl cursor-pointer items-center justify-center sm:p-4 lg:p-6"
                         @click="show([meta.year, meta.term, meta.serial].join('-'))"
                     >
                         <CourseMetaCard v-bind="meta" />
