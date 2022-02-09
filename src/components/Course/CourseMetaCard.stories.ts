@@ -1,11 +1,11 @@
-import MetaCard from "./MetaCard.vue";
+import CourseMetaCard from "./CourseMetaCard.vue";
 
-export default { title: "Course / MetaCard", component: MetaCard };
+export default { title: "Course / CourseMetaCard", component: CourseMetaCard };
 
 function Template(args: AnyObj) {
     return {
-        components: { MetaCard },
-        template: '<MetaCard v-bind="args" />',
+        components: { CourseMetaCard },
+        template: '<CourseMetaCard v-bind="args" />',
         setup: () => ({ args }),
     };
 }
@@ -46,7 +46,7 @@ normal.args = {
     programs: ["音樂科技學程", "資訊科技應用學程", "人工智慧技術與應用學程"],
     comment: "預計以授權碼加開名額，請同學開學時檢附程式設計(一)修課成績單向老師洽詢授權碼。",
     restrict: "◎必須先修過【CSU0001  程式設計（一）】",
-    tags: [{ name: "程式設計", color: "#b74a8c" }, { name: "資訊科技", color: "#d8b4fe" }, { name: "資訊工程" }],
+    tags: [{ name: "程式設計" }, { name: "資訊科技" }, { name: "資訊工程" }],
 };
 
 export const featured = Template.bind({}) as T;

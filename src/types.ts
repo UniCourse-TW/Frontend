@@ -225,17 +225,19 @@ export interface CourseRating {
     /**
      * 甜度評分 Stars
      */
-    gpa: number;
+    sweetness: number;
 
     /**
      * 涼度評分 Stars
      */
-    easy: number;
+    easiness: number;
 
     /**
      * 實用度評分 Stars
      */
     usefulness: number;
+
+    count: number;
 }
 
 export interface CourseReview {

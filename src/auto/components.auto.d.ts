@@ -2,18 +2,26 @@
 // We suggest you to commit this file into source control
 // Read more: https://github.com/vuejs/vue-next/pull/3399
 
-declare module 'vue' {
-  export interface GlobalComponents {
-    BigScreen: typeof import('./../components/BigScreen.vue')['default']
-    Card: typeof import('./../components/Card.vue')['default']
-    ForumMetaCard: typeof import('./../components/Forum/ForumMetaCard.vue')['default']
-    FullScreenCard: typeof import('./../components/Course/FullScreenCard.vue')['default']
-    Input: typeof import('./../components/Input.vue')['default']
-    IOcticonFilter16: typeof import('~icons/octicon/filter16')['default']
-    MetaCard: typeof import('./../components/Course/MetaCard.vue')['default']
-    Nav: typeof import('./../components/Nav.vue')['default']
-    SearchBar: typeof import('./../components/SearchBar.vue')['default']
-  }
+declare module "vue" {
+    export interface GlobalComponents {
+        AniFade: typeof import("./../components/Animation/AniFade.vue")["default"];
+        BigScreen: typeof import("./../components/BigScreen.vue")["default"];
+        Card: typeof import("./../components/Card.vue")["default"];
+        CourseMetaCard: typeof import("./../components/Course/CourseMetaCard.vue")["default"];
+        ForumMetaCard: typeof import("./../components/Forum/ForumMetaCard.vue")["default"];
+        FullScreenCard: typeof import("./../components/Course/FullScreenCard.vue")["default"];
+        IconFold: typeof import("./../components/Icon/IconFold.vue")["default"];
+        IconStars: typeof import("./../components/Icon/IconStars.vue")["default"];
+        Input: typeof import("./../components/Input.vue")["default"];
+        IOcticonFilter16: typeof import("~icons/octicon/filter16")["default"];
+        IOcticonFold16: typeof import("~icons/octicon/fold16")["default"];
+        IOcticonStarFill16: typeof import("~icons/octicon/star-fill16")["default"];
+        IOcticonUnfold16: typeof import("~icons/octicon/unfold16")["default"];
+        IOcticonX: typeof import("~icons/octicon/x")["default"];
+        Nav: typeof import("./../components/Nav.vue")["default"];
+        SearchBar: typeof import("./../components/SearchBar.vue")["default"];
+        Tag: typeof import("./../components/Tag.vue")["default"];
+    }
 }
 
-export { }
+export {};

@@ -101,9 +101,3 @@ function open_external(url: string) {
         </div>
     </div>
 </template>
-
-<style scoped>
-/* .divBox {
-        background: green;
-    } */
-</style>

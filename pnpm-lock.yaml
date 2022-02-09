@@ -7,6 +7,7 @@ specifiers:
     "@storybook/addon-essentials": ^6.4.18
     "@storybook/addon-links": ^6.4.18
     "@storybook/vue3": ^6.4.18
+    "@types/marked": ^4.0.2
     "@typescript-eslint/eslint-plugin": ^5.10.1
     "@typescript-eslint/parser": ^5.10.1
     "@vitejs/plugin-vue": ^2.0.0
@@ -16,10 +17,13 @@ specifiers:
     babel-loader: ^8.2.3
     eslint: ^8.7.0
     eslint-config-prettier: ^8.3.0
+    husky: ^7.0.0
+    marked: ^4.0.12
     pinia: ^2.0.11
     postcss: ^8.4.6
     prettier: ^2.5.1
     prettier-plugin-tailwindcss: ^0.1.4
+    pretty-quick: ^3.1.3
     storybook-builder-vite: ^0.1.15
     tailwindcss: ^3.0.18
     typescript: ^4.4.4
@@ -34,6 +38,7 @@ specifiers:
     vue-tsc: ^0.29.8
 
 dependencies:
+    marked: 4.0.12
     pinia: 2.0.11_typescript@4.5.5+vue@3.2.29
     vue: 3.2.29
     vue-router: 4.0.12_vue@3.2.29
@@ -45,6 +50,7 @@ devDependencies:
     "@storybook/addon-essentials": 6.4.18_d22cd87ad266315073deadf96608f0ba
     "@storybook/addon-links": 6.4.18
     "@storybook/vue3": 6.4.18_991555126ddb1ce3e68376c580982e16
+    "@types/marked": 4.0.2
     "@typescript-eslint/eslint-plugin": 5.10.1_0f442f6b60390429061d5d9b6bcaaba6
     "@typescript-eslint/parser": 5.10.1_eslint@8.7.0+typescript@4.5.5
     "@vitejs/plugin-vue": 2.1.0_vite@2.7.13+vue@3.2.29
@@ -54,9 +60,11 @@ devDependencies:
     babel-loader: 8.2.3_@babel+core@7.17.0
     eslint: 8.7.0
     eslint-config-prettier: 8.3.0_eslint@8.7.0
+    husky: 7.0.4
     postcss: 8.4.6
     prettier: 2.5.1
     prettier-plugin-tailwindcss: 0.1.4_prettier@2.5.1
+    pretty-quick: 3.1.3_prettier@2.5.1
     storybook-builder-vite: 0.1.15_typescript@4.5.5+vite@2.7.13
     tailwindcss: 3.0.18_833e1018ad0d7954aa80c53675939269
     typescript: 4.5.5
@@ -3803,6 +3811,10 @@ packages:
         resolution: { integrity: sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ== }
         dev: true
 
+    /@types/marked/4.0.2:
+        resolution: { integrity: sha512-auNrZ/c0w6wsM9DccwVxWHssrMDezHUAXNesdp2RQrCVCyrQbOiSq7yqdJKrUQQpw9VTm7CGYJH2A/YG7jjrjQ== }
+        dev: true
+
     /@types/mdast/3.0.10:
         resolution: { integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA== }
         dependencies:
@@ -4597,6 +4609,11 @@ packages:
         engines: { node: ">=0.10.0" }
         dev: true
 
+    /array-differ/3.0.0:
+        resolution: { integrity: sha512-THtfYS6KtME/yIAhKjZ2ul7XI96lQGHRputJQHO80LAWQnuGP4iCIN8vdMRboGbIEYBwU33q8Tch1os2+X0kMg== }
+        engines: { node: ">=8" }
+        dev: true
+
     /array-flatten/1.1.1:
         resolution: { integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI= }
         dev: true
@@ -5291,6 +5308,14 @@ packages:
             ansi-styles: 3.2.1
             escape-string-regexp: 1.0.5
             supports-color: 5.5.0
+        dev: true
+
+    /chalk/3.0.0:
+        resolution: { integrity: sha512-4D3B6Wf41KOYRFdszmDqMCGq5VV/uMAB273JILmO+3jAlh8X4qDtdtgCR3fxtbLEMzSx22QdhnDcJvu2u1fVwg== }
+        engines: { node: ">=8" }
+        dependencies:
+            ansi-styles: 4.3.0
+            supports-color: 7.2.0
         dev: true
 
     /chalk/4.1.2:
@@ -6789,6 +6814,21 @@ packages:
             strip-eof: 1.0.0
         dev: true
 
+    /execa/4.1.0:
+        resolution: { integrity: sha512-j5W0//W7f8UxAn8hXVnwG8tLwdiUy4FJLcSupCg6maBYZDpyBvTApK7KyuI4bKj8KOh1r2YH+6ucuYtJv1bTZA== }
+        engines: { node: ">=10" }
+        dependencies:
+            cross-spawn: 7.0.3
+            get-stream: 5.2.0
+            human-signals: 1.1.1
+            is-stream: 2.0.1
+            merge-stream: 2.0.0
+            npm-run-path: 4.0.1
+            onetime: 5.1.2
+            signal-exit: 3.0.6
+            strip-final-newline: 2.0.0
+        dev: true
+
     /execa/5.1.1:
         resolution: { integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg== }
         engines: { node: ">=10" }
@@ -7300,6 +7340,13 @@ packages:
             pump: 3.0.0
         dev: true
 
+    /get-stream/5.2.0:
+        resolution: { integrity: sha512-nBF+F1rAZVCu/p7rjzgA+Yb4lfYXrpl7a6VmJrU8wF9I1CKvP/QwPNZHnOlwbTkY6dvtFIzFMSyQXbLoTQPRpA== }
+        engines: { node: ">=8" }
+        dependencies:
+            pump: 3.0.0
+        dev: true
+
     /get-stream/6.0.1:
         resolution: { integrity: sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg== }
         engines: { node: ">=10" }
@@ -7729,9 +7776,20 @@ packages:
         resolution: { integrity: sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM= }
         dev: true
 
+    /human-signals/1.1.1:
+        resolution: { integrity: sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw== }
+        engines: { node: ">=8.12.0" }
+        dev: true
+
     /human-signals/2.1.0:
         resolution: { integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw== }
         engines: { node: ">=10.17.0" }
+        dev: true
+
+    /husky/7.0.4:
+        resolution: { integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ== }
+        engines: { node: ">=12" }
+        hasBin: true
         dev: true
 
     /iconv-lite/0.4.24:
@@ -8699,6 +8757,12 @@ packages:
             react: 16.14.0
         dev: true
 
+    /marked/4.0.12:
+        resolution: { integrity: sha512-hgibXWrEDNBWgGiK18j/4lkS6ihTe9sxtV4Q1OQppb/0zzyPSzoFANBa5MfsG/zgsWklmNnhm0XACZOH/0HBiQ== }
+        engines: { node: ">= 12" }
+        hasBin: true
+        dev: false
+
     /md5.js/1.3.5:
         resolution: { integrity: sha512-xitP+WxNPcTTOgnTJcrhM0xvdPepipPSf3I8EIpGKeFLjt3PlJLIDG3u8EX53ZIubkb+5U2+3rELYpEhHhzdkg== }
         dependencies:
@@ -8967,6 +9031,11 @@ packages:
             run-queue: 1.0.3
         dev: true
 
+    /mri/1.2.0:
+        resolution: { integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA== }
+        engines: { node: ">=4" }
+        dev: true
+
     /ms/2.0.0:
         resolution: { integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g= }
         dev: true
@@ -8981,6 +9050,17 @@ packages:
 
     /ms/2.1.3:
         resolution: { integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA== }
+        dev: true
+
+    /multimatch/4.0.0:
+        resolution: { integrity: sha512-lDmx79y1z6i7RNx0ZGCPq1bzJ6ZoDDKbvh7jxr9SJcWLkShMzXrHbYVpTdnhNM5MXpDUxCQ4DgqVttVXlBgiBQ== }
+        engines: { node: ">=8" }
+        dependencies:
+            "@types/minimatch": 3.0.5
+            array-differ: 3.0.0
+            array-union: 2.1.0
+            arrify: 2.0.1
+            minimatch: 3.0.4
         dev: true
 
     /nan/2.15.0:
@@ -9789,6 +9869,22 @@ packages:
     /pretty-hrtime/1.0.3:
         resolution: { integrity: sha1-t+PqQkNaTJsnWdmeDyAesZWALuE= }
         engines: { node: ">= 0.8" }
+        dev: true
+
+    /pretty-quick/3.1.3_prettier@2.5.1:
+        resolution: { integrity: sha512-kOCi2FJabvuh1as9enxYmrnBC6tVMoVOenMaBqRfsvBHB0cbpYHjdQEpSglpASDFEXVwplpcGR4CLEaisYAFcA== }
+        engines: { node: ">=10.13" }
+        hasBin: true
+        peerDependencies:
+            prettier: ">=2.0.0"
+        dependencies:
+            chalk: 3.0.0
+            execa: 4.1.0
+            find-up: 4.1.0
+            ignore: 5.2.0
+            mri: 1.2.0
+            multimatch: 4.0.0
+            prettier: 2.5.1
         dev: true
 
     /prismjs/1.25.0:
