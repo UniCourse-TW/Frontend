@@ -38,7 +38,7 @@ const computed_nav = computed(() => {
         <!-- Links on the right side -->
         <transition-group name="nav-list">
             <div v-for="([name, link], idx) of computed_nav" :key="idx" class="trnasition-all duration-700 ease-out">
-                <div class="h-full w-12 sm:w-16 lg:w-24">
+                <div class="h-full w-16 lg:w-24">
                     <router-link :to="link">
                         <div
                             class="flex h-full w-full items-center justify-center text-blue-400 transition-all duration-200 hover:text-lg hover:font-bold hover:text-fuchsia-400"
