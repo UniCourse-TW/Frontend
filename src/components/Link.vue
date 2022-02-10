@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useLink, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
 
@@ -14,24 +14,39 @@ const is_external = computed(() => {
     return typeof props.to === "string" && props.to.startsWith("http");
 });
 
-const preloading = reactive<string[]>([]);
+const preloaded = reactive<string[]>([]);
 
 async function preload() {
-    if (preloading.includes(props.to)) {
+    if (preloaded.includes(props.to)) {
         return;
     }
-    preloading.push(props.to);
+    preloaded.push(props.to);
+
+    let resourses, start_time;
+    try {
+        resourses = performance.getEntriesByType("resource");
+        start_time = performance.now();
+    } catch {
+        console.log("[Link] Performance API is not supported");
+    }
 
     try {
-        const link = useLink({ to: props.to, replace: props.replace });
-        const route = link.route.value.matched[0];
+        const link = router.resolve(props.to);
+        const route = link.matched[0];
         const component = route?.components?.default;
         if (route && typeof component === "function") {
             // @ts-ignore
             await component();
         }
     } catch (err) {
-        console.error("preload failed", err);
+        console.error("[Link] Preload Failed", err);
+    }
+
+    if (resourses && start_time) {
+        const after = performance.getEntriesByType("resource");
+        const diff = after.slice(resourses.length) as PerformanceResourceTiming[];
+        const time = (performance.now() - start_time).toFixed(1);
+        console.log(`[Link] Preload ${diff.reduce((acc, curr) => acc + (curr.transferSize || 0), 0)} bytes in ${time} ms`);
     }
 }
 
@@ -43,7 +58,7 @@ function go(): void {
             router.push(props.to);
         }
     } catch (err) {
-        console.error("go failed", err);
+        console.error("[Link] Go failed", err);
     }
 }
 </script>

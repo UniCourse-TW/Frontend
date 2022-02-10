@@ -1,10 +1,5 @@
 <script lang="ts" setup>
 useHead({ title: "UniCourse" });
-
-function open_external(url: string) {
-    const win = window.open("", "_blank") as Window;
-    win.location.href = url;
-}
 </script>
 
 <template>
@@ -85,12 +80,12 @@ function open_external(url: string) {
         <div class="mx-auto h-1/4 w-full p-5 text-center lg:w-2/3">
             <font>加入我們 / find us<br /></font>
             <div class="mx-auto w-1/2">
-                <button type="button" class="mx-auto w-1/4" @click="open_external('https://discord.gg/at3rvZ8QW7')">
+                <Link class="mx-auto w-1/4" to="https://discord.gg/gMXEn97CkN" :icon="false">
                     <img src="../assets/front/dc_icon/dc_icon_grey.svg" class="mx-auto" />
-                </button>
-                <button type="button" class="mx-auto hidden w-1/4" onclick="location.href='FB連結'">
+                </Link>
+                <Link class="mx-auto hidden w-1/4" to="" :icon="false">
                     <img src="../assets/front/fb_icon/fb_icon_grey.svg" class="mx-auto" />
-                </button>
+                </Link>
             </div>
         </div>
     </div>
