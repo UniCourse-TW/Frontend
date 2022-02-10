@@ -362,3 +362,25 @@ export interface User {
     display: string;
     email: string;
 }
+
+export interface Post {
+    id: string;
+    type: string;
+    author: string;
+    title: string;
+    content: string;
+    time: string;
+    vote: {
+        up: number;
+        down: number;
+    };
+    tags: string[];
+    course?: {
+        year: number;
+        term: number;
+        serial: number;
+        name: string;
+        teacher: string;
+        rating: CourseRating;
+    };
+}

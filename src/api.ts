@@ -1,4 +1,4 @@
-import type { Response, CourseMeta, CourseInfo, CourseListQuery, PostListQuery, PostMeta } from "./types";
+import type { Response, CourseMeta, CourseInfo, CourseListQuery, PostListQuery, PostMeta, Post } from "./types";
 import { server } from "./config";
 
 async function req(...params: [RequestInfo, RequestInit?]): Promise<unknown> {
@@ -50,6 +50,10 @@ export const posts = {
     async get_list(query: PostListQuery): Promise<PostMeta[]> {
         const qs = new URLSearchParams(Object.entries(query)).toString();
         const data = (await req(`posts?${qs}`)) as PostMeta[];
+        return data;
+    },
+    async get(id: string): Promise<Post> {
+        const data = (await req(`posts/${id}`)) as Post;
         return data;
     },
 };
