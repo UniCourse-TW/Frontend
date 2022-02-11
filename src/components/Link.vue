@@ -64,7 +64,7 @@ function go(): void {
 </script>
 
 <template>
-    <a v-if="is_external" :href="to" target="_blank" :class="props.class || 'text-blue-700'">
+    <a v-if="is_external" :href="to" target="_blank" rel="noopener" :class="props.class || 'text-blue-700'">
         <i-octicon-link-external v-if="props.icon" class="mr-1 inline -translate-y-0.5" />
         <slot />
     </a>
@@ -73,7 +73,7 @@ function go(): void {
         v-bind="props"
         @click="go"
         @mouseenter="preload"
-        @touchstart="preload"
+        @touchstart.passive="preload"
         href="javascript:void(0)"
         :class="props.class || 'text-purple-700'"
     >
