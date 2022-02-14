@@ -4,7 +4,7 @@ import type { PostMeta } from "../../types";
 
 const props = defineProps({
     meta: {
-        default: () => <PostMeta | null>null,
+        default: () => null,
         type: Object as PropType<PostMeta | null>,
     },
     is_loading: { default: false, type: Boolean },
