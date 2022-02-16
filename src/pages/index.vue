@@ -62,7 +62,7 @@ useHead({ title: "UniCourse" });
                     <div class="m-auto p-3 sm:p-5 lg:p-5">
                         <span class="text-lg text-purple-700">回答他人提出的<br class="sm:hidden" />課程相關問題</span>
                     </div>
-                    <Link to="/course" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
+                    <Link to="/forum" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
                         >解答疑問</Link
                     >
                 </div>
@@ -79,7 +79,7 @@ useHead({ title: "UniCourse" });
                     <div class="m-auto p-3 sm:p-5 lg:p-5">
                         <span class="text-lg text-purple-700">和其他人分享你的<br class="sm:hidden" />修課心得</span>
                     </div>
-                    <Link to="/course" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
+                    <Link to="/forum" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
                         >撰寫心得</Link
                     >
                 </div>

@@ -11,6 +11,7 @@ declare module "vue" {
         CourseReviewCard: typeof import("./../components/Course/CourseReviewCard.vue")["default"];
         ForumMetaCard: typeof import("./../components/Forum/ForumMetaCard.vue")["default"];
         FullScreenCard: typeof import("./../components/Course/FullScreenCard.vue")["default"];
+        FullScreenForumCard: typeof import("./../components/Forum/FullScreenForumCard.vue")["default"];
         IconFold: typeof import("./../components/Icon/IconFold.vue")["default"];
         IconStars: typeof import("./../components/Icon/IconStars.vue")["default"];
         Input: typeof import("./../components/Input.vue")["default"];
