@@ -375,7 +375,7 @@ export interface Post {
         down: number;
     };
     tags: string[];
-    course?: {
+    course: {
         year: number;
         term: number;
         serial: number;
