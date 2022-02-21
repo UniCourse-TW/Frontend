@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { PropType } from "vue";
-import type { Post, PostRating } from "../../types";
+import type { Post } from "../../types";
 import { marked } from "marked";
 
 const props = defineProps({
@@ -8,14 +8,9 @@ const props = defineProps({
         type: Object as PropType<Post | null>,
         default: () => null,
     },
-    post_rating: {
-        type: Object as PropType<PostRating | null>,
-        default: () => null,
-    },
 });
 
 const post = props.post;
-const post_rating = props.post_rating;
 </script>
 
 <template>
@@ -49,21 +44,21 @@ const post_rating = props.post_rating;
 
             <hr />
 
-            <div v-if="post_rating" class="mt-2 mb-2 grid grid-cols-[4rem_auto] text-gray-600">
+            <div v-if="post.type == 'review'" class="mt-2 mb-2 grid grid-cols-[4rem_auto] text-gray-600">
                 <span>甜度</span>
                 <div>
-                    <IconStars :value="post_rating.sweetness" />
-                    ( {{ post_rating.sweetness }} 分 )
+                    <IconStars :value="post.course.rating.sweetness" />
+                    ( {{ post.course.rating.sweetness }} 分 )
                 </div>
                 <span>涼度</span>
                 <div>
-                    <IconStars :value="post_rating.easiness" />
-                    ( {{ post_rating.easiness }} 分 )
+                    <IconStars :value="post.course.rating.easiness" />
+                    ( {{ post.course.rating.easiness }} 分 )
                 </div>
                 <span>實用度</span>
                 <div>
-                    <IconStars :value="post_rating.usefulness" />
-                    ( {{ post_rating.usefulness }} 分 )
+                    <IconStars :value="post.course.rating.usefulness" />
+                    ( {{ post.course.rating.usefulness }} 分 )
                 </div>
             </div>
             <h1 class="my-1 text-base font-bold text-gray-600">{{ post.title }}</h1>

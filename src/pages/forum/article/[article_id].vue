@@ -19,7 +19,7 @@ async function query() {
 <template>
     <div>
         <div v-if="post">
-            <SoloForumArtical :post="post" :postRating="postRating" class="h-screen w-screen" />
+            <SoloForumArtical :post="post" class="h-screen w-screen" />
         </div>
         <div v-else>載入中...</div>
     </div>
