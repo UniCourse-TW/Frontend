@@ -14,18 +14,10 @@ declare module "vue" {
         IconFold: typeof import("./../components/Icon/IconFold.vue")["default"];
         IconStars: typeof import("./../components/Icon/IconStars.vue")["default"];
         Input: typeof import("./../components/Input.vue")["default"];
-        IOcticonFilter16: typeof import("~icons/octicon/filter16")["default"];
-        IOcticonFold16: typeof import("~icons/octicon/fold16")["default"];
-        IOcticonLinkExternal: typeof import("~icons/octicon/link-external")["default"];
-        IOcticonMilestone16: typeof import("~icons/octicon/milestone16")["default"];
-        IOcticonSearch: typeof import("~icons/octicon/search")["default"];
-        IOcticonStarFill16: typeof import("~icons/octicon/star-fill16")["default"];
-        IOcticonUnfold16: typeof import("~icons/octicon/unfold16")["default"];
-        IOcticonX: typeof import("~icons/octicon/x")["default"];
-        IOcticonXCircle16: typeof import("~icons/octicon/x-circle16")["default"];
         Link: typeof import("./../components/Link.vue")["default"];
         Nav: typeof import("./../components/Nav.vue")["default"];
         SearchBar: typeof import("./../components/SearchBar.vue")["default"];
+        SoloForumArtical: typeof import("./../components/Forum/SoloForumArtical.vue")["default"];
         Tag: typeof import("./../components/Tag.vue")["default"];
     }
 }

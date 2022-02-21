@@ -236,8 +236,6 @@ export interface CourseRating {
      * 實用度評分 Stars
      */
     usefulness: number;
-
-    count: number;
 }
 
 export interface CourseReview {
@@ -306,7 +304,9 @@ export interface CourseInfo extends CourseMeta {
     /**
      * 評分數據
      */
-    rating: CourseRating;
+    rating: CourseRating & {
+        count: number;
+    };
 
     /**
      * 課程評論
@@ -361,4 +361,26 @@ export interface User {
     username: string;
     display: string;
     email: string;
+}
+
+export interface Post {
+    id: string;
+    type: string;
+    author: string;
+    title: string;
+    content: string;
+    time: string;
+    vote: {
+        up: number;
+        down: number;
+    };
+    tags: string[];
+    course: {
+        year: number;
+        term: number;
+        serial: number;
+        name: string;
+        teacher: string;
+        rating: CourseRating;
+    };
 }

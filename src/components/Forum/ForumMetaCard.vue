@@ -1,14 +1,19 @@
 <script lang="ts" setup>
+import { PropType } from "vue";
 import type { PostMeta } from "../../types";
 
 const props = defineProps({
-    meta: { default: <PostMeta | null>null },
+    meta: {
+        default: () => null,
+        type: Object as PropType<PostMeta | null>,
+    },
     is_loading: { default: false, type: Boolean },
 });
 
 const router = useRouter();
 
 function handle_click() {
+    if (!props.meta) return;
     router.push(`/forum/article/${props.meta.id}`);
 }
 </script>
