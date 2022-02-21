@@ -43,7 +43,7 @@ normal.args = {
         },
     },
     
-    postRating: {
+    post_rating: {
         sweetness: 5,
         easiness: 4,
         usefulness: 3,
