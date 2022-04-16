@@ -3,7 +3,9 @@ useHead({ title: "UniCourse" });
 </script>
 
 <template>
-    <div class="absolute top-0 bg-gradient-to-r from-blue-300 via-indigo-200 to-fuchsia-200 pt-16">
+    <div
+        class="absolute top-0 bg-gradient-to-r from-blue-300 via-indigo-200 to-fuchsia-200 pt-16 dark:from-stone-800 dark:via-stone-800 dark:to-stone-800"
+    >
         <div id="cover" class="top-0 m-auto w-screen lg:h-screen">
             <img alt="UniCourse Logo" src="../assets/banner_withText.svg" class="m-auto w-2/3 p-3 sm:p-5 lg:p-20" />
         </div>
