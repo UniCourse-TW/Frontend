@@ -21,7 +21,7 @@ const computed_nav = computed(() => {
     <div
         :class="[
             'sticky top-0 z-10 flex h-16 w-full flex-row-reverse transition-all duration-200',
-            props.path === '/' ? ' bg-transparent' : 'bg-white shadow shadow-indigo-100',
+            props.path === '/' ? ' bg-transparent' : 'bg-white shadow shadow-indigo-100 dark:bg-stone-900 dark:shadow-indigo-900',
         ]"
     >
         <!-- Logo on the left side -->
