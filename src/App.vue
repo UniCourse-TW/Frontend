@@ -6,15 +6,13 @@ const store = use_store();
 </script>
 
 <template>
-    <div class="dark">
-        <Nav :path="route.path" :logged_in="!!store.user" />
+    <Nav :path="route.path" :logged_in="!!store.user" />
 
-        <router-view v-slot="{ Component }">
-            <transition name="page-transition" mode="out-in">
-                <component :is="Component" />
-            </transition>
-        </router-view>
-    </div>
+    <router-view v-slot="{ Component }">
+        <transition name="page-transition" mode="out-in">
+            <component :is="Component" />
+        </transition>
+    </router-view>
 </template>
 
 <style scoped>
