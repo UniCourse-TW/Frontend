@@ -334,20 +334,20 @@ export interface PostMeta {
     vote: PostVote;
     tags: string[];
     course:
-        | null
-        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
-              teacher: string;
-          });
+    | null
+    | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+        teacher: string;
+    });
 }
 
 export interface PostInfo extends PostMeta {
     content: string;
     course:
-        | null
-        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
-              teacher: string;
-              rating: PostRating;
-          });
+    | null
+    | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+        teacher: string;
+        rating: PostRating;
+    });
 }
 
 export interface PostListQuery {
