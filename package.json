@@ -49,5 +49,14 @@
         "vite-plugin-pages": "^0.20.0",
         "vue-loader": "^16.8.3",
         "vue-tsc": "^0.29.8"
+    },
+    "pnpm": {
+        "peerDependencyRules": {
+            "ignoreMissing": [
+                "react",
+                "react-dom",
+                "webpack"
+            ]
+        }
     }
 }
