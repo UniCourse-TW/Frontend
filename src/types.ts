@@ -384,3 +384,22 @@ export interface Post {
         rating: CourseRating;
     };
 }
+
+export interface PostForm {
+    type: "review" | "question" | "others";
+    title: string;
+    content: string;
+    tags: string[];
+    course: {
+        year: number;
+        term: number;
+        serial: number;
+        name: string;
+        teacher: string;
+        rating: {
+            sweetness: number;
+            easiness: number;
+            usefulness: number;
+        };
+    };
+}
