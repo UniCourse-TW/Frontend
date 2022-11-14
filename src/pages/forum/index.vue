@@ -28,7 +28,7 @@ function query() {
     router.push({ path: "/forum/search", query: { q: query_body.value } });
 }
 
-const course_animation = {
+const post_animation = {
     before_enter(el: Element) {
         const elm = el as HTMLElement;
         elm.style.opacity = "0";
@@ -58,14 +58,22 @@ const course_animation = {
 
         <div class="m-auto grid max-w-[1200px] grid-cols-1 gap-y-8 px-4 lg:grid-cols-2 lg:divide-x-2 lg:divide-blue-200">
             <div class="px-4 lg:px-6">
-                <h2 class="text-lg lg:text-xl">最新文章</h2>
+                <div class="flex justify-between">
+                    <h2 class="text-lg lg:text-xl">最新文章</h2>
+                    <button
+                        class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
+                        @click="router.push('/forum/article/new')"
+                    >
+                        <span>我要發文</span>
+                    </button>
+                </div>
                 <div class="w-full">
                     <transition-group
                         name="course-list"
                         :css="false"
-                        @before-enter="course_animation.before_enter"
-                        @enter="course_animation.enter"
-                        @leave="course_animation.leave"
+                        @before-enter="post_animation.before_enter"
+                        @enter="post_animation.enter"
+                        @leave="post_animation.leave"
                     >
                         <div v-if="is_fetching" class="my-4"><ForumMetaCard is_loading /></div>
                         <div
@@ -78,20 +86,28 @@ const course_animation = {
                             <ForumMetaCard :meta="meta" />
                         </div>
                         <div v-else>
-                            <div class="m-8 rounded border border-gray-300 p-8">目前沒有新文章</div>
+                            <div class="my-8 rounded border border-gray-300 p-8">目前沒有新文章</div>
                         </div>
                     </transition-group>
                 </div>
             </div>
             <div class="px-4 lg:px-6">
-                <h2 class="text-lg lg:text-xl">即時提問</h2>
+                <div class="flex justify-between">
+                    <h2 class="text-lg lg:text-xl">即時提問</h2>
+                    <button
+                        class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
+                        @click="router.push('/forum/article/new?type=question')"
+                    >
+                        <span>我要發問</span>
+                    </button>
+                </div>
                 <div class="w-full">
                     <transition-group
                         name="course-list"
                         :css="false"
-                        @before-enter="course_animation.before_enter"
-                        @enter="course_animation.enter"
-                        @leave="course_animation.leave"
+                        @before-enter="post_animation.before_enter"
+                        @enter="post_animation.enter"
+                        @leave="post_animation.leave"
                     >
                         <div v-if="is_fetching" class="my-4"><ForumMetaCard is_loading /></div>
                         <div
@@ -104,7 +120,7 @@ const course_animation = {
                             <ForumMetaCard :meta="meta" />
                         </div>
                         <div v-else>
-                            <div class="m-8 rounded border border-gray-300 p-8">目前沒有新提問</div>
+                            <div class="my-8 rounded border border-gray-300 p-8">目前沒有新提問</div>
                         </div>
                     </transition-group>
                 </div>

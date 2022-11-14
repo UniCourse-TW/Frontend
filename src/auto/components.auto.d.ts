@@ -25,6 +25,7 @@ declare module 'vue' {
     IOcticonXCircle16: typeof import('~icons/octicon/x-circle16')['default']
     Link: typeof import('./../components/Link.vue')['default']
     Nav: typeof import('./../components/Nav.vue')['default']
+    Rating: typeof import('./../components/Rating.vue')['default']
     SearchBar: typeof import('./../components/SearchBar.vue')['default']
     SoloForumArtical: typeof import('./../components/Forum/SoloForumArtical.vue')['default']
     Tag: typeof import('./../components/Tag.vue')['default']
