@@ -9,7 +9,7 @@
         "lint": "eslint .",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
-        "prepare": "husky install"
+        "prepare": "chmod +x node_modules/husky/lib/bin.js && husky install"
     },
     "dependencies": {
         "marked": "^4.2.2",
