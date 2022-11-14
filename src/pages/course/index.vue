@@ -204,9 +204,8 @@ const course_animation = {
                                         ]"
                                         :value="advanced_values[type]"
                                         @input="(evt) => {
-                                            const target = evt.target as HTMLInputElement;
-                                            target.value = target.value.replace(/\s/g, '');
-                                            advanced_values[type] = target.value;
+                                            (evt.target as HTMLInputElement).value = (evt.target as HTMLInputElement).value.replace(/\s/g, '');
+                                            advanced_values[type] = (evt.target as HTMLInputElement).value;
                                         }"
                                         @keyup.enter="query"
                                     />
