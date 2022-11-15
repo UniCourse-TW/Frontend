@@ -79,12 +79,19 @@ export type CourseTypeListFilter =
     | "general"
     | "others";
 
+export type ArticleTypeListFilter =
+    | "default"
+    | "announcement"
+    | "review"
+    | "question";
+
 export interface CourseListQuery {
     q: string;
     limit: number;
     offset: number;
     sort: CourseListFilter;
     course_type: CourseTypeListFilter;
+    article_type: ArticleTypeListFilter;
     desc: boolean;
 }
 
