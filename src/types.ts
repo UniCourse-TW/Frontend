@@ -72,11 +72,19 @@ export type CourseListFilter =
     | "prerequisite";
 // #endregion
 
+export type CourseTypeListFilter =
+    | "default"
+    | "required"
+    | "elective"
+    | "general"
+    | "others";
+
 export interface CourseListQuery {
     q: string;
     limit: number;
     offset: number;
     sort: CourseListFilter;
+    course_type: CourseTypeListFilter;
     desc: boolean;
 }
 
