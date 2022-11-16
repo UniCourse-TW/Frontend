@@ -121,7 +121,10 @@ async function query() {
                 return acc;
             }, "")
         ).trim();
-        const list = await courses.list({ q, limit: 100, offset: 0, sort: sort.by, course_type: course_type.by, desc: sort.desc });
+        const list = await courses.list({
+            q, limit: 100, offset: 0, sort: sort.by, course_type: course_type.by, desc: sort.desc,
+            article_type: "default"
+        });
         query_results.push(...list);
         nextTick(() => {
             if (query_results.length && adv.value) {

@@ -1,8 +1,29 @@
 <script lang="ts" setup>
+import { unionTypeAnnotation } from '@babel/types';
+// import { UniCourse } from '../../../../Backend/packages/unicourse/src/unicourse'
+
 useHead({ title: "個人 | UniCourse" });
 
 const router = useRouter();
-const username = ref("test");
+const username = ref();
+const uni = new UniCourse();
+const user = await uni.profile("");
+// var: name, accountName, Username, password, email, stu_id
+
+var name = document.getElementById('name')?.textContent;
+name = uni.name;
+var accountName = document.getElementById('accountName')?.textContent;
+accountName = uni.accountName;
+var Username = document.getElementById('Username')?.textContent;
+Username = uni.username;
+var email = document.getElementById('email')?.textContent;
+email = uni.email;
+var stu_id = document.getElementById('stu_id')?.textContent;
+stu_id = uni.stu_id;
+
+
+
+
 // router.push({ path: "me/username=", username });
 // 1. how to write url?
 // var upload = function (c: any, d: any) {
@@ -22,7 +43,8 @@ const username = ref("test");
     <div class="empty setMiddle">
         <div class="gradientBlock"></div>
         <div class="circle">
-            <img alt="頭像" src="../../assets/profile/default.svg" class="avatar" />
+            <img alt="頭像" src="https://unicourse-tw.github.io/Public-Assets/icon/UniCourse_icon_fade.256x256.png"
+                class="avatar" />
             <!-- <div class="aui-info">
                 <img src="../../assets/profile/default.svg" id="img-txz" style="width: 3rem"
                     class="aui-img-round user-img" />
@@ -31,33 +53,41 @@ const username = ref("test");
             </div> -->
         </div>
     </div>
-    <div class="setMiddle setUsername"><b>${username}</b></div>
+    <div class="setMiddle setUsername">
+        <b>
+            <span id='name'></span>
+        </b>
+    </div>
     <div class="infoBlock">
         <div class="titleSet titleText">account </div>
-        <div class="titleSet infoText">account_name
+        <div class="titleSet infoText">
+            <span id='accountName'></span>
             <hr />
         </div>
         <div class="titleSet titleText ">username</div>
-        <div class="titleSet infoText">TEST
+        <div class="titleSet infoText">
+            <span id='Username'></span>
             <hr />
         </div>
         <div class="titleSet titleText">password</div>
-        <div class="titleSet infoText">asdfjkl;;
+        <div class="titleSet infoText">
+            <span id='password'></span>
             <hr />
         </div>
         <div class="titleSet titleText">email</div>
-        <div class="titleSet infoText">123@gmail.com
+        <div class="titleSet infoText">
+            <span id='Email'></span>
             <hr />
         </div>
         <div class="titleSet titleText">std_id</div>
-        <div class="titleSet infoText">41047999S
+        <div class="titleSet infoText">
+            <span id='stu_id'></span>
             <hr />
         </div>
         <div class="titleSet titleText">verified</div>
         <div class="titleSet infoText">已驗證
             <hr />
         </div>
-        <div class="titleSet titleText">badges</div>
     </div>
 </template>
 
