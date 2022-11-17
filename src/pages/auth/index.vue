@@ -15,6 +15,7 @@ const l_password = ref("");
 const r_username = ref("");
 const r_password = ref("");
 const r_email = ref("");
+const r_invite = ref("");
 
 useHead({ title: conv[type.value] + " | UniCourse" });
 
@@ -81,6 +82,8 @@ async function register() {
                     <Input label="帳號" placeholder="請輸入帳號" v-model="r_username" />
                     <Input label="密碼" placeholder="請輸入密碼" v-model="r_password" />
                     <Input label="電子郵件" placeholder="請輸入電子郵件" v-model="r_email" />
+                    <Input label="邀請碼" placeholder="請輸入邀請碼" v-model="r_invite" />
+
                 </div>
             </transition>
 
