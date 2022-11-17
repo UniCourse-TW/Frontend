@@ -1,11 +1,42 @@
 <script lang="ts" setup>
 import { unionTypeAnnotation } from '@babel/types';
-// import { UniCourse } from '../../../../Backend/packages/unicourse/src/unicourse'
+import type { User } from "../../types";
 
 useHead({ title: "個人 | UniCourse" });
 
+const route = useRoute();
 const router = useRouter();
 const username = ref();
+
+const editUser = reactive<User>({
+    type: route.query.type === "fix" ? "fix" : "edit",
+    jwt: "",
+    username: "",
+    display: "",
+    email: "",
+});
+
+const e_accountname = ref(""); // Can't edit
+const e_username = ref("");
+const e_password = ref("");
+const e_email = ref(""); // Can't edit
+const e_stuid = ref(""); // Can't edit
+const e_verified = ref(""); // Can't edit
+
+const bottonwords = {
+    fix: {
+        botton: "修改",
+        content: "分享你的經驗",
+    },
+    edit: {
+        botton: "儲存",
+        content: "提出你的問題",
+    },
+};
+
+
+/*open after test
+
 const uni = new UniCourse();
 const user = await uni.profile("");
 // var: name, accountName, Username, password, email, stu_id
@@ -20,23 +51,12 @@ var email = document.getElementById('email')?.textContent;
 email = uni.email;
 var stu_id = document.getElementById('stu_id')?.textContent;
 stu_id = uni.stu_id;
-
+*/
 
 
 
 // router.push({ path: "me/username=", username });
 // 1. how to write url?
-// var upload = function (c: any, d: any) {
-//     "use strict";
-//     var $c = document.querySelector(c),
-//         $d = document.querySelector(d),
-//         file = $c.files[0],
-//         reader = new FileReader();
-//     reader.readAsDataURL(file);
-//     reader.onload = function (e) {
-//         $d.setAttribute("src", e.target.result);
-//     };
-// };
 </script>
 
 <template>
@@ -55,39 +75,34 @@ stu_id = uni.stu_id;
     </div>
     <div class="setMiddle setUsername">
         <b>
-            <span id='name'></span>
+            <span id='name'>{{ username }}</span>
         </b>
     </div>
-    <div class="infoBlock">
-        <div class="titleSet titleText">account </div>
-        <div class="titleSet infoText">
-            <span id='accountName'></span>
-            <hr />
+    <div class="flex w-screen items-start justify-center p-4 text-lg lg:p-6">
+        <div class="flex w-2/5 flex-col gap-y-4 text-blue-500">
+            <div v-if="editUser.type == 'fix'">
+                <Input label="account" :placeholder="e_accountname" disabled />
+                <Input label="username" :placeholder="e_username" disabled />
+                <Input label="password" type="password" :placeholder="e_password" disabled />
+                <Input label="email" :placeholder="e_email" disabled />
+                <Input label="std_id" :placeholder="e_stuid" disabled />
+                <Input label="verified" :placeholder="e_verified" disabled />
+            </div>
+            <div v-else>
+                <Input label="account" :placeholder="e_accountname" disabled />
+                <Input label="username" :placeholder="e_username" />
+                <Input label="password" type="password" :placeholder="e_password" />
+                <Input label="email" :placeholder="e_email" disabled />
+                <Input label="std_id" :placeholder="e_stuid" disabled />
+                <Input label="verified" :placeholder="e_verified" disabled />
+            </div>
         </div>
-        <div class="titleSet titleText ">username</div>
-        <div class="titleSet infoText">
-            <span id='Username'></span>
-            <hr />
-        </div>
-        <div class="titleSet titleText">password</div>
-        <div class="titleSet infoText">
-            <span id='password'></span>
-            <hr />
-        </div>
-        <div class="titleSet titleText">email</div>
-        <div class="titleSet infoText">
-            <span id='Email'></span>
-            <hr />
-        </div>
-        <div class="titleSet titleText">std_id</div>
-        <div class="titleSet infoText">
-            <span id='stu_id'></span>
-            <hr />
-        </div>
-        <div class="titleSet titleText">verified</div>
-        <div class="titleSet infoText">已驗證
-            <hr />
-        </div>
+    </div>
+    <div class="buttonBlock mb-32 flex gap-x-6">
+        <button
+            class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4">
+            {{ bottonwords[editUser.type].botton }}
+        </button>
     </div>
 </template>
 
@@ -133,12 +148,16 @@ stu_id = uni.stu_id;
 }
 
 .infoBlock {
-    height: 1000px;
-    margin: 40px 200px 40px 200px;
-    position: relative;
+    /* position: relative; */
     /* 水平置中 */
-    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: 10%;
+}
 
+.buttonBlock {
+    margin-left: 47%;
+    margin-bottom: 40px;
 }
 
 /* .infoBlock:hover {

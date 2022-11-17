@@ -372,6 +372,7 @@ export interface PostListQuery {
 }
 
 export interface User {
+    type: "fix" | "edit";
     jwt: string;
     username: string;
     display: string;
