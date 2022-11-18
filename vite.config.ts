@@ -22,7 +22,4 @@ export default defineConfig({
             compiler: "vue3",
         }),
     ],
-    define: {
-        global: {},
-    },
 });
