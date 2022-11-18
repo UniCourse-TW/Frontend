@@ -4,6 +4,7 @@ const props = defineProps({
     placeholder: { default: "" },
     modelValue: { default: "" },
     enter: { default: false, type: Function },
+    type: { default: "text", type: String },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -18,7 +19,7 @@ function default_func(evt: unknown) {
         <label class="text-lg text-blue-500">
             {{ props.label }} <br />
             <input
-                type="text"
+                :type="props.type"
                 :placeholder="props.placeholder"
                 class="m-2 w-full border-b-[3px] border-blue-300 p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500"
                 @keyup.enter="(props.enter || default_func)($event)"
