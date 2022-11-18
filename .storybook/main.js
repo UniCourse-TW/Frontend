@@ -17,14 +17,12 @@ module.exports = {
     addons: ["@storybook/addon-links", "@storybook/addon-essentials"],
     framework: "@storybook/vue3",
     core: {
-        builder: "storybook-builder-vite",
+        builder: "@storybook/builder-vite",
     },
     async viteFinal(config) {
         // resolve https://github.com/eirslett/storybook-builder-vite/issues/50
         config.resolve.dedupe = ["@storybook/client-api"];
-
         config.plugins.push(...plugins);
-
         return config;
     },
 };
