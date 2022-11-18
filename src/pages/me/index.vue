@@ -19,6 +19,7 @@ const editUser = reactive<User>({
 const e_accountname = ref(""); // Can't edit
 const e_username = ref("");
 const e_password = ref("");
+const e_description = ref("");
 const e_email = ref(""); // Can't edit
 const e_stuid = ref(""); // Can't edit
 const e_verified = ref(""); // Can't edit
@@ -84,6 +85,11 @@ stu_id = uni.stu_id;
                 <Input label="account" :placeholder="e_accountname" disabled />
                 <Input label="username" :placeholder="e_username" disabled />
                 <Input label="password" type="password" :placeholder="e_password" disabled />
+                <label class="text-lg text-blue-500">
+                    description
+                    <textarea :placeholder="e_description" disabled rows="2"
+                        class="w-full  border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"></textarea>
+                </label>
                 <Input label="email" :placeholder="e_email" disabled />
                 <Input label="std_id" :placeholder="e_stuid" disabled />
                 <Input label="verified" :placeholder="e_verified" disabled />
@@ -92,6 +98,11 @@ stu_id = uni.stu_id;
                 <Input label="account" :placeholder="e_accountname" disabled />
                 <Input label="username" :placeholder="e_username" />
                 <Input label="password" type="password" :placeholder="e_password" />
+                <label class="text-lg text-blue-500">
+                    discription
+                    <textarea :placeholder="e_description" rows="2"
+                        class="w-full  border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"></textarea>
+                </label>
                 <Input label="email" :placeholder="e_email" disabled />
                 <Input label="std_id" :placeholder="e_stuid" disabled />
                 <Input label="verified" :placeholder="e_verified" disabled />
