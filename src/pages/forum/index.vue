@@ -232,86 +232,84 @@ const course_animation = {
 <template>
     <div>
         <SearchBar v-model="query_body" :search="query" :advanced="() => (adv = !adv)"
-                :placeholder="'搜尋文章 試試「' + rand_placeholder() + '」？'" />
-                <AniFade direction="up">
-                <div v-if="adv" class="m-auto mb-4 flex max-w-7xl justify-center px-6 lg:px-10">
-                    <div class="w-full rounded border bg-gray-50 p-2 lg:rounded-lg lg:p-4">
-                        <h2 class="font-bold">進階搜尋</h2>
-                            <div class="mt-4 grid grid-cols-[7rem_auto]">
-                                <div class="flex items-center justify-end text-right text-blue-500">文章類別</div>
-                                <select v-model="article_type.by"
-                                    class="m-2 w-full cursor-pointer appearance-none border-b-[3px] border-blue-300 bg-transparent p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500">
-                                    <option value="default">不限</option>
-                                    <option v-for="[title, type] of article_type_search" :key="(type as string)"
-                                        :value="type">
-                                        {{ title }}
-                                    </option>
-                                </select>
+            :placeholder="'搜尋文章 試試「' + rand_placeholder() + '」？'" />
+        <AniFade direction="up">
+            <div v-if="adv" class="m-auto mb-4 flex max-w-7xl justify-center px-6 lg:px-10">
+                <div class="w-full rounded border bg-gray-50 p-2 lg:rounded-lg lg:p-4">
+                    <h2 class="font-bold">進階搜尋</h2>
+                    <div class="mt-4 grid grid-cols-[7rem_auto]">
+                        <div class="flex items-center justify-end text-right text-blue-500">文章類別</div>
+                        <select v-model="article_type.by"
+                            class="m-2 w-full cursor-pointer appearance-none border-b-[3px] border-blue-300 bg-transparent p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500">
+                            <option value="default">不限</option>
+                            <option v-for="[title, type] of article_type_search" :key="(type as string)" :value="type">
+                                {{ title }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mx-2 max-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden">
+                        <div v-for="[title, type, placeholder, warning, validator] of advanced_search"
+                            :key="(type as string)" class="grid grid-cols-[7rem_auto]">
+                            <div :class="[
+                                'mt-2 text-right transition-colors lg:mt-4',
+                                advanced_values[type].length ? 'text-blue-500' : 'text-blue-300',
+                            ]">
+                                {{ title }}
                             </div>
-                        <div class="mx-2 max-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden">
-                            <div v-for="[title, type, placeholder, warning, validator] of advanced_search"
-                                :key="(type as string)" class="grid grid-cols-[7rem_auto]">
-                                <div :class="[
-                                    'mt-2 text-right transition-colors lg:mt-4',
-                                    advanced_values[type].length ? 'text-blue-500' : 'text-blue-300',
-                                ]">
-                                    {{ title }}
-                                </div>
-                                <div>
-                                    <input type="text" :placeholder="'例如：' + (placeholder as string)" :class="[
-                                        'm-2 mt-0 w-full border-b-[3px] bg-transparent p-2 outline-none transition-all duration-200 lg:mt-2 ',
-                                        validate(advanced_values[type], validator)
-                                            ? 'border-blue-300 text-blue-500 focus:border-indigo-500 focus:text-indigo-500'
-                                            : 'border-red-500 text-red-500',
-                                    ]" :value="advanced_values[type]" @input="(evt) => {
+                            <div>
+                                <input type="text" :placeholder="'例如：' + (placeholder as string)" :class="[
+                                    'm-2 mt-0 w-full border-b-[3px] bg-transparent p-2 outline-none transition-all duration-200 lg:mt-2 ',
+                                    validate(advanced_values[type], validator)
+                                        ? 'border-blue-300 text-blue-500 focus:border-indigo-500 focus:text-indigo-500'
+                                        : 'border-red-500 text-red-500',
+                                ]" :value="advanced_values[type]" @input="(evt) => {
     (evt.target as HTMLInputElement).value = (evt.target as HTMLInputElement).value.replace(/\s/g, '');
     advanced_values[type] = (evt.target as HTMLInputElement).value;
 }" @keyup.enter="query" />
-                                    <AniFade direction="left">
-                                        <p v-if="!validate(advanced_values[type], validator)"
-                                            class="m-2 w-full text-red-500">
-                                            {{ warning }}（例如：{{ placeholder }}）
-                                        </p>
-                                    </AniFade>
-                                </div>
+                                <AniFade direction="left">
+                                    <p v-if="!validate(advanced_values[type], validator)"
+                                        class="m-2 w-full text-red-500">
+                                        {{ warning }}（例如：{{ placeholder }}）
+                                    </p>
+                                </AniFade>
                             </div>
-                            <div class="mt-4 grid grid-cols-[7rem_auto]">
-                                <div class="flex items-center justify-end text-right text-blue-500">課程類別</div>
-                                <select v-model="course_type.by"
-                                    class="m-2 w-full cursor-pointer appearance-none border-b-[3px] border-blue-300 bg-transparent p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500">
-                                    <option value="default">不限</option>
-                                    <option v-for="[title, type] of course_type_search" :key="(type as string)"
-                                        :value="type">
-                                        {{ title }}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="mt-4 grid grid-cols-[7rem_auto]">
-                                <div class="flex items-center justify-end text-right text-blue-500">排序方式</div>
-                                <select v-model="sort.by"
-                                    class="m-2 w-full cursor-pointer appearance-none border-b-[3px] border-blue-300 bg-transparent p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500">
-                                    <option value="default">自動排序</option>
-                                    <option v-for="[title, type] of advanced_search" :key="(type as string)"
-                                        :value="type">
-                                        {{ title }}
-                                    </option>
-                                </select>
-                            </div>
+                        </div>
+                        <div class="mt-4 grid grid-cols-[7rem_auto]">
+                            <div class="flex items-center justify-end text-right text-blue-500">課程類別</div>
+                            <select v-model="course_type.by"
+                                class="m-2 w-full cursor-pointer appearance-none border-b-[3px] border-blue-300 bg-transparent p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500">
+                                <option value="default">不限</option>
+                                <option v-for="[title, type] of course_type_search" :key="(type as string)"
+                                    :value="type">
+                                    {{ title }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mt-4 grid grid-cols-[7rem_auto]">
+                            <div class="flex items-center justify-end text-right text-blue-500">排序方式</div>
+                            <select v-model="sort.by"
+                                class="m-2 w-full cursor-pointer appearance-none border-b-[3px] border-blue-300 bg-transparent p-2 text-indigo-500 outline-none transition-all duration-200 focus:border-indigo-500">
+                                <option value="default">自動排序</option>
+                                <option v-for="[title, type] of advanced_search" :key="(type as string)" :value="type">
+                                    {{ title }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
-                <div v-else-if="!adv && (Object.values(advanced_values).join('').replace(/\s/g, '').length || sort.by !== 'default')"
-                    class="m-auto max-w-7xl p-2 text-sm text-gray-500 sm:px-6 lg:px-10">
-                    <span v-if="Object.values(advanced_values).join('').replace(/\s/g, '').length">已啟用進階搜尋！</span>
-                    <span v-if="sort.by !== 'default'">排序方式： {{ advanced_search.find((v) => v[1] === sort.by)?.[0]
-                    }}</span>
-                </div>
-            </AniFade>
+            </div>
+            <div v-else-if="!adv && (Object.values(advanced_values).join('').replace(/\s/g, '').length || sort.by !== 'default')"
+                class="m-auto max-w-7xl p-2 text-sm text-gray-500 sm:px-6 lg:px-10">
+                <span v-if="Object.values(advanced_values).join('').replace(/\s/g, '').length">已啟用進階搜尋！</span>
+                <span v-if="sort.by !== 'default'">排序方式： {{ advanced_search.find((v) => v[1] === sort.by)?.[0]
+                }}</span>
+            </div>
+        </AniFade>
 
-            <!-- <div id="scroll-anchor" class="-top-20"></div> -->
+        <!-- <div id="scroll-anchor" class="-top-20"></div> -->
 
-            <div class="w-full">
-                <transition-group name="course-list" :css="false" @before-enter="course_animation.before_enter"
+        <div class="w-full">
+            <!-- <transition-group name="course-list" :css="false" @before-enter="course_animation.before_enter"
                     @enter="course_animation.enter" @leave="course_animation.leave">
                     <div v-show="query_results.length" v-for="(meta, idx) of query_results"
                         :key="[meta.year, meta.term, meta.serial].join('-')" :data-idx="idx"
@@ -319,58 +317,50 @@ const course_animation = {
                         @click="show([meta.year, meta.term, meta.serial].join('-'))">
                         <CourseMetaCard v-bind="meta" />
                     </div>
-                </transition-group>
-                <div v-show="query_results.length === 0 && !first && !searching"
-                    class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6">
-                    <div class="h-40 w-full rounded bg-white p-4 text-center sm:p-5 lg:p-6">
-                        <span class="text-xl">
-                            <i-octicon-x-circle-16 class="m-1 inline sm:animate-bounce" />
-                            <br class="sm:hidden" />
-                            查無結果，換個關鍵字試試？
-                            <br class="sm:hidden" />
-                            例如「{{ rand_placeholder() }}」
-                            <i-octicon-milestone-16 class="m-1 hidden animate-bounce sm:inline" />
-                        </span>
-                    </div>
-                </div>
-                <div v-show="searching"
-                    class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6">
-                    <div class="h-40 w-full rounded bg-white p-4 text-center sm:p-5 lg:p-6">
-                        <span class="animate-pulse text-xl">
-                            <i-octicon-search class="m-1 inline animate-bounce" />
-                            查詢中...
-                        </span>
-                    </div>
+                </transition-group> -->
+            <div v-show="query_results.length === 0 && !first && !searching"
+                class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6">
+                <div class="h-40 w-full rounded bg-white p-4 text-center sm:p-5 lg:p-6">
+                    <span class="text-xl">
+                        <i-octicon-x-circle-16 class="m-1 inline sm:animate-bounce" />
+                        <br class="sm:hidden" />
+                        查無結果，換個關鍵字試試？
+                        <br class="sm:hidden" />
+                        例如「{{ rand_placeholder() }}」
+                        <i-octicon-milestone-16 class="m-1 hidden animate-bounce sm:inline" />
+                    </span>
                 </div>
             </div>
+            <div v-show="searching"
+                class="p2 m-auto flex w-full max-w-[1400px] items-center justify-center sm:p-4 lg:p-6">
+                <div class="h-40 w-full rounded bg-white p-4 text-center sm:p-5 lg:p-6">
+                    <span class="animate-pulse text-xl">
+                        <i-octicon-search class="m-1 inline animate-bounce" />
+                        查詢中...
+                    </span>
+                </div>
+            </div>
+        </div>
 
-        <div class="m-auto grid max-w-[1200px] grid-cols-1 gap-y-8 px-4 lg:grid-cols-2 lg:divide-x-2 lg:divide-blue-200">
+        <div
+            class="m-auto grid max-w-[1200px] grid-cols-1 gap-y-8 px-4 lg:grid-cols-2 lg:divide-x-2 lg:divide-blue-200">
             <div class="px-4 lg:px-6">
                 <div class="flex justify-between">
                     <h2 class="text-lg lg:text-xl">最新文章</h2>
                     <button
                         class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
-                        @click="router.push('/forum/article/new')"
-                    >
+                        @click="router.push('/forum/article/new')">
                         <span>我要發文</span>
                     </button>
                 </div>
                 <div class="w-full">
-                    <transition-group
-                        name="course-list"
-                        :css="false"
-                        @before-enter="post_animation.before_enter"
-                        @enter="post_animation.enter"
-                        @leave="post_animation.leave"
-                    >
-                        <div v-if="is_fetching" class="my-4"><ForumMetaCard is_loading /></div>
-                        <div
-                            v-else-if="latest_posts.length"
-                            v-for="(meta, idx) of latest_posts"
-                            :key="meta.id"
-                            :data-idx="idx"
-                            class="my-4"
-                        >
+                    <transition-group name="course-list" :css="false" @before-enter="post_animation.before_enter"
+                        @enter="post_animation.enter" @leave="post_animation.leave">
+                        <div v-if="is_fetching" class="my-4">
+                            <ForumMetaCard is_loading />
+                        </div>
+                        <div v-else-if="latest_posts.length" v-for="(meta, idx) of latest_posts" :key="meta.id"
+                            :data-idx="idx" class="my-4">
                             <ForumMetaCard :meta="meta" />
                         </div>
                         <div v-else>
@@ -384,27 +374,18 @@ const course_animation = {
                     <h2 class="text-lg lg:text-xl">即時提問</h2>
                     <button
                         class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
-                        @click="router.push('/forum/article/new?type=question')"
-                    >
+                        @click="router.push('/forum/article/new?type=question')">
                         <span>我要發問</span>
                     </button>
                 </div>
                 <div class="w-full">
-                    <transition-group
-                        name="course-list"
-                        :css="false"
-                        @before-enter="post_animation.before_enter"
-                        @enter="post_animation.enter"
-                        @leave="post_animation.leave"
-                    >
-                        <div v-if="is_fetching" class="my-4"><ForumMetaCard is_loading /></div>
-                        <div
-                            v-else-if="latest_questions.length"
-                            v-for="(meta, idx) of latest_questions"
-                            :key="meta.id"
-                            :data-idx="idx"
-                            class="my-4"
-                        >
+                    <transition-group name="course-list" :css="false" @before-enter="post_animation.before_enter"
+                        @enter="post_animation.enter" @leave="post_animation.leave">
+                        <div v-if="is_fetching" class="my-4">
+                            <ForumMetaCard is_loading />
+                        </div>
+                        <div v-else-if="latest_questions.length" v-for="(meta, idx) of latest_questions" :key="meta.id"
+                            :data-idx="idx" class="my-4">
                             <ForumMetaCard :meta="meta" />
                         </div>
                         <div v-else>
