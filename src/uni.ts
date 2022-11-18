@@ -13,6 +13,6 @@ export const uni = new UniCourse(cached, {
         }
         return result;
     };
-})(uni.login);
+})(uni.login.bind(uni));
 
 export default uni;
