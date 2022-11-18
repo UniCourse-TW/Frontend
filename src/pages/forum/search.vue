@@ -27,7 +27,7 @@ function query() {
         });
 }
 
-const course_animation = {
+const post_animation = {
     before_enter(el: Element) {
         const elm = el as HTMLElement;
         elm.style.opacity = "0";
@@ -53,6 +53,10 @@ const course_animation = {
 
 <template>
     <div>
+        <div class="px-10 py-2">
+            <a href="/forum" class="hover:underline">返回論壇首頁</a>
+        </div>
+
         <SearchBar v-model="query_body" :search="query" :advanced="() => (adv = !adv)" placeholder="搜尋文章及提問" />
 
         <div v-if="adv" class="flex justify-center px-6 lg:px-10">
@@ -63,9 +67,9 @@ const course_animation = {
             <transition-group
                 name="course-list"
                 :css="false"
-                @before-enter="course_animation.before_enter"
-                @enter="course_animation.enter"
-                @leave="course_animation.leave"
+                @before-enter="post_animation.before_enter"
+                @enter="post_animation.enter"
+                @leave="post_animation.leave"
             >
                 <div v-if="is_fetching" class="my-4"><ForumMetaCard is_loading /></div>
                 <div v-else-if="query_results.length" v-for="(meta, idx) of query_results" :key="meta.id" :data-idx="idx" class="my-4">

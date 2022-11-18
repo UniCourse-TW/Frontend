@@ -15,6 +15,7 @@ const l_password = ref("");
 const r_username = ref("");
 const r_password = ref("");
 const r_email = ref("");
+const r_invite = ref("");
 
 useHead({ title: conv[type.value] + " | UniCourse" });
 
@@ -71,8 +72,9 @@ async function register() {
                     <Input label="帳號" placeholder="請輸入帳號" v-model="l_username" />
                     <Input label="密碼" placeholder="請輸入密碼" type="password" v-model="l_password" />
                     <div class="my-2 h-4 w-full">
-                        <Link to="/auth/reset" class="float-right cursor-pointer text-blue-500 transition-all hover:text-fuchsia-500">
-                            忘記密碼？
+                        <Link to="/auth/reset"
+                            class="float-right cursor-pointer text-blue-500 transition-all hover:text-fuchsia-500">
+                        忘記密碼？
                         </Link>
                     </div>
                 </div>
@@ -80,6 +82,8 @@ async function register() {
                     <Input label="帳號" placeholder="請輸入帳號" v-model="r_username" />
                     <Input label="密碼" placeholder="請輸入密碼" type="password" v-model="r_password" />
                     <Input label="電子郵件" placeholder="請輸入電子郵件" v-model="r_email" />
+                    <Input label="邀請碼" placeholder="請輸入邀請碼" v-model="r_invite" />
+
                 </div>
             </transition>
 
@@ -87,8 +91,7 @@ async function register() {
                 <div class="mt-8 w-full text-center text-xl" :key="type">
                     <button
                         class="w-1/3 rounded bg-gradient-to-br from-cyan-500 via-indigo-500 to-fuchsia-500 p-2 px-4 text-white outline-none transition-all hover:hue-rotate-15 sm:w-1/4"
-                        @click="() => (type === 'login' ? login() : register())"
-                    >
+                        @click="() => (type === 'login' ? login() : register())">
                         {{ processing ? conv[type] + "中" : conv[type] }}
                     </button>
                 </div>
@@ -98,8 +101,7 @@ async function register() {
                 <div :key="type" class="mt-8 w-full text-center">
                     <span
                         class="text-rainbow cursor-pointer p-2 px-4 outline-none transition-all duration-200 hover:text-xl"
-                        @click="switch_type"
-                    >
+                        @click="switch_type">
                         {{ type === "login" ? "想要註冊嗎？" : "是要登入嗎？" }}
                     </span>
                 </div>

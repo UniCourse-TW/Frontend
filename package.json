@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "scripts": {
         "dev": "vite",
-        "build": "vue-tsc --noEmit && vite build",
+        "build": "vite build",
         "preview": "vite preview --port 3000",
         "format": "prettier --write \"**/*.{js,ts,css,html,vue,json,yml,yaml}\" \"!dist\" \"!storybook-static\"",
         "lint": "eslint .",

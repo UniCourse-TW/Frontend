@@ -72,11 +72,26 @@ export type CourseListFilter =
     | "prerequisite";
 // #endregion
 
+export type CourseTypeListFilter =
+    | "default"
+    | "required"
+    | "elective"
+    | "general"
+    | "others";
+
+export type ArticleTypeListFilter =
+    | "default"
+    | "announcement"
+    | "review"
+    | "question";
+
 export interface CourseListQuery {
     q: string;
     limit: number;
     offset: number;
     sort: CourseListFilter;
+    course_type: CourseTypeListFilter;
+    article_type: ArticleTypeListFilter;
     desc: boolean;
 }
 
@@ -334,20 +349,20 @@ export interface PostMeta {
     vote: PostVote;
     tags: string[];
     course:
-        | null
-        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
-              teacher: string;
-          });
+    | null
+    | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+        teacher: string;
+    });
 }
 
 export interface PostInfo extends PostMeta {
     content: string;
     course:
-        | null
-        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
-              teacher: string;
-              rating: PostRating;
-          });
+    | null
+    | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+        teacher: string;
+        rating: PostRating;
+    });
 }
 
 export interface PostListQuery {
@@ -357,6 +372,7 @@ export interface PostListQuery {
 }
 
 export interface User {
+    type: "fix" | "edit";
     jwt: string;
     username: string;
     display: string;
@@ -382,5 +398,24 @@ export interface Post {
         name: string;
         teacher: string;
         rating: CourseRating;
+    };
+}
+
+export interface PostForm {
+    type: "review" | "question" | "others";
+    title: string;
+    content: string;
+    tags: string[];
+    course: {
+        year: number;
+        term: number;
+        serial: number;
+        name: string;
+        teacher: string;
+        rating: {
+            sweetness: number;
+            easiness: number;
+            usefulness: number;
+        };
     };
 }
