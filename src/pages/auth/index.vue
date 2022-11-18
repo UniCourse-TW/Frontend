@@ -70,7 +70,7 @@ async function register() {
             <transition name="fade" mode="out-in">
                 <div v-if="type === 'login'" class="my-4 w-full">
                     <Input label="帳號" placeholder="請輸入帳號" v-model="l_username" />
-                    <Input label="密碼" placeholder="請輸入密碼" v-model="l_password" />
+                    <Input label="密碼" placeholder="請輸入密碼" type="password" v-model="l_password" />
                     <div class="my-2 h-4 w-full">
                         <Link to="/auth/reset"
                             class="float-right cursor-pointer text-blue-500 transition-all hover:text-fuchsia-500">
@@ -80,7 +80,7 @@ async function register() {
                 </div>
                 <div v-else class="my-4 w-full">
                     <Input label="帳號" placeholder="請輸入帳號" v-model="r_username" />
-                    <Input label="密碼" placeholder="請輸入密碼" v-model="r_password" />
+                    <Input label="密碼" placeholder="請輸入密碼" type="password" v-model="r_password" />
                     <Input label="電子郵件" placeholder="請輸入電子郵件" v-model="r_email" />
                     <Input label="邀請碼" placeholder="請輸入邀請碼" v-model="r_invite" />
 
