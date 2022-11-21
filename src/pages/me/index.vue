@@ -123,7 +123,7 @@ stu_id = uni.stu_id;
             <div v-else>
                 <Input label="帳號" :placeholder="e_accountname" disabled />
                 <Input label="使用者名稱" :placeholder="e_username" />
-                <Input label="密碼" type="password" :placeholder="e_password" />
+                <Input label="密碼" type="password" :placeholder="e_password" disabled />
                 <label class="text-lg text-blue-500">
                     簡介
                     <textarea
