@@ -12,8 +12,8 @@ async function verified() {
     try {
         await uni.req("auth/verify", {
             method: "GET",
-            body: { id }
-        })
+            body: { id },
+        });
         Swal.fire({
             icon: "success",
             title: "驗證成功",
@@ -29,8 +29,8 @@ async function verified() {
         }
     }
     verified();
-
-    router.push("/");
+}
+router.push("/");
 </script>
 
 <template>
