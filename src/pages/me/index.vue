@@ -104,11 +104,11 @@ stu_id = uni.stu_id;
     <div class="flex w-screen items-start justify-center p-4 text-lg lg:p-6">
         <div class="flex w-2/5 flex-col gap-y-4 text-blue-500">
             <div v-if="editUser.type == 'fix'">
-                <Input label="account" :placeholder="e_accountname" disabled />
-                <Input label="username" :placeholder="e_username" disabled />
-                <Input label="password" type="password" :placeholder="e_password" disabled />
+                <Input label="帳號" :placeholder="e_accountname" disabled />
+                <Input label="使用者名稱" :placeholder="e_username" disabled />
+                <Input label="密碼" type="password" :placeholder="e_password" disabled />
                 <label class="text-lg text-blue-500">
-                    description
+                    簡介
                     <textarea
                         :placeholder="e_description"
                         disabled
@@ -116,28 +116,28 @@ stu_id = uni.stu_id;
                         class="m-2 w-full border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"
                     ></textarea>
                 </label>
-                <Input label="email" :placeholder="e_email" disabled />
-                <Input label="std_id" :placeholder="e_stuid" disabled />
-                <Input label="verified" :placeholder="e_verified" disabled />
+                <Input label="電子郵件" :placeholder="e_email" disabled />
+                <Input label="學號" :placeholder="e_stuid" disabled />
+                <Input label="驗證狀態" :placeholder="e_verified" disabled />
             </div>
             <div v-else>
-                <Input label="account" :placeholder="e_accountname" disabled />
-                <Input label="username" :placeholder="e_username" />
-                <Input label="password" type="password" :placeholder="e_password" />
+                <Input label="帳號" :placeholder="e_accountname" disabled />
+                <Input label="使用者名稱" :placeholder="e_username" />
+                <Input label="密碼" type="password" :placeholder="e_password" />
                 <label class="text-lg text-blue-500">
-                    description
+                    簡介
                     <textarea
                         :placeholder="e_description"
                         rows="2"
                         class="m-2 w-full border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"
                     ></textarea>
                 </label>
-                <Input label="email" :placeholder="e_email" disabled />
-                <Input label="std_id" :placeholder="e_stuid" disabled />
-                <Input label="verified" :placeholder="e_verified" disabled />
+                <Input label="電子郵件" :placeholder="e_email" disabled />
+                <Input label="學號" :placeholder="e_stuid" disabled />
+                <Input label="驗證狀態" :placeholder="e_verified" disabled />
             </div>
             <div class="h-0 w-full">
-                <label class="text-lg text-blue-500"> invitation code <br /> </label>
+                <label class="text-lg text-blue-500"> 邀請碼 <br /> </label>
             </div>
             <div className=" my-2 mb-0 gap-2">
                 <div className="ml-2 mb-0 grid grid-cols-3 gap-2">
@@ -160,7 +160,7 @@ stu_id = uni.stu_id;
                                 value=""
                                 class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
                             />
-                            <label class="w-full text-center text-gray-300">unused</label>
+                            <label class="w-full text-center text-gray-300">未使用</label>
                         </div>
                     </div>
                     <div>
@@ -182,7 +182,7 @@ stu_id = uni.stu_id;
                                 value=""
                                 class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
                             />
-                            <label class="w-full text-center text-gray-300">unused</label>
+                            <label class="w-full text-center text-gray-300">未使用</label>
                         </div>
                     </div>
                     <div>
@@ -204,7 +204,7 @@ stu_id = uni.stu_id;
                                 value=""
                                 class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
                             />
-                            <label class="w-full text-center text-gray-300">unused</label>
+                            <label class="w-full text-center text-gray-300">未使用</label>
                         </div>
                     </div>
                 </div>
