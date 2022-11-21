@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import Swal from "sweetalert2";
+import { UniCourseApiError } from "unicourse";
 import uni from "../../uni";
 const route = useRoute();
 const router = useRouter();
@@ -32,9 +34,22 @@ async function login() {
 
     processing.value = true;
 
-    console.log(l_username.value, l_password.value);
-    await uni.login(l_username.value, l_password.value);
-
+    try {
+        const { username } = await uni.login(l_username.value, l_password.value);
+        Swal.fire({
+            icon: "success",
+            title: "登入成功",
+            text: `歡迎回來，${username}！`,
+        });
+    } catch (err) {
+        if (err instanceof Error) {
+            Swal.fire({
+                icon: "error",
+                title: "登入失敗",
+                text: err.message,
+            });
+        }
+    }
     processing.value = false;
 }
 
