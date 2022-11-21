@@ -13,7 +13,7 @@ async function submit() {
     }
 
     processing.value = true;
-
+    fin.value = false;
     // console.log(l_username.value, l_password.value);
 
     await new Promise((resolve) => {
@@ -37,7 +37,7 @@ async function submit() {
                 <span class="text-rainbow text-3xl sm:text-4xl lg:text-5xl">重設密碼</span>
             </transition>
             <transition name="fade" mode="out-in">
-                <Input label="密碼" placeholder="請輸入新密碼" v-model="n_password" />
+                <Input label="密碼" placeholder="請輸入新密碼" v-model="n_password" type="password" />
             </transition>
             <transition name="fade" mode="out-in">
                 <div class="mt-8 w-full text-center text-xl">
