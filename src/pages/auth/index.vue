@@ -41,6 +41,7 @@ async function login() {
             title: "登入成功",
             text: `歡迎回來，${username}！`,
         });
+        router.push("/me");
     } catch (err) {
         if (err instanceof Error) {
             Swal.fire({
