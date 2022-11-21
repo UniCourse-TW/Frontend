@@ -48,13 +48,18 @@ const e_invitation = ref(""); // Can't edit
 const bottonwords = {
     fix: {
         botton: "修改",
-        content: "分享你的經驗",
     },
     edit: {
         botton: "儲存",
-        content: "提出你的問題",
     },
 };
+
+const type = ref(route.query.type === "fix" ? "fix" : "edit");
+
+function switch_type() {
+    type.value = type.value === "fix" ? "fix" : "edit";
+    router.push({ query: { type: type.value } });
+}
 
 /*open after test
 
@@ -241,6 +246,7 @@ stu_id = uni.stu_id;
     <div class="buttonBlock mb-32 flex gap-x-6">
         <button
             class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
+            @click="switch_type"
         >
             {{ bottonwords[editUser.type].botton }}
         </button>
