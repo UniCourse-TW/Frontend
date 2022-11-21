@@ -9,7 +9,7 @@ const nav = reactive<[string, string, () => boolean][]>([
     ["登入", "/auth", () => !props.logged_in],
     ["論壇", "/forum", () => true],
     ["課程", "/course", () => true],
-    ["部落格", "/blog", () => props.path === "/" || props.path.startsWith("/blog")],
+    // ["部落格", "/blog", () => props.path === "/" || props.path.startsWith("/blog")],
 ]);
 
 const computed_nav = computed(() => {
