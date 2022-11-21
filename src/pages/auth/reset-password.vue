@@ -20,11 +20,18 @@ async function submit() {
 
     const id = route.query.id as string;
 
+    // return to Backend
     try {
+        await uni.req("auth/verify", {
+            method: "GET",
+            body: { id }
+        })
         await uni.req("auth/reset", {
             method: "POST",
-            body: { id },
-        });
+            body: {
+                "password" = n_password
+            }
+        })
         Swal.fire({
             icon: "success",
             title: "重設密碼成功",

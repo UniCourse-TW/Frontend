@@ -1,27 +1,36 @@
 <script lang="ts" setup>
-import { unionTypeAnnotation } from "@babel/types";
+import uni from "../../uni";
 import Swal from "sweetalert2";
 
 useHead({ title: "驗證 | UniCourse" });
 
 const route = useRoute();
 const router = useRouter();
-const processing = ref(false);
 
 async function verified() {
-    if (processing.value) {
-        return;
+    const id = route.query.id as string;
+    try {
+        await uni.req("auth/verify", {
+            method: "GET",
+            body: { id }
+        })
+        Swal.fire({
+            icon: "success",
+            title: "驗證成功",
+            text: `信箱驗證成功！`,
+        });
+    } catch (err) {
+        if (err instanceof Error) {
+            Swal.fire({
+                icon: "error",
+                title: "驗證失敗",
+                text: err.message,
+            });
+        }
     }
-    processing.value = true;
-    Swal.fire({
-        icon: "success",
-        title: "驗證成功",
-        text: `註冊信箱驗證成功！`,
-    });
-}
-verified();
+    verified();
 
-router.push("/");
+    router.push("/");
 </script>
 
 <template>

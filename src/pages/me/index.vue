@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { unionTypeAnnotation } from "@babel/types";
+import uni from "../../uni";
 import type { User } from "../../types";
 
 useHead({ title: "個人 | UniCourse" });
@@ -41,7 +41,8 @@ const e_username = ref("");
 const e_password = ref("");
 const e_description = ref("");
 const e_email = ref(""); // Can't edit
-const e_stuid = ref(""); // Can't edit
+const e_school = ref("");
+const e_address = ref("");
 const e_verified = ref(""); // Can't edit
 const e_invitation = ref(""); // Can't edit
 
@@ -61,26 +62,22 @@ function switch_type() {
     router.push({ query: { type: type.value } });
 }
 
-/*open after test
+// return to Backend
 
-const uni = new UniCourse();
-const user = await uni.profile("");
-// var: name, accountName, Username, password, email, stu_id
-
-var name = document.getElementById('name')?.textContent;
-name = uni.name;
-var accountName = document.getElementById('accountName')?.textContent;
-accountName = uni.accountName;
-var Username = document.getElementById('Username')?.textContent;
-Username = uni.username;
-var email = document.getElementById('email')?.textContent;
-email = uni.email;
-var stu_id = document.getElementById('stu_id')?.textContent;
-stu_id = uni.stu_id;
-*/
-
-// router.push({ path: "me/username=", username });
-// 1. how to write url?
+async function test() {
+    await uni.req(`profile/${e_accountname.value}`, {
+        method: "PUT",
+        body: {
+            "name" = e_username,
+            "bio" = e_description,
+            "school" = e_school,
+            "location" = e_address,
+        }
+    })
+    // see what data in it
+    // const data = await uni.req(`profile/${e_accountname.value}`);
+    // data.
+}
 </script>
 
 <template>
@@ -117,7 +114,8 @@ stu_id = uni.stu_id;
                     ></textarea>
                 </label>
                 <Input label="電子郵件" :placeholder="e_email" disabled />
-                <Input label="學號" :placeholder="e_stuid" disabled />
+                <Input label="學校" :placeholder="e_school" disabled />
+                <Input label="地址" :placeholder="e_address" disabled />
                 <Input label="驗證狀態" :placeholder="e_verified" disabled />
             </div>
             <div v-else>
@@ -133,7 +131,8 @@ stu_id = uni.stu_id;
                     ></textarea>
                 </label>
                 <Input label="電子郵件" :placeholder="e_email" disabled />
-                <Input label="學號" :placeholder="e_stuid" disabled />
+                <Input label="學校" :placeholder="e_school" />
+                <Input label="地址" :placeholder="e_address" />
                 <Input label="驗證狀態" :placeholder="e_verified" disabled />
             </div>
             <div class="h-0 w-full">
