@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import uni from "../../uni";
+import Swal from "sweetalert2";
 const route = useRoute();
 const id = route.params.id;
 
@@ -15,6 +17,28 @@ async function submit() {
     processing.value = true;
     fin.value = false;
     // console.log(l_username.value, l_password.value);
+
+    const id = route.query.id as string;
+
+    try {
+        await uni.req("auth/reset", {
+            method: "POST",
+            body: { id },
+        });
+        Swal.fire({
+            icon: "success",
+            title: "重設密碼成功",
+            text: ``,
+        });
+    } catch (err) {
+        if (err instanceof Error) {
+            Swal.fire({
+                icon: "error",
+                title: "重設密碼失敗QQ",
+                text: err.message,
+            });
+        }
+    }
 
     await new Promise((resolve) => {
         setTimeout(() => {
