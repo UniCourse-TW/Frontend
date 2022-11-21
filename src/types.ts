@@ -72,18 +72,9 @@ export type CourseListFilter =
     | "prerequisite";
 // #endregion
 
-export type CourseTypeListFilter =
-    | "default"
-    | "required"
-    | "elective"
-    | "general"
-    | "others";
+export type CourseTypeListFilter = "default" | "required" | "elective" | "general" | "others";
 
-export type ArticleTypeListFilter =
-    | "default"
-    | "announcement"
-    | "review"
-    | "question";
+export type ArticleTypeListFilter = "default" | "announcement" | "review" | "question";
 
 export interface CourseListQuery {
     q: string;
@@ -349,20 +340,20 @@ export interface PostMeta {
     vote: PostVote;
     tags: string[];
     course:
-    | null
-    | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
-        teacher: string;
-    });
+        | null
+        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+              teacher: string;
+          });
 }
 
 export interface PostInfo extends PostMeta {
     content: string;
     course:
-    | null
-    | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
-        teacher: string;
-        rating: PostRating;
-    });
+        | null
+        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
+              teacher: string;
+              rating: PostRating;
+          });
 }
 
 export interface PostListQuery {
@@ -377,6 +368,26 @@ export interface User {
     username: string;
     display: string;
     email: string;
+    invitation: {
+        code1: {
+            distributed: boolean;
+            code: string;
+            used: boolean;
+            user_name: string;
+        };
+        code2: {
+            distributed: boolean;
+            code: string;
+            used: boolean;
+            user_name: string;
+        };
+        code3: {
+            distributed: boolean;
+            code: string;
+            used: boolean;
+            user_name: string;
+        };
+    };
 }
 
 export interface Post {

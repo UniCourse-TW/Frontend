@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { unionTypeAnnotation } from '@babel/types';
+import uni from "../../uni";
 import type { User } from "../../types";
 
 useHead({ title: "個人 | UniCourse" });
@@ -14,6 +14,26 @@ const editUser = reactive<User>({
     username: "",
     display: "",
     email: "",
+    invitation: {
+        code1: {
+            distributed: true,
+            code: "asdfgh",
+            used: true,
+            user_name: "user1",
+        },
+        code2: {
+            distributed: true,
+            code: "zxcvbn",
+            used: false,
+            user_name: "",
+        },
+        code3: {
+            distributed: false,
+            code: "",
+            used: false,
+            user_name: "",
+        },
+    },
 });
 
 const e_accountname = ref(""); // Can't edit
@@ -21,51 +41,50 @@ const e_username = ref("");
 const e_password = ref("");
 const e_description = ref("");
 const e_email = ref(""); // Can't edit
-const e_stuid = ref(""); // Can't edit
+const e_school = ref("");
+const e_address = ref("");
 const e_verified = ref(""); // Can't edit
+const e_invitation = ref(""); // Can't edit
 
 const bottonwords = {
     fix: {
         botton: "修改",
-        content: "分享你的經驗",
     },
     edit: {
         botton: "儲存",
-        content: "提出你的問題",
     },
 };
 
+const type = ref(route.query.type === "fix" ? "fix" : "edit");
 
-/*open after test
+function switch_type() {
+    type.value = type.value === "fix" ? "fix" : "edit";
+    router.push({ query: { type: type.value } });
+}
 
-const uni = new UniCourse();
-const user = await uni.profile("");
-// var: name, accountName, Username, password, email, stu_id
+// return to Backend
 
-var name = document.getElementById('name')?.textContent;
-name = uni.name;
-var accountName = document.getElementById('accountName')?.textContent;
-accountName = uni.accountName;
-var Username = document.getElementById('Username')?.textContent;
-Username = uni.username;
-var email = document.getElementById('email')?.textContent;
-email = uni.email;
-var stu_id = document.getElementById('stu_id')?.textContent;
-stu_id = uni.stu_id;
-*/
-
-
-
-// router.push({ path: "me/username=", username });
-// 1. how to write url?
+// async function test() {
+//     await uni.req(`profile/${e_accountname.value}`, {
+//         method: "PUT",
+//         body: {
+//             "name" = e_username,
+//             "bio" = e_description,
+//             "school" = e_school,
+//             "location" = e_address,
+//         }
+//     })
+//     // see what data in it
+//     // const data = await uni.req(`profile/${e_accountname.value}`);
+//     // data.
+// }
 </script>
 
 <template>
     <div class="empty setMiddle">
         <div class="gradientBlock"></div>
         <div class="circle">
-            <img alt="頭像" src="https://unicourse-tw.github.io/Public-Assets/icon/UniCourse_icon_fade.256x256.png"
-                class="avatar" />
+            <img alt="頭像" src="https://unicourse-tw.github.io/Public-Assets/icon/UniCourse_icon_fade.256x256.png" class="avatar" />
             <!-- <div class="aui-info">
                 <img src="../../assets/profile/default.svg" id="img-txz" style="width: 3rem"
                     class="aui-img-round user-img" />
@@ -76,47 +95,162 @@ stu_id = uni.stu_id;
     </div>
     <div class="setMiddle setUsername">
         <b>
-            <span id='name'>{{ username }}</span>
+            <span id="name">{{ username }}</span>
         </b>
     </div>
     <div class="flex w-screen items-start justify-center p-4 text-lg lg:p-6">
         <div class="flex w-2/5 flex-col gap-y-4 text-blue-500">
             <div v-if="editUser.type == 'fix'">
-                <Input label="account" :placeholder="e_accountname" disabled />
-                <Input label="username" :placeholder="e_username" disabled />
-                <Input label="password" type="password" :placeholder="e_password" disabled />
+                <Input label="帳號" :placeholder="e_accountname" disabled />
+                <Input label="使用者名稱" :placeholder="e_username" disabled />
+                <Input label="密碼" type="password" :placeholder="e_password" disabled />
                 <label class="text-lg text-blue-500">
-                    description
-                    <textarea :placeholder="e_description" disabled rows="2"
-                        class="w-full  border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"></textarea>
+                    簡介
+                    <textarea
+                        :placeholder="e_description"
+                        disabled
+                        rows="2"
+                        class="m-2 w-full border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"
+                    ></textarea>
                 </label>
-                <Input label="email" :placeholder="e_email" disabled />
-                <Input label="std_id" :placeholder="e_stuid" disabled />
-                <Input label="verified" :placeholder="e_verified" disabled />
+                <Input label="電子郵件" :placeholder="e_email" disabled />
+                <Input label="學校" :placeholder="e_school" disabled />
+                <Input label="地址" :placeholder="e_address" disabled />
+                <Input label="驗證狀態" :placeholder="e_verified" disabled />
             </div>
             <div v-else>
-                <Input label="account" :placeholder="e_accountname" disabled />
-                <Input label="username" :placeholder="e_username" />
-                <Input label="password" type="password" :placeholder="e_password" />
+                <Input label="帳號" :placeholder="e_accountname" disabled />
+                <Input label="使用者名稱" :placeholder="e_username" />
+                <Input label="密碼" type="password" :placeholder="e_password" disabled />
                 <label class="text-lg text-blue-500">
-                    discription
-                    <textarea :placeholder="e_description" rows="2"
-                        class="w-full  border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"></textarea>
+                    簡介
+                    <textarea
+                        :placeholder="e_description"
+                        rows="2"
+                        class="m-2 w-full border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"
+                    ></textarea>
                 </label>
-                <Input label="email" :placeholder="e_email" disabled />
-                <Input label="std_id" :placeholder="e_stuid" disabled />
-                <Input label="verified" :placeholder="e_verified" disabled />
+                <Input label="電子郵件" :placeholder="e_email" disabled />
+                <Input label="學校" :placeholder="e_school" />
+                <Input label="地址" :placeholder="e_address" />
+                <Input label="驗證狀態" :placeholder="e_verified" disabled />
+            </div>
+            <div class="h-0 w-full">
+                <label class="text-lg text-blue-500"> 邀請碼 <br /> </label>
+            </div>
+            <div className=" my-2 mb-0 gap-2">
+                <div className="ml-2 mb-0 grid grid-cols-3 gap-2">
+                    <div>
+                        <div v-if="editUser.invitation.code1.used">
+                            <input
+                                disabled
+                                checked
+                                type="checkbox"
+                                id="disabled-checked-checkbox"
+                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
+                            />
+                            <label class="w-full text-center text-gray-300">{{ editUser.invitation.code1.user_name }}</label>
+                        </div>
+                        <div v-else-if="!editUser.invitation.code1.used">
+                            <input
+                                disabled
+                                id="disabled-checkbox"
+                                type="checkbox"
+                                value=""
+                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
+                            />
+                            <label class="w-full text-center text-gray-300">未使用</label>
+                        </div>
+                    </div>
+                    <div>
+                        <div v-if="editUser.invitation.code2.used">
+                            <input
+                                disabled
+                                checked
+                                type="checkbox"
+                                id="disabled-checked-checkbox"
+                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
+                            />
+                            <label class="w-full text-center text-gray-300">{{ editUser.invitation.code2.user_name }}</label>
+                        </div>
+                        <div v-else-if="!editUser.invitation.code2.used">
+                            <input
+                                disabled
+                                id="disabled-checkbox"
+                                type="checkbox"
+                                value=""
+                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
+                            />
+                            <label class="w-full text-center text-gray-300">未使用</label>
+                        </div>
+                    </div>
+                    <div>
+                        <div v-if="editUser.invitation.code3.used">
+                            <input
+                                disabled
+                                checked
+                                type="checkbox"
+                                id="disabled-checked-checkbox"
+                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
+                            />
+                            <label class="w-full text-center text-gray-300">{{ editUser.invitation.code3.user_name }}</label>
+                        </div>
+                        <div v-else-if="!editUser.invitation.code3.used">
+                            <input
+                                disabled
+                                id="disabled-checkbox"
+                                type="checkbox"
+                                value=""
+                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
+                            />
+                            <label class="w-full text-center text-gray-300">未使用</label>
+                        </div>
+                    </div>
+                </div>
+                <div className="mb-2 grid grid-cols-3 gap-2">
+                    <div
+                        v-if="editUser.invitation.code1.distributed"
+                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
+                    >
+                        {{ editUser.invitation.code1.code }}
+                    </div>
+                    <div
+                        v-else-if="!editUser.invitation.code1.distributed"
+                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
+                    ></div>
+                    <div
+                        v-if="editUser.invitation.code2.distributed"
+                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
+                    >
+                        {{ editUser.invitation.code2.code }}
+                    </div>
+                    <div
+                        v-else-if="!editUser.invitation.code2.distributed"
+                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
+                    ></div>
+                    <div
+                        v-if="editUser.invitation.code3.distributed"
+                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
+                    >
+                        {{ editUser.invitation.code3.code }}
+                    </div>
+                    <div
+                        v-else-if="!editUser.invitation.code3.distributed"
+                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
+                    ></div>
+                </div>
             </div>
         </div>
     </div>
     <div class="buttonBlock mb-32 flex gap-x-6">
         <button
-            class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4">
+            class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
+            @click="switch_type"
+        >
             {{ bottonwords[editUser.type].botton }}
         </button>
     </div>
 </template>
-
 
 <style scoped>
 .setMiddle {
@@ -132,7 +266,7 @@ stu_id = uni.stu_id;
 
 .gradientBlock {
     width: 100%;
-    background-image: linear-gradient(to top, #FFECF5, #CCCCFF, #ACD6FF);
+    background-image: linear-gradient(to top, #ffecf5, #ccccff, #acd6ff);
     box-shadow: 0 0 50px gray;
     height: 350px;
 }

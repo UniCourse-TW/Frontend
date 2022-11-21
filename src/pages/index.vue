@@ -13,7 +13,7 @@ useHead({ title: "UniCourse" });
                     class="h-full w-full rounded-lg bg-white bg-opacity-40 p-3 text-center text-lg text-purple-700 shadow-lg transition-all hover:shadow-xl"
                 >
                     目前有
-                    <span class="sm:text-3xl"> {{ 100 }} </span>
+                    <span class="sm:text-3xl"> {{ 276 }} </span>
                     位
                     <br />
                     使用者
@@ -26,7 +26,7 @@ useHead({ title: "UniCourse" });
                     class="h-full w-full rounded-lg bg-white bg-opacity-40 p-3 text-center text-lg text-purple-700 shadow-lg transition-all hover:shadow-xl"
                 >
                     累計了
-                    <span class="sm:text-3xl"> {{ 100 }} </span>
+                    <span class="sm:text-3xl"> {{ 456 }} </span>
                     篇
                     <br />
                     文章
