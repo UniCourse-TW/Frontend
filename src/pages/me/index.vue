@@ -64,20 +64,20 @@ function switch_type() {
 
 // return to Backend
 
-async function test() {
-    await uni.req(`profile/${e_accountname.value}`, {
-        method: "PUT",
-        body: {
-            "name" = e_username,
-            "bio" = e_description,
-            "school" = e_school,
-            "location" = e_address,
-        }
-    })
-    // see what data in it
-    // const data = await uni.req(`profile/${e_accountname.value}`);
-    // data.
-}
+// async function test() {
+//     await uni.req(`profile/${e_accountname.value}`, {
+//         method: "PUT",
+//         body: {
+//             "name" = e_username,
+//             "bio" = e_description,
+//             "school" = e_school,
+//             "location" = e_address,
+//         }
+//     })
+//     // see what data in it
+//     // const data = await uni.req(`profile/${e_accountname.value}`);
+//     // data.
+// }
 </script>
 
 <template>

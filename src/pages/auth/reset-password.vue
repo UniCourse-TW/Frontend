@@ -22,16 +22,12 @@ async function submit() {
 
     // return to Backend
     try {
-        await uni.req("auth/verify", {
-            method: "GET",
-            body: { id }
-        })
-        await uni.req("auth/reset", {
-            method: "POST",
-            body: {
-                "password" = n_password
-            }
-        })
+        // await uni.req("auth/reset", {
+        //     method: "POST",
+        //     body: {
+        //         "password" = n_password
+        //     }
+        // })
         Swal.fire({
             icon: "success",
             title: "重設密碼成功",
