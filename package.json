@@ -15,7 +15,7 @@
         "marked": "^4.2.2",
         "pinia": "^2.0.23",
         "sweetalert2": "^11.6.10",
-        "unicourse": "1.0.0-alpha.9",
+        "unicourse": "1.0.0-alpha.10",
         "vue": "^3.2.45",
         "vue-router": "^4.1.6"
     },

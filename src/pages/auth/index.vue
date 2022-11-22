@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import Swal from "sweetalert2";
-import { UniCourseApiError } from "unicourse";
 import uni from "../../uni";
 const route = useRoute();
 const router = useRouter();
@@ -61,14 +60,25 @@ async function register() {
 
     processing.value = true;
 
-    console.log(r_username.value, r_password.value, r_email.value);
-
-    await new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(true);
-        }, 1000);
-    });
-
+    try {
+        const { username, email } = await uni.register(r_username.value, r_password.value, r_email.value, {
+            invitation: r_invite.value,
+        });
+        Swal.fire({
+            icon: "success",
+            title: "註冊成功",
+            text: `歡迎加入 UniCourse，${username}！ 我們稍後會將驗證信寄到 ${email}，記得去收信喔！`,
+        });
+        router.push("/me");
+    } catch (err) {
+        if (err instanceof Error) {
+            Swal.fire({
+                icon: "error",
+                title: "註冊失敗",
+                text: err.message,
+            });
+        }
+    }
     processing.value = false;
 }
 </script>
