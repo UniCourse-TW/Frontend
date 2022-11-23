@@ -1,254 +1,191 @@
 <script lang="ts" setup>
-import uni from "../../uni";
-import type { User } from "../../types";
+import Swal from "sweetalert2";
+import { EndpointResponseBody } from "unicourse";
+import { reactive } from "vue";
+import uni, { user } from "../../uni";
 
 useHead({ title: "個人 | UniCourse" });
 
 const route = useRoute();
 const router = useRouter();
-const username = ref();
 
-const editUser = reactive<User>({
-    type: route.query.type === "fix" ? "fix" : "edit",
-    jwt: "",
+const me = reactive<EndpointResponseBody<"me">>({
     username: "",
-    display: "",
-    email: "",
-    invitation: {
-        code1: {
-            distributed: true,
-            code: "asdfgh",
-            used: true,
-            user_name: "user1",
-        },
-        code2: {
-            distributed: true,
-            code: "zxcvbn",
-            used: false,
-            user_name: "",
-        },
-        code3: {
-            distributed: false,
-            code: "",
-            used: false,
-            user_name: "",
-        },
+    profile: {
+        avatar: "https://unicourse-tw.github.io/Public-Assets/icon/UniCourse_icon_fade.256x256.png",
+        banner: "",
+        bio: "",
+        email: "",
+        location: "",
+        name: "",
+        school: "",
+        extra: {},
     },
+    email: {
+        email: "",
+        verified: false,
+    },
+    groups: [],
+    invitations: [],
+    perms: [],
 });
 
-const e_accountname = ref(""); // Can't edit
-const e_username = ref("");
-const e_password = ref("");
-const e_description = ref("");
-const e_email = ref(""); // Can't edit
-const e_school = ref("");
-const e_address = ref("");
-const e_verified = ref(""); // Can't edit
-const e_invitation = ref(""); // Can't edit
+const editing = ref(true);
 
-const bottonwords = {
-    fix: {
-        botton: "修改",
-    },
-    edit: {
-        botton: "儲存",
-    },
-};
+init();
 
-const type = ref(route.query.type === "fix" ? "fix" : "edit");
+async function init() {
+    if (!uni.is_valid()) {
+        Swal.fire({
+            icon: "error",
+            title: "未登入",
+            text: "請先登入",
+        });
+        router.push("/auth");
+    }
 
-function switch_type() {
-    type.value = type.value === "fix" ? "fix" : "edit";
-    router.push({ query: { type: type.value } });
+    try {
+        Object.assign(me, await uni.req("me"));
+    } catch (err) {
+        if (err instanceof Error) {
+            Swal.fire({
+                icon: "error",
+                title: "取得個人資料失敗",
+                text: err.message,
+            });
+        }
+    }
 }
 
-// return to Backend
+async function save() {
+    try {
+        me.profile = await uni.req(`profile/${me.username}`, {
+            method: "PATCH",
+            body: {
+                name: me.profile.name,
+                bio: me.profile.bio,
+                avatar: me.profile.avatar || undefined,
+                banner: me.profile.banner || undefined,
+                email: me.profile.email || undefined,
+                location: me.profile.location,
+                school: me.profile.school,
+            },
+        });
+        Swal.fire({
+            icon: "success",
+            title: "儲存成功",
+            text: "個人資料已儲存",
+        });
+    } catch (err) {
+        if (err instanceof Error) {
+            Swal.fire({
+                icon: "error",
+                title: "儲存失敗",
+                text: err.message,
+            });
+        }
+    }
+}
 
-// async function test() {
-//     await uni.req(`profile/${e_accountname.value}`, {
-//         method: "PUT",
-//         body: {
-//             "name" = e_username,
-//             "bio" = e_description,
-//             "school" = e_school,
-//             "location" = e_address,
-//         }
-//     })
-//     // see what data in it
-//     // const data = await uni.req(`profile/${e_accountname.value}`);
-//     // data.
-// }
+async function copy(data: string) {
+    try {
+        await navigator.clipboard.writeText(data);
+        Swal.fire({
+            icon: "success",
+            title: "複製成功",
+            text: "已複製到剪貼簿",
+        });
+    } catch (err) {
+        if (err instanceof Error) {
+            Swal.fire({
+                icon: "error",
+                title: "複製失敗",
+                text: err.message,
+            });
+        }
+    }
+}
 </script>
 
 <template>
-    <div class="empty setMiddle">
-        <div class="gradientBlock"></div>
-        <div class="circle">
-            <img alt="頭像" src="https://unicourse-tw.github.io/Public-Assets/icon/UniCourse_icon_fade.256x256.png" class="avatar" />
-            <!-- <div class="aui-info">
-                <img src="../../assets/profile/default.svg" id="img-txz" style="width: 3rem"
-                    class="aui-img-round user-img" />
-                <input type="file" accept="image/*" id="file-txz" name="file"
-                    onchange="upload('#file-txz', '#img-txz');" class="fileInput" value="" />
-            </div> -->
+    <div>
+        <div class="empty setMiddle">
+            <div class="gradientBlock">
+                <div
+                    :style="{
+                        backgroundImage: `url(${me.profile.banner})`,
+                    }"
+                ></div>
+            </div>
+            <div class="circle">
+                <img alt="頭像" :src="me.profile.avatar" class="avatar" />
+            </div>
         </div>
-    </div>
-    <div class="setMiddle setUsername">
-        <b>
-            <span id="name">{{ username }}</span>
-        </b>
-    </div>
-    <div class="flex w-screen items-start justify-center p-4 text-lg lg:p-6">
-        <div class="flex w-2/5 flex-col gap-y-4 text-blue-500">
-            <div v-if="editUser.type == 'fix'">
-                <Input label="帳號" :placeholder="e_accountname" disabled />
-                <Input label="使用者名稱" :placeholder="e_username" disabled />
-                <Input label="密碼" type="password" :placeholder="e_password" disabled />
+        <div class="setMiddle setUsername">
+            <b>
+                <span id="name">{{ me.profile.name }}</span>
+            </b>
+        </div>
+        <div class="flex w-screen items-start justify-center p-4 text-lg lg:p-6">
+            <div class="flex w-full flex-col gap-y-4 text-blue-500 md:w-2/5">
+                <Input label="帳號名稱" v-model="me.username" disabled />
+                <Input :label="`電子郵件 (${me.email.verified ? '已' : '未'}驗證)`" v-model="me.email.email" disabled />
+                <Input label="顯示名稱" v-model="me.profile.name" :disabled="!editing" />
                 <label class="text-lg text-blue-500">
                     簡介
                     <textarea
-                        :placeholder="e_description"
-                        disabled
+                        v-model="me.profile.bio"
+                        :disabled="!editing"
                         rows="2"
                         class="m-2 w-full border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"
                     ></textarea>
                 </label>
-                <Input label="電子郵件" :placeholder="e_email" disabled />
-                <Input label="學校" :placeholder="e_school" disabled />
-                <Input label="地址" :placeholder="e_address" disabled />
-                <Input label="驗證狀態" :placeholder="e_verified" disabled />
-            </div>
-            <div v-else>
-                <Input label="帳號" :placeholder="e_accountname" disabled />
-                <Input label="使用者名稱" :placeholder="e_username" />
-                <Input label="密碼" type="password" :placeholder="e_password" disabled />
-                <label class="text-lg text-blue-500">
-                    簡介
-                    <textarea
-                        :placeholder="e_description"
-                        rows="2"
-                        class="m-2 w-full border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"
-                    ></textarea>
-                </label>
-                <Input label="電子郵件" :placeholder="e_email" disabled />
-                <Input label="學校" :placeholder="e_school" />
-                <Input label="地址" :placeholder="e_address" />
-                <Input label="驗證狀態" :placeholder="e_verified" disabled />
-            </div>
-            <div class="h-0 w-full">
-                <label class="text-lg text-blue-500"> 邀請碼 <br /> </label>
-            </div>
-            <div className=" my-2 mb-0 gap-2">
-                <div className="ml-2 mb-0 grid grid-cols-3 gap-2">
-                    <div>
-                        <div v-if="editUser.invitation.code1.used">
-                            <input
-                                disabled
-                                checked
-                                type="checkbox"
-                                id="disabled-checked-checkbox"
-                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
-                            />
-                            <label class="w-full text-center text-gray-300">{{ editUser.invitation.code1.user_name }}</label>
-                        </div>
-                        <div v-else-if="!editUser.invitation.code1.used">
-                            <input
-                                disabled
-                                id="disabled-checkbox"
-                                type="checkbox"
-                                value=""
-                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
-                            />
-                            <label class="w-full text-center text-gray-300">未使用</label>
-                        </div>
-                    </div>
-                    <div>
-                        <div v-if="editUser.invitation.code2.used">
-                            <input
-                                disabled
-                                checked
-                                type="checkbox"
-                                id="disabled-checked-checkbox"
-                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
-                            />
-                            <label class="w-full text-center text-gray-300">{{ editUser.invitation.code2.user_name }}</label>
-                        </div>
-                        <div v-else-if="!editUser.invitation.code2.used">
-                            <input
-                                disabled
-                                id="disabled-checkbox"
-                                type="checkbox"
-                                value=""
-                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
-                            />
-                            <label class="w-full text-center text-gray-300">未使用</label>
-                        </div>
-                    </div>
-                    <div>
-                        <div v-if="editUser.invitation.code3.used">
-                            <input
-                                disabled
-                                checked
-                                type="checkbox"
-                                id="disabled-checked-checkbox"
-                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
-                            />
-                            <label class="w-full text-center text-gray-300">{{ editUser.invitation.code3.user_name }}</label>
-                        </div>
-                        <div v-else-if="!editUser.invitation.code3.used">
-                            <input
-                                disabled
-                                id="disabled-checkbox"
-                                type="checkbox"
-                                value=""
-                                class="m-2 ml-0 mt-3 mr-0 mb-0 h-4 w-1/4 opacity-100"
-                            />
-                            <label class="w-full text-center text-gray-300">未使用</label>
-                        </div>
-                    </div>
+                <Input label="學校" v-model="me.profile.school" :disabled="!editing" />
+                <Input label="城市" v-model="me.profile.location" :disabled="!editing" />
+                <Input label="頭像網址" v-model="me.profile.avatar" :disabled="!editing" />
+                <Input label="封面網址" v-model="me.profile.banner" :disabled="!editing" />
+
+                <div class="buttonBlock flex gap-x-6">
+                    <button
+                        class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
+                        @click="save"
+                    >
+                        儲存
+                    </button>
                 </div>
-                <div className="mb-2 grid grid-cols-3 gap-2">
-                    <div
-                        v-if="editUser.invitation.code1.distributed"
-                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
-                    >
-                        {{ editUser.invitation.code1.code }}
+
+                <div class="border-1 mb-4 flex flex-col gap-y-2">
+                    <div v-for="invitation in me.invitations" :key="invitation.id" class="flex gap-x-2">
+                        <div
+                            :class="[
+                                'flex w-full flex-col gap-y-2 rounded-md border p-4',
+                                invitation.used ? 'border-gray-400 text-gray-400' : 'cursor-pointer border-purple-400 text-purple-500',
+                            ]"
+                            @click="
+                                () => {
+                                    if (!invitation.used) {
+                                        copy(invitation.id);
+                                    }
+                                }
+                            "
+                        >
+                            <div>
+                                邀請碼 <b>{{ invitation.id }}</b>
+                            </div>
+                            <div v-if="invitation.used && invitation.to">
+                                <router-link :to="`/profile/${invitation.to}`">
+                                    已被 {{ user(invitation.to).name }} 使用於
+                                    {{ new Date(invitation.used).toLocaleString() }}
+                                </router-link>
+                            </div>
+                            <div v-else>
+                                <a> 尚未使用 </a>
+                            </div>
+                        </div>
                     </div>
-                    <div
-                        v-else-if="!editUser.invitation.code1.distributed"
-                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
-                    ></div>
-                    <div
-                        v-if="editUser.invitation.code2.distributed"
-                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
-                    >
-                        {{ editUser.invitation.code2.code }}
-                    </div>
-                    <div
-                        v-else-if="!editUser.invitation.code2.distributed"
-                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
-                    ></div>
-                    <div
-                        v-if="editUser.invitation.code3.distributed"
-                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
-                    >
-                        {{ editUser.invitation.code3.code }}
-                    </div>
-                    <div
-                        v-else-if="!editUser.invitation.code3.distributed"
-                        class="m-2 h-10 w-full border-b-[3px] border-blue-300 bg-gray-50 p-2 text-center text-gray-400 outline-none transition-all duration-200 focus:border-indigo-500"
-                    ></div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="buttonBlock mb-32 flex gap-x-6">
-        <button
-            class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
-            @click="switch_type"
-        >
-            {{ bottonwords[editUser.type].botton }}
-        </button>
     </div>
 </template>
 
@@ -266,9 +203,21 @@ function switch_type() {
 
 .gradientBlock {
     width: 100%;
-    background-image: linear-gradient(to top, #ffecf5, #ccccff, #acd6ff);
-    box-shadow: 0 0 50px gray;
+    box-shadow: 0 0 50px lightgray;
     height: 350px;
+}
+
+.gradientBlock > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to top, #ffecf5, #ccccff, #acd6ff);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.7;
 }
 
 .circle {
@@ -292,71 +241,8 @@ function switch_type() {
     font-size: 40px;
 }
 
-.infoBlock {
-    /* position: relative; */
-    /* 水平置中 */
-    margin-top: 40px;
-    margin-bottom: 40px;
-    margin-left: 10%;
-}
-
 .buttonBlock {
     margin-left: 47%;
     margin-bottom: 40px;
-}
-
-/* .infoBlock:hover {
-    height: 1000px;
-    margin: 40px 200px 40px 200px;
-    background-color: rgb(197, 229, 240);
-    position: relative;
-    水平置中 
-    justify-content: center;
-} */
-.titleSet {
-    position: relative;
-    left: 50px;
-    border-top-width: 15px;
-    border-color: white;
-}
-
-.titleText {
-    font-size: 18px;
-    color: #857f7f;
-}
-
-.infoText {
-    font-size: 24px;
-    color: black;
-}
-
-hr {
-    width: 400px;
-}
-
-/* #ACC0D8 */
-
-/* .aui-info {
-    position: relative;
-} */
-
-/* .fileInput {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0;
-    display: block;
-    width: 3.5rem;
-    clear: both;
-    display: block;
-    margin: auto;
-    background-color: red;
-} */
-
-#defaultImg {
-    opacity: 0.3;
-    /* filter: alpha(opacity=50); */
 }
 </style>
