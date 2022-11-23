@@ -1,4 +1,6 @@
+import type { UserProfile } from "@unicourse-tw/prisma";
 import { UniCourse } from "unicourse";
+import { reactive } from "vue";
 
 const cached = localStorage.getItem("unicourse") || undefined;
 export const uni = new UniCourse(cached, {
@@ -16,3 +18,31 @@ export const uni = new UniCourse(cached, {
 })(uni.login.bind(uni));
 
 export default uni;
+
+const user_cache = new Map<unknown, UserProfile>();
+export function user(id: unknown): UserProfile {
+    if (!user_cache.has(id)) {
+        const u = reactive<UserProfile>({
+            id: "...",
+            user_id: "...",
+            name: "...",
+            bio: "...",
+            school: "...",
+            email: "",
+            location: "",
+            banner: "",
+            avatar: "https://unicourse-tw.github.io/Public-Assets/icon/UniCourse_icon_fade.256x256.png",
+            extra: {},
+        });
+        if (typeof id === "string") {
+            uni.profile(id).then((p) => {
+                console.log(`[Uni] Fetched profile of ${id}`, p);
+                Object.assign(u, p);
+                user_cache.set(u.id, u);
+                user_cache.set(u.user_id, u);
+            });
+        }
+        user_cache.set(id, u);
+    }
+    return user_cache.get(id) as UserProfile;
+}
