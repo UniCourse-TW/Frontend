@@ -4,6 +4,10 @@ import uni from "../../uni";
 const route = useRoute();
 const router = useRouter();
 
+if (uni.is_valid()) {
+    router.push("/me");
+}
+
 const conv: { [key: string]: string } = {
     register: "註冊",
     login: "登入",
@@ -11,13 +15,12 @@ const conv: { [key: string]: string } = {
 const processing = ref(false);
 const type = ref(route.query.type === "register" ? "register" : "login");
 
-const l_username = ref("");
-const l_password = ref("");
-
-const r_username = ref("");
-const r_password = ref("");
-const r_email = ref("");
-const r_invite = ref("");
+const state = reactive({
+    username: "",
+    password: "",
+    email: "",
+    invitation: "",
+});
 
 useHead({ title: conv[type.value] + " | UniCourse" });
 
@@ -34,7 +37,7 @@ async function login() {
     processing.value = true;
 
     try {
-        const { username } = await uni.login(l_username.value, l_password.value);
+        const { username } = await uni.login(state.username, state.password);
         Swal.fire({
             icon: "success",
             title: "登入成功",
@@ -61,8 +64,8 @@ async function register() {
     processing.value = true;
 
     try {
-        const { username, email } = await uni.register(r_username.value, r_password.value, r_email.value, {
-            invitation: r_invite.value,
+        const { username, email } = await uni.register(state.username, state.password, state.email, {
+            invitation: state.invitation,
         });
         Swal.fire({
             icon: "success",
@@ -81,6 +84,14 @@ async function register() {
     }
     processing.value = false;
 }
+
+const submit = computed(() => (type.value === "login" ? login : register));
+
+function keyup(evt: KeyboardEvent) {
+    if (evt.key === "Enter" && evt.target instanceof HTMLInputElement) {
+        submit.value();
+    }
+}
 </script>
 
 <template>
@@ -91,8 +102,8 @@ async function register() {
             </transition>
             <transition name="fade" mode="out-in">
                 <div v-if="type === 'login'" class="my-4 w-full">
-                    <Input label="帳號" placeholder="請輸入帳號" v-model="l_username" />
-                    <Input label="密碼" placeholder="請輸入密碼" type="password" v-model="l_password" />
+                    <Input label="帳號" placeholder="請輸入帳號" v-model="state.username" />
+                    <Input label="密碼" placeholder="請輸入密碼" type="password" v-model="state.password" @keyup="keyup" />
                     <div class="my-2 h-4 w-full">
                         <Link to="/auth/reset" class="float-right cursor-pointer text-blue-500 transition-all hover:text-fuchsia-500">
                             忘記密碼？
@@ -100,10 +111,10 @@ async function register() {
                     </div>
                 </div>
                 <div v-else class="my-4 w-full">
-                    <Input label="帳號" placeholder="請輸入帳號" v-model="r_username" />
-                    <Input label="密碼" placeholder="請輸入密碼" type="password" v-model="r_password" />
-                    <Input label="電子郵件" placeholder="請輸入電子郵件" v-model="r_email" />
-                    <Input label="邀請碼" placeholder="請輸入邀請碼" v-model="r_invite" />
+                    <Input label="帳號" placeholder="請輸入帳號" v-model="state.username" />
+                    <Input label="密碼" placeholder="請輸入密碼" type="password" v-model="state.password" />
+                    <Input label="電子郵件" placeholder="請輸入電子郵件" v-model="state.email" />
+                    <Input label="邀請碼" placeholder="請輸入邀請碼" v-model="state.invitation" />
                 </div>
             </transition>
 
@@ -111,7 +122,7 @@ async function register() {
                 <div class="mt-8 w-full text-center text-xl" :key="type">
                     <button
                         class="w-1/3 rounded bg-gradient-to-br from-cyan-500 via-indigo-500 to-fuchsia-500 p-2 px-4 text-white outline-none transition-all hover:hue-rotate-15 sm:w-1/4"
-                        @click="() => (type === 'login' ? login() : register())"
+                        @click="submit"
                     >
                         {{ processing ? conv[type] + "中" : conv[type] }}
                     </button>
