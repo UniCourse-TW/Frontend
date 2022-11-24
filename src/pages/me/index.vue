@@ -42,19 +42,12 @@ async function init() {
             text: "請先登入",
         });
         router.push("/auth");
+        return;
     }
 
     try {
         Object.assign(me, await uni.req("me"));
-    } catch (err) {
-        if (err instanceof Error) {
-            Swal.fire({
-                icon: "error",
-                title: "取得個人資料失敗",
-                text: err.message,
-            });
-        }
-    }
+    } catch {}
 }
 
 async function save() {
@@ -76,15 +69,7 @@ async function save() {
             title: "儲存成功",
             text: "個人資料已儲存",
         });
-    } catch (err) {
-        if (err instanceof Error) {
-            Swal.fire({
-                icon: "error",
-                title: "儲存失敗",
-                text: err.message,
-            });
-        }
-    }
+    } catch {}
 }
 
 async function copy(data: string) {
@@ -95,15 +80,7 @@ async function copy(data: string) {
             title: "複製成功",
             text: "已複製到剪貼簿",
         });
-    } catch (err) {
-        if (err instanceof Error) {
-            Swal.fire({
-                icon: "error",
-                title: "複製失敗",
-                text: err.message,
-            });
-        }
-    }
+    } catch {}
 }
 </script>
 
@@ -144,6 +121,7 @@ async function copy(data: string) {
                 <Input label="城市" v-model="me.profile.location" :disabled="!editing" />
                 <Input label="頭像網址" v-model="me.profile.avatar" :disabled="!editing" />
                 <Input label="封面網址" v-model="me.profile.banner" :disabled="!editing" />
+                <Input label="公開的電子郵件" v-model="me.profile.email" :disabled="!editing" />
 
                 <div class="buttonBlock flex gap-x-6">
                     <button
