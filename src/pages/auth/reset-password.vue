@@ -33,15 +33,7 @@ async function submit() {
             title: "重設密碼成功",
             text: ``,
         });
-    } catch (err) {
-        if (err instanceof Error) {
-            Swal.fire({
-                icon: "error",
-                title: "重設密碼失敗QQ",
-                text: err.message,
-            });
-        }
-    }
+    } catch {}
 
     await new Promise((resolve) => {
         setTimeout(() => {

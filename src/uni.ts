@@ -1,10 +1,12 @@
 import type { UserProfile } from "@unicourse-tw/prisma";
-import { UniCourse } from "unicourse";
+import { UniCourse, UniCourseApiError } from "unicourse";
 import { reactive } from "vue";
+import Swal from "sweetalert2";
+import router from "./router";
 
 const cached = localStorage.getItem("unicourse") || undefined;
 export const uni = new UniCourse(cached, {
-    server: "https://api.unicourse.tw",
+    // server: "https://api.unicourse.tw",
 });
 
 ((login: typeof uni.login) => {
@@ -16,6 +18,30 @@ export const uni = new UniCourse(cached, {
         return result;
     };
 })(uni.login.bind(uni));
+
+((req: typeof uni.req) => {
+    uni.req = (async (...params: Parameters<typeof uni.req>) => {
+        try {
+            return await req(...params);
+        } catch (err) {
+            if (err instanceof Error) {
+                Swal.fire({
+                    title: "錯誤",
+                    text: err.message,
+                    icon: "error",
+                }).then(() => {
+                    if (err instanceof UniCourseApiError) {
+                        if (err.status === 401) {
+                            router?.push("/auth");
+                        }
+                    }
+                });
+            }
+
+            throw err;
+        }
+    }) as typeof uni.req;
+})(uni.req.bind(uni));
 
 export default uni;
 

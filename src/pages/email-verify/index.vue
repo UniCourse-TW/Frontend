@@ -19,15 +19,7 @@ async function verified() {
             title: "驗證成功",
             text: `信箱驗證成功！`,
         });
-    } catch (err) {
-        if (err instanceof Error) {
-            Swal.fire({
-                icon: "error",
-                title: "驗證失敗",
-                text: err.message,
-            });
-        }
-    }
+    } catch {}
     verified();
 }
 router.push("/");

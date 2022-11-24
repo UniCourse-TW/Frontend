@@ -44,15 +44,7 @@ async function login() {
             text: `歡迎回來，${username}！`,
         });
         router.push("/me");
-    } catch (err) {
-        if (err instanceof Error) {
-            Swal.fire({
-                icon: "error",
-                title: "登入失敗",
-                text: err.message,
-            });
-        }
-    }
+    } catch {}
     processing.value = false;
 }
 
@@ -73,15 +65,7 @@ async function register() {
             text: `歡迎加入 UniCourse，${username}！ 我們稍後會將驗證信寄到 ${email}，記得去收信喔！`,
         });
         router.push("/me");
-    } catch (err) {
-        if (err instanceof Error) {
-            Swal.fire({
-                icon: "error",
-                title: "註冊失敗",
-                text: err.message,
-            });
-        }
-    }
+    } catch {}
     processing.value = false;
 }
 
