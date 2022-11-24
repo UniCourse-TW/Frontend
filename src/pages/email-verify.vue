@@ -1,14 +1,24 @@
 <script lang="ts" setup>
-import uni from "../../uni";
+import uni from "../uni";
 import Swal from "sweetalert2";
 
 useHead({ title: "驗證 | UniCourse" });
 
 const route = useRoute();
 const router = useRouter();
+const id = route.query.id as string;
+if (!id) {
+    Swal.fire({
+        icon: "error",
+        title: "錯誤",
+        text: "無效的驗證碼",
+    });
+    router.push("/");
+}
 
-async function verified() {
-    const id = route.query.id as string;
+verify();
+
+async function verify() {
     try {
         await uni.req("auth/verify", {
             method: "GET",
@@ -20,9 +30,9 @@ async function verified() {
             text: `信箱驗證成功！`,
         });
     } catch {}
-    verified();
+
+    router.push("/me");
 }
-router.push("/");
 </script>
 
 <template>
