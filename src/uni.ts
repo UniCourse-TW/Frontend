@@ -6,7 +6,7 @@ import router from "./router";
 
 const cached = localStorage.getItem("unicourse") || undefined;
 export const uni = new UniCourse(cached, {
-    // server: "https://api.unicourse.tw",
+    server: "https://api.unicourse.tw",
 });
 
 ((login: typeof uni.login) => {
