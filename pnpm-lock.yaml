@@ -29,7 +29,7 @@ specifiers:
     sweetalert2: ^11.6.10
     tailwindcss: ^3.2.4
     typescript: ^4.8.4
-    unicourse: 1.0.0-alpha.10
+    unicourse: 1.0.0-alpha.12
     unplugin-auto-import: ^0.11.4
     unplugin-icons: ^0.14.13
     unplugin-vue-components: ^0.22.9
@@ -44,7 +44,7 @@ dependencies:
     marked: 4.2.2
     pinia: 2.0.23_zwu2zepfy3m6u2gunxlolp35gi
     sweetalert2: 11.6.10
-    unicourse: 1.0.0-alpha.10
+    unicourse: 1.0.0-alpha.12
     vue: 3.2.45
     vue-router: 4.1.6_vue@3.2.45
 
@@ -3803,15 +3803,15 @@ packages:
         dependencies:
             "@unhead/dom": 0.5.1
             "@unhead/schema": 0.5.1
-            "@vueuse/shared": 9.5.0_vue@3.2.45
+            "@vueuse/shared": 9.6.0_vue@3.2.45
             unhead: 0.5.1
             vue: 3.2.45
         transitivePeerDependencies:
             - "@vue/composition-api"
         dev: true
 
-    /@unicourse-tw/prisma/1.0.0-alpha.10:
-        resolution: { integrity: sha512-CxdXlZW3CC7K0imdmBEsgCUzRLko2LNt9Zb38WQThN8zpOy8xRfBIU4xaymGtJPVJxW9lOrULnojAS1kBl8OgA== }
+    /@unicourse-tw/prisma/1.0.0-alpha.12:
+        resolution: { integrity: sha512-mqcaboAPBlf74Lna9BRNBRckUusBxV4jYKfGNDviYuG9CAt4f5zzAiyPoYGTGJBjL/tHgIwzSMxVFzynXspatw== }
         requiresBuild: true
         dependencies:
             "@prisma/client": 4.6.1
@@ -3819,8 +3819,8 @@ packages:
             - prisma
         dev: false
 
-    /@unicourse-tw/token/1.0.0-alpha.10:
-        resolution: { integrity: sha512-x1M+9hkRe8Vv5iGxqmWYaJHA+rkz3NcQ8MYAxoxrWvyqupu+/jL3Klng2rfaQuqT/KMiKmkH16ek4rUnZLjoMg== }
+    /@unicourse-tw/token/1.0.0-alpha.12:
+        resolution: { integrity: sha512-hcXAZFX/+x4RsnovzndnBqMGbWQaS0I8xcqihShhpNOGkOcbA+ytfdPeDxcNuBkS6g2XmzJ4+76g9dOXImZWVQ== }
         dependencies:
             jsonwebtoken: 8.5.1
         dev: false
@@ -4010,8 +4010,8 @@ packages:
             - "@vue/composition-api"
         dev: true
 
-    /@vueuse/shared/9.5.0_vue@3.2.45:
-        resolution: { integrity: sha512-HnnCWU1Vg9CVWRCcI8ohDKDRB2Sc4bTgT1XAIaoLSfVHHn+TKbrox6pd3klCSw4UDxkhDfOk8cAdcK+Z5KleCA== }
+    /@vueuse/shared/9.6.0_vue@3.2.45:
+        resolution: { integrity: sha512-/eDchxYYhkHnFyrb00t90UfjCx94kRHxc7J1GtBCqCG4HyPMX+krV9XJgVtWIsAMaxKVU4fC8NSUviG1JkwhUQ== }
         dependencies:
             vue-demi: 0.12.1_vue@3.2.45
         transitivePeerDependencies:
@@ -5501,10 +5501,10 @@ packages:
             yaml: 1.10.2
         dev: true
 
-    /course-pack/1.0.0-alpha.10:
-        resolution: { integrity: sha512-cT5DiThyLu4TsjIiA1nufIQRPvRCvBmcl1rPunNEmT2FSZoHROIlTmRM8EWlCXHCRZv7R5AjcjX71TsW+5o7Uw== }
+    /course-pack/1.0.0-alpha.12:
+        resolution: { integrity: sha512-tVLAeT0QAO7TCjcbb5E5fjldAzPSV10IygppuWnwZlZ9hl9fMK1QOSUAGYmB4Gk+Ocp7L4LeFTX5uD2oaoadsg== }
         dependencies:
-            "@unicourse-tw/prisma": 1.0.0-alpha.10
+            "@unicourse-tw/prisma": 1.0.0-alpha.12
             zod: 3.19.1
         transitivePeerDependencies:
             - prisma
@@ -11780,12 +11780,12 @@ packages:
         engines: { node: ">=4" }
         dev: true
 
-    /unicourse/1.0.0-alpha.10:
-        resolution: { integrity: sha512-KHxjDqudG6MWUhi0/Eue19wW1NVuDD84yQ5KqnagdqItC+2Oy++NoLHyFsFrpv1YEkuvpxYCfbw3Uez/wDrz5w== }
+    /unicourse/1.0.0-alpha.12:
+        resolution: { integrity: sha512-+DJmz0R4DvzMzoJ+xYLlfcXDsDEZUq1iFRA+ErqfUQByQeFbpa1DDHjc/Wt4/KJzLKXS7sYJxSm7cExCCfYXVw== }
         dependencies:
-            "@unicourse-tw/prisma": 1.0.0-alpha.10
-            "@unicourse-tw/token": 1.0.0-alpha.10
-            course-pack: 1.0.0-alpha.10
+            "@unicourse-tw/prisma": 1.0.0-alpha.12
+            "@unicourse-tw/token": 1.0.0-alpha.12
+            course-pack: 1.0.0-alpha.12
             cross-fetch: 3.1.5
             debug: 4.3.4
             jwt-decode: 3.1.2

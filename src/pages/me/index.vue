@@ -47,7 +47,35 @@ async function init() {
 
     try {
         Object.assign(me, await uni.req("me"));
+        await verifiyReminder();
     } catch {}
+}
+
+async function verifiyReminder() {
+    if (!me.email.verified) {
+        const result = await Swal.fire({
+            icon: "error",
+            title: "未驗證",
+            text: "請先驗證",
+            showCancelButton: true,
+            confirmButtonText: "重新寄送",
+            cancelButtonText: "了解",
+            showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                const { email } = (await uni.req("auth/send-verify", { method: "POST" })) as { email: string };
+                return email;
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+        });
+
+        if (result.isConfirmed) {
+            Swal.fire({
+                icon: "success",
+                title: "已重新寄送驗證信",
+                text: `請至 ${result.value} 收信`,
+            });
+        }
+    }
 }
 
 async function save() {
