@@ -17,6 +17,8 @@ declare module "@vue/runtime-core" {
         IconFold: typeof import("./../components/Icon/IconFold.vue")["default"];
         IconStars: typeof import("./../components/Icon/IconStars.vue")["default"];
         Input: typeof import("./../components/Input.vue")["default"];
+        IOcticonChevronLeft: typeof import("~icons/octicon/chevron-left")["default"];
+        IOcticonChevronRight: typeof import("~icons/octicon/chevron-right")["default"];
         IOcticonFilter16: typeof import("~icons/octicon/filter16")["default"];
         IOcticonFold16: typeof import("~icons/octicon/fold16")["default"];
         IOcticonLinkExternal: typeof import("~icons/octicon/link-external")["default"];
@@ -24,7 +26,6 @@ declare module "@vue/runtime-core" {
         IOcticonSearch: typeof import("~icons/octicon/search")["default"];
         IOcticonStarFill16: typeof import("~icons/octicon/star-fill16")["default"];
         IOcticonUnfold16: typeof import("~icons/octicon/unfold16")["default"];
-        IOcticonX: typeof import("~icons/octicon/x")["default"];
         IOcticonXCircle16: typeof import("~icons/octicon/x-circle16")["default"];
         Link: typeof import("./../components/Link.vue")["default"];
         Nav: typeof import("./../components/Nav.vue")["default"];
