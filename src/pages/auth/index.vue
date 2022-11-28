@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import Swal from "sweetalert2";
+import use_store from "../../store";
 import uni from "../../uni";
 const route = useRoute();
 const router = useRouter();
+const store = use_store();
 
-if (uni.is_valid()) {
+if (store.logged_in) {
     router.push("/me");
 }
 
@@ -38,6 +40,7 @@ async function login() {
 
     try {
         const { username } = await uni.login(state.username, state.password);
+        store.login();
         Swal.fire({
             icon: "success",
             title: "登入成功",

@@ -3,11 +3,12 @@ import Swal from "sweetalert2";
 import { EndpointResponseBody } from "unicourse";
 import { reactive } from "vue";
 import uni, { user } from "../../uni";
+import use_store from "../../store";
 
 useHead({ title: "個人 | UniCourse" });
 
-const route = useRoute();
 const router = useRouter();
+const store = use_store();
 
 const me = reactive<EndpointResponseBody<"me">>({
     username: "",
@@ -35,7 +36,7 @@ const editing = ref(true);
 init();
 
 async function init() {
-    if (!uni.is_valid()) {
+    if (!store.logged_in) {
         Swal.fire({
             icon: "error",
             title: "未登入",
