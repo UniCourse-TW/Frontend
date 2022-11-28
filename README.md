@@ -8,11 +8,11 @@
 
 ### 1. Install Node 16+
 
-Install Node.js through NVM is recommended.
+Install Node.js through [NVM](https://github.com/nvm-sh/nvm) is recommended.
 
 ### 2. Install PNPM
 
-PNPM is a package manager for Node, which is faster than NPM (and Yarn).
+[PNPM](https://github.com/pnpm/pnpm) is a package manager for Node, which is faster than NPM (and Yarn).
 
 ### 3. Install Dependencies
 
@@ -95,3 +95,13 @@ Files in this folder will be placed in the root of the generated website.
 The most important part of this project.
 
 All source code are placed in this folder, including product code and *stories*.
+
+## ❤️ Contributing
+
+Any forms of contribution are welcome. Include but not limited to:
+
+1. [Open a PR](https://github.com/UniCourse-TW/Frontend/compare) to fix bugs.
+2. Check whether [issues](https://github.com/UniCourse-TW/Frontend/issues) are still valid in current version. You may also need to setup [UniCourse backend](https://github.com/UniCourse-TW/Backend) in your local development environment.
+3. Add missing tests.
+
+If you need to any help from maintainers, you can join our [Discord server](https://discord.gg/aDUjjDf3yZ).
