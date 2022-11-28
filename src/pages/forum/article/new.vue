@@ -74,7 +74,7 @@ const newPost = reactive<PostForm>({
                     ></textarea>
                 </label>
             </div>
-
+            <!-- 
             <div class="my-2 flex flex-wrap gap-x-6">
                 <div>
                     <span class="mr-2">甜度</span>
@@ -88,7 +88,7 @@ const newPost = reactive<PostForm>({
                     <span class="mr-2">實用度</span>
                     <Rating v-model="newPost.course.rating.usefulness" />
                 </div>
-            </div>
+            </div> -->
 
             <div>
                 <Input label="分類" placeholder="加上分類，讓文章更容易被看見" v-model="newPost.title" />
