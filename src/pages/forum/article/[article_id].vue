@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Post } from "../../../types";
+import type { Post } from "@unicourse-tw/prisma";
 import { posts } from "../../../api";
 
 useHead({ title: "文章 | UniCourse" });
