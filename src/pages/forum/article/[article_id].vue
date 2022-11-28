@@ -12,7 +12,8 @@ const post = ref<Post | null>(null);
 query();
 async function query() {
     const id = typeof article_id === "string" ? article_id : article_id.join("");
-    post.id = await posts.get(id);
+    // post.value.id =
+    await posts.get(id);
 }
 </script>
 

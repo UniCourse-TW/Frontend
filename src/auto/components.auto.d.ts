@@ -26,6 +26,7 @@ declare module "@vue/runtime-core" {
         IOcticonSearch: typeof import("~icons/octicon/search")["default"];
         IOcticonStarFill16: typeof import("~icons/octicon/star-fill16")["default"];
         IOcticonUnfold16: typeof import("~icons/octicon/unfold16")["default"];
+        IOcticonX: typeof import("~icons/octicon/x")["default"];
         IOcticonXCircle16: typeof import("~icons/octicon/x-circle16")["default"];
         Link: typeof import("./../components/Link.vue")["default"];
         Nav: typeof import("./../components/Nav.vue")["default"];

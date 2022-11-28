@@ -32,11 +32,7 @@ const newPost = reactive<EndpointRequestBody<"posts">>({
 });
 
 async function editOrNot() {
-    if (editing) {
-        editing.value = false;
-    } else {
-        editing.value = true;
-    }
+    editing.value = !editing.value;
 }
 
 async function save() {
