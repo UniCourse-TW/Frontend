@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Swal from "sweetalert2";
 import use_store from "../store";
 
 const props = defineProps({
@@ -23,6 +24,11 @@ const store = use_store();
 const router = useRouter();
 const logout = () => {
     store.logout();
+    Swal.fire({
+        icon: "success",
+        title: "登出成功",
+        text: "下次再見",
+    });
     router.push("/");
 };
 </script>

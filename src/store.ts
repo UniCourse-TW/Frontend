@@ -1,21 +1,23 @@
 import type { User } from "./types";
 import { defineStore } from "pinia";
-import uni from "./uni";
+
+const get_token = () => localStorage.getItem("unicourse") || undefined;
 
 const use_store = defineStore("coolest-store", {
     state: () => ({
         user: null as User | null,
-        username: null as string | null,
-        logged_in: uni.is_valid(),
+        token: get_token(),
     }),
+    getters: {
+        logged_in: (state) => Boolean(state.token),
+    },
     actions: {
-        login(username: string) {
-            this.username = username;
-            this.logged_in = uni.is_valid();
+        login() {
+            this.token = get_token();
         },
         logout() {
             localStorage.removeItem("unicourse");
-            this.logged_in = uni.is_valid();
+            this.token = get_token();
         },
     },
 });

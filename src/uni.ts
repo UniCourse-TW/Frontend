@@ -2,10 +2,11 @@ import type { UserProfile } from "@unicourse-tw/prisma";
 import { UniCourse, UniCourseApiError } from "unicourse";
 import { reactive } from "vue";
 import Swal from "sweetalert2";
+import use_store from "./store";
 import router from "./router";
 
-const cached = localStorage.getItem("unicourse") || undefined;
-export const uni = new UniCourse(cached, {
+const store = use_store();
+export const uni = new UniCourse(store.token, {
     server: "https://api.unicourse.tw",
 });
 
