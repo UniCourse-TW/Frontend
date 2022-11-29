@@ -1,4 +1,4 @@
-FROM node:lts as builder
+FROM --platform=$BUILDPLATFORM node:lts as builder
 
 RUN npm i -g pnpm
 WORKDIR /app
