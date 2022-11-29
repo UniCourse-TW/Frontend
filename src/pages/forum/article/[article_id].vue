@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from "@unicourse-tw/prisma";
-import { posts } from "../../../api";
+import uni from "../../../uni";
 
 useHead({ title: "文章 | UniCourse" });
 
@@ -12,8 +12,10 @@ const post = ref<Post | null>(null);
 query();
 async function query() {
     const id = typeof article_id === "string" ? article_id : article_id.join("");
-    // post.value.id =
-    await posts.get(id);
+    if (post.value !== null) {
+        const p = await uni.req(`posts/${article_id}`);
+        post.value = p;
+    }
 }
 </script>
 

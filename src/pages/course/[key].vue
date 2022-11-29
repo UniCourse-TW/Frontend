@@ -1,18 +1,18 @@
 <script lang="ts" setup>
-import type { CourseInfo } from "../../types";
-import { courses } from "../../api";
+import { EndpointResponseBody } from "unicourse";
+import uni from "../../uni";
 const route = useRoute();
 
 const key = route.params.key as string;
 
-const course = ref<CourseInfo | null>(null);
+const course = ref<EndpointResponseBody<"courses/:id"> | null>(null);
 const not_found = ref(false);
 
 query();
 
 async function query() {
     try {
-        const data = await courses.info(key);
+        const data = await uni.req(`courses/${key}`);
         course.value = data;
     } catch (e) {
         console.error(e);

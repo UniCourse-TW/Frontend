@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Swal from "sweetalert2";
-import { EndpointRequestBody, EndpointResponseBody } from "unicourse";
+import { EndpointRequestBody, POST } from "unicourse";
 import uni from "../../../uni";
 
 const route = useRoute();
@@ -15,7 +15,15 @@ const placeholders = {
         title: "輸入標題 如：「程式設計一可以旁聽嗎？」",
         content: "提出你的問題",
     },
-    others: {
+    Announcement: {
+        title: "",
+        content: "",
+    },
+    Reply: {
+        title: "",
+        content: "",
+    },
+    Other: {
         title: "",
         content: "",
     },
@@ -23,7 +31,7 @@ const placeholders = {
 
 const editing = ref(true);
 
-const newPost = reactive<EndpointRequestBody<"posts">>({
+const newPost = reactive<EndpointRequestBody<"posts", typeof POST>>({
     type: route.query.type === "Question" ? "Question" : "Article",
     title: "",
     content: "",
@@ -31,7 +39,24 @@ const newPost = reactive<EndpointRequestBody<"posts">>({
     course: undefined,
 });
 
-async function editOrNot() {
+const computedPost = computed(() => ({
+    ...newPost,
+    id: "",
+    updated: new Date(),
+    author_id: "",
+    course_id: "",
+    parent_id: "",
+}));
+
+const placeholder = computed(() => {
+    if (newPost?.type) {
+        return placeholders[newPost.type];
+    } else {
+        return placeholders.Other;
+    }
+});
+
+function editOrNot() {
     editing.value = !editing.value;
 }
 
@@ -75,14 +100,14 @@ async function save() {
                 </div>
 
                 <div>
-                    <Input label="標題" :placeholder="placeholders[newPost.type].title" v-model="newPost.title" />
+                    <Input label="標題" :placeholder="placeholder.title" v-model="newPost.title" />
                 </div>
 
                 <div class="my-2">
                     <label class="text-lg text-blue-500">
                         內容
                         <textarea
-                            :placeholder="placeholders[newPost.type].content"
+                            :placeholder="placeholder.content"
                             v-model="newPost.content"
                             rows="5"
                             class="w-full border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"
@@ -110,7 +135,7 @@ async function save() {
                 </div>
             </div>
             <div v-else>
-                <SoloForumArtical :post="newPost" class="h-screen w-screen" />
+                <SoloForumArtical :post="computedPost" class="h-screen w-screen" />
             </div>
             <div class="mt-6 mb-32 flex gap-x-6">
                 <div v-if="editing == true">
