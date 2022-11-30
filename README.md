@@ -1,97 +1,52 @@
-# ✨ UniCourse Frontend ✨
+<br />
+<div align="center">
 
-🦄 The frontend of UniCourse, a modern course information platform for NTNU students.
+# 🦄 UniCourse Frontend
 
-![UniCourse Logo](https://unicourse-tw.github.io/Public-Assets/banner/UniCourse_banner_transparentBG.svg)
+🦄 UniCourse is an open-sourced modern course platform for students.
 
-## 🏠 How to Setup?
+</div>
 
-### 1. Install Node 16+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Tabel of Contents</summary>
 
-Install Node.js through NVM is recommended.
+- [🦄 UniCourse Frontend](#-unicourse-frontend)
+  - [Installation](#installation)
+    - [Prerequisite](#prerequisite)
+    - [Steps](#steps)
+  - [Contributing](#contributing)
+  - [License](#license)
 
-### 2. Install PNPM
+</details>
 
-PNPM is a package manager for Node, which is faster than NPM (and Yarn).
+## Installation
 
-### 3. Install Dependencies
+### Prerequisite
 
-Run `pnpm i` to install all dependencies you need in this project.
+- Node.js 16+ (You can use [NVM](https://github.com/nvm-sh/nvm) to manage different versions of Node)
+- [PNPM](https://github.com/pnpm/pnpm)
 
-### 4. Done
+### Steps
 
-Congratulation! You can now run `pnpm run dev` to start the dev server!
+```shell
+# Clone the repository
+git clone https://github.com/UniCourse-TW/Frontend.git
+cd Frontend
+# Install dependecies
+pnpm i
+# Start the dev server
+pnpm run dev
+```
 
-## ⚙️ Development Tools
+## Contributing
 
-We use many tools to help our development process.
+You can find the contributing guidelines [here](./CONTRIBUTING.md).
 
-### 📦 Used in Our Product
+## License
 
-#### Vue 3
+UniCourse Frontend is licensed under the [MIT License](./LICENSE.md).
 
-Vue is a modern javascript framework that helps us to build responsive web in a fast and efficient way. 
+Except image assets are licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a> (CC BY-NC-SA 4.0).
 
-We choose Vue 3 as our frontend framework.
-
-#### Vue Router
-
-The official Vue router which helps us to navigate between different pages.
-
-#### Pinia
-
-You may know Vuex, which is a state management tool for Vue.
-
-Pinia is something like Vuex, but better and well-typed.
-
-#### TailwindCSS
-
-TailwindCSS is a CSS framework that provides a set of useful CSS util classes, which is perfect for building a modern, responsive, and highly customizable web app.
-
-#### Octicons
-
-Octicons provides GitHub's icons, which are imported in our project by unplugin-icons.
-
-Browse Octicons: https://icones.js.org/collection/octicon
-
-### ⚡️ Used in Development
-
-#### Vite
-
-Vite provides a blazing fast and easy configurable dev server, which makes us able to develop and debug our web app efficiently.
-
-#### TypeScript
-
-We use TypeScript to make our code more safe and maintainable.
-
-#### Prettier & ESLint
-
-Prettier helps us to format our code with a consistent style and ESLint helps us to check our code for coding style consistency.
-
-#### Storybook
-
-Storybook is a powerful tool that helps us to develop our UI components and find the best way to use them.
-
-## Project Structure
-
-### `.github`
-
-GitHub CI Workflow settings.
-
-### `.storybook`
-
-Storybook server settings.
-
-### `.vscode`
-
-VS Code settings, including suggested extensions.
-
-### `public`
-
-Files in this folder will be placed in the root of the generated website.
-
-### `src`
-
-The most important part of this project.
-
-All source code are placed in this folder, including product code and *stories*.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
