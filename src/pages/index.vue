@@ -88,11 +88,9 @@ useHead({ title: "UniCourse" });
         <div class="mx-auto h-1/4 w-full p-5 text-center lg:w-2/3">
             <span>加入我們 / find us</span>
             <br />
-            <div class="mx-auto w-1/2">
-                <Link class="mx-auto w-1/4" aria-label="Join Our Discord Server" to="https://discord.gg/gMXEn97CkN" :icon="false">
-                    <img alt="Discord Icon" src="../assets/front/dc_icon/dc_icon_grey.svg" loading="lazy" class="mx-auto" />
-                </Link>
-            </div>
+            <Link class="mx-auto" aria-label="Join Our Discord Server" to="https://discord.gg/gMXEn97CkN" :icon="false">
+                <i-ion-logo-discord class="m-2 mx-auto h-8 w-8 text-purple-700" />
+            </Link>
         </div>
     </div>
 </template>

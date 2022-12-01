@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
     "@babel/core": ^7.20.2
+    "@iconify-json/ion": ^1.1.4
     "@iconify-json/octicon": ^1.1.23
     "@storybook/addon-actions": ^6.5.13
     "@storybook/addon-essentials": ^6.5.13
@@ -50,6 +51,7 @@ dependencies:
 
 devDependencies:
     "@babel/core": 7.20.2
+    "@iconify-json/ion": 1.1.4
     "@iconify-json/octicon": 1.1.23
     "@storybook/addon-actions": 6.5.13
     "@storybook/addon-essentials": 6.5.13_y6rio3hwqbqpp5grjvc2mxzuby
@@ -1692,6 +1694,12 @@ packages:
 
     /@humanwhocodes/object-schema/1.2.1:
         resolution: { integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA== }
+        dev: true
+
+    /@iconify-json/ion/1.1.4:
+        resolution: { integrity: sha512-30sOiE7OIboJXCFqIUfyAcskE49pEUjPyQs2Pl35o4lBXKZ46Jy3RzD+atkWBVz6ftlvTk9jE/qFi2mZ+gk78g== }
+        dependencies:
+            "@iconify/types": 2.0.0
         dev: true
 
     /@iconify-json/octicon/1.1.23:
