@@ -22,6 +22,7 @@
     },
     "devDependencies": {
         "@babel/core": "^7.20.2",
+        "@iconify-json/ion": "^1.1.4",
         "@iconify-json/octicon": "^1.1.23",
         "@storybook/addon-actions": "^6.5.13",
         "@storybook/addon-essentials": "^6.5.13",
