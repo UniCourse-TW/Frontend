@@ -4,8 +4,15 @@ useHead({ title: "UniCourse" });
 
 <template>
     <div class="absolute top-0 bg-gradient-to-r from-blue-300 via-indigo-200 to-fuchsia-200 pt-16">
-        <div id="cover" class="top-0 m-auto w-screen lg:h-screen">
-            <img alt="UniCourse Logo" src="../assets/banner_withText.svg" class="m-auto w-2/3 p-3 sm:p-5 lg:p-20" />
+        <div
+            id="cover"
+            class="bg-https://unicourse-tw.github.io/Public-Assets/banner/banner_withText.svg top-0 m-auto w-screen lg:h-screen"
+        >
+            <img
+                alt="UniCourse Logo"
+                src="https://unicourse-tw.github.io/Public-Assets/banner/banner_withText.svg"
+                class="m-auto mt-0 h-full w-full p-3 sm:p-5 lg:p-20"
+            />
         </div>
         <div class="mx-auto h-4/5 w-full p-2 sm:h-2/5 sm:px-4 lg:w-2/3 lg:px-6">
             <div class="inline-block h-full w-1/2 pt-1 pr-2 sm:h-full sm:w-1/2 sm:pr-2 lg:h-full lg:w-1/2">
