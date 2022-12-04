@@ -7,7 +7,7 @@ import router from "./router";
 
 const store = use_store();
 export const uni = new UniCourse(store.token, {
-    server: "https://api.unicourse.tw",
+    server: API_BASE,
 });
 
 ((login: typeof uni.login) => {
