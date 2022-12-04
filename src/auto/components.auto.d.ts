@@ -16,7 +16,6 @@ declare module "@vue/runtime-core" {
         FullScreenCard: typeof import("./../components/Course/FullScreenCard.vue")["default"];
         IconFold: typeof import("./../components/Icon/IconFold.vue")["default"];
         IconStars: typeof import("./../components/Icon/IconStars.vue")["default"];
-        IIonArrowUp: typeof import("~icons/ion/arrow-up")["default"];
         IIonLogoDiscord: typeof import("~icons/ion/logo-discord")["default"];
         Input: typeof import("./../components/Input.vue")["default"];
         IOcticonFilter16: typeof import("~icons/octicon/filter16")["default"];
