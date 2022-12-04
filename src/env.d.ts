@@ -10,3 +10,13 @@ declare module "*.vue" {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare type AnyObj = { [key: string]: any };
+
+interface ImportMetaEnv {
+    readonly API_BASE: string;
+}
+
+interface ImportMeta {
+    readonly env: ImportMetaEnv;
+}
+
+declare const API_BASE: string;
