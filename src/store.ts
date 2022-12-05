@@ -1,5 +1,5 @@
 import type { User } from "./types";
-import { defineStore } from "pinia";
+import { createPinia, defineStore } from "pinia";
 
 const get_token = () => localStorage.getItem("unicourse") || undefined;
 
@@ -22,4 +22,6 @@ const use_store = defineStore("coolest-store", {
     },
 });
 
+export const pinia = createPinia();
+export const store = use_store(pinia);
 export default use_store;

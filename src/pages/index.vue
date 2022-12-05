@@ -1,5 +1,32 @@
 <script lang="ts" setup>
+import { EndpointResponseBody, GET } from "unicourse";
+import uni from "../uni";
+
 useHead({ title: "UniCourse" });
+
+const stats = reactive<{
+    users: EndpointResponseBody<"stats/users">;
+    posts: EndpointResponseBody<"stats/posts">;
+    courses: EndpointResponseBody<"stats/courses">;
+}>({
+    users: {
+        count: 0,
+    },
+    posts: {
+        count: 0,
+    },
+    courses: {
+        count: 0,
+    },
+});
+
+init();
+
+async function init() {
+    Object.assign(stats.users, await uni.req("stats/users"));
+    Object.assign(stats.posts, await uni.req("stats/posts"));
+    Object.assign(stats.courses, await uni.req("stats/courses"));
+}
 </script>
 
 <template>
@@ -20,7 +47,7 @@ useHead({ title: "UniCourse" });
                     class="h-full w-full rounded-lg bg-white bg-opacity-40 p-3 text-center text-lg text-purple-700 shadow-lg transition-all hover:shadow-xl"
                 >
                     目前有
-                    <span class="sm:text-3xl"> {{ 276 }} </span>
+                    <span class="sm:text-3xl"> {{ stats.users.count }} </span>
                     位
                     <br />
                     使用者
@@ -33,7 +60,7 @@ useHead({ title: "UniCourse" });
                     class="h-full w-full rounded-lg bg-white bg-opacity-40 p-3 text-center text-lg text-purple-700 shadow-lg transition-all hover:shadow-xl"
                 >
                     累計了
-                    <span class="sm:text-3xl"> {{ 456 }} </span>
+                    <span class="sm:text-3xl"> {{ stats.posts.count }} </span>
                     篇
                     <br />
                     文章
@@ -52,8 +79,8 @@ useHead({ title: "UniCourse" });
                     <div class="m-auto p-3 sm:p-5 lg:p-5">
                         <span class="text-lg text-purple-700">找到你有興趣的<br class="sm:hidden" />課程資訊</span>
                     </div>
-                    <Link to="/course" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
-                        >搜尋課程</Link
+                    <Link to="/course" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg">
+                        搜尋課程</Link
                     >
                 </div>
             </div>
@@ -69,8 +96,8 @@ useHead({ title: "UniCourse" });
                     <div class="m-auto p-3 sm:p-5 lg:p-5">
                         <span class="text-lg text-purple-700">回答他人提出的<br class="sm:hidden" />課程相關問題</span>
                     </div>
-                    <Link to="/forum" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
-                        >解答疑問</Link
+                    <Link to="/forum" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg">
+                        解答疑問</Link
                     >
                 </div>
             </div>
@@ -86,8 +113,8 @@ useHead({ title: "UniCourse" });
                     <div class="m-auto p-3 sm:p-5 lg:p-5">
                         <span class="text-lg text-purple-700">和其他人分享你的<br class="sm:hidden" />修課心得</span>
                     </div>
-                    <Link to="/forum" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg"
-                        >撰寫心得</Link
+                    <Link to="/forum" class="h-10 w-32 rounded-md bg-purple-700 py-2.5 px-6 text-white transition-all hover:shadow-lg">
+                        撰寫心得</Link
                     >
                 </div>
             </div>
