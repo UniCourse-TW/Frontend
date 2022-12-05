@@ -31,10 +31,7 @@ async function init() {
 
 <template>
     <div class="absolute top-0 bg-gradient-to-r from-blue-300 via-indigo-200 to-fuchsia-200 pt-16">
-        <div
-            id="cover"
-            class="bg-https://unicourse-tw.github.io/Public-Assets/banner/banner_withText.svg top-0 m-auto w-screen lg:h-screen"
-        >
+        <div id="cover" class="top-0 m-auto w-screen lg:h-screen">
             <img
                 alt="UniCourse Logo"
                 src="https://unicourse-tw.github.io/Public-Assets/banner/banner_withText.svg"
