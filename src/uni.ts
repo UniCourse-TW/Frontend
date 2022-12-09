@@ -2,10 +2,9 @@ import type { UserProfile } from "@unicourse-tw/prisma";
 import { UniCourse, UniCourseApiError } from "unicourse";
 import { reactive } from "vue";
 import Swal from "sweetalert2";
-import use_store from "./store";
+import { store } from "./store";
 import router from "./router";
 
-const store = use_store();
 export const uni = new UniCourse(store.token, {
     server: API_BASE,
 });
