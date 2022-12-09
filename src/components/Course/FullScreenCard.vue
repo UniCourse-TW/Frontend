@@ -12,7 +12,7 @@ const props = defineProps({
 
 const course = props.course;
 const gradings = computed(() => {
-    if (!course) return [];
+    if (!course || !course.grading) return [];
 
     return course.grading
         .sort((a, b) => b.weight - a.weight)
@@ -47,7 +47,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
             <div v-else class="lg:flex">
                 <div class="w-full lg:inline-block lg:w-2/3 lg:pr-1">
                     <h2 title="授課系所與教師" class="my-1 text-sm text-gray-600">
-                        {{ course.department }} {{ course.teachers.join("、") }}
+                        {{ course.department }} {{ course.teachers.map(({ name }) => name).join("、") }}
                     </h2>
 
                     <h1 class="my-1 text-xl font-bold">
@@ -68,20 +68,24 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                     <h2 title="學分與授課時段" class="my-1 text-sm text-gray-500">
                         {{ course.credit }} 學分，實際授課
                         <span :class="['font-bold', course.hours > course.credit ? 'text-yellow-500' : 'text-green-500']">{{
-                            course.hours
+                            course.hours || "?"
                         }}</span>
                         小時
-                        <br class="sm:hidden" />
-                        ({{ course.schedule.map(readable_schedule).join("、") }})
+                        <template v-if="course.schedule">
+                            <br class="sm:hidden" />
+                            ({{ course.schedule.map(readable_schedule).join("、") }})
+                        </template>
                     </h2>
 
-                    <h2 title="相關學程" class="my-1 text-xs text-gray-400 sm:text-sm">{{ course.programs.join(" | ") }}</h2>
+                    <h2 title="相關學程" class="my-1 text-xs text-gray-400 sm:text-sm">
+                        {{ course.programs.map(({ name }) => name).join(" | ") }}
+                    </h2>
 
                     <div class="mt-3 mb-6">
                         <span>{{ course.description }}</span>
                     </div>
 
-                    <div class="mb-4 w-full lg:hidden">
+                    <div v-if="course.rating" class="mb-4 w-full lg:hidden">
                         <h1 class="border-l-2 border-indigo-500 pl-1 text-2xl">課程評價</h1>
                         <p class="m-2">共 {{ course.rating.count }} 個評分</p>
                         <div class="m-2 grid grid-cols-[4rem_auto]">
@@ -107,7 +111,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         </div>
                     </div>
 
-                    <div class="my-3">
+                    <div v-if="course.quota" class="my-3">
                         <h2 class="cursor-pointer text-lg font-bold" @click="fold.choose = !fold.choose">
                             <IconFold :fold="fold.choose" class="absolute translate-y-[5%] text-gray-500" />
                             <span class="ml-7 lg:ml-8">選課資訊</span>
@@ -126,7 +130,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         </AniFade>
                     </div>
 
-                    <div class="my-3">
+                    <div v-if="course.grading" class="my-3">
                         <h2 class="cursor-pointer text-lg font-bold" @click="fold.grading = !fold.grading">
                             <IconFold :fold="fold.grading" class="absolute translate-y-[5%] text-gray-500" />
                             <span class="ml-7 lg:ml-8">評分方式</span>
@@ -144,7 +148,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         </AniFade>
                     </div>
 
-                    <div class="my-3">
+                    <div v-if="course.goals" class="my-3">
                         <h2 class="cursor-pointer text-lg font-bold" @click="fold.goals = !fold.goals">
                             <IconFold :fold="fold.goals" class="absolute text-gray-500" />
                             <span class="ml-7 lg:ml-8">教學目標及方法</span>
@@ -165,7 +169,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         </AniFade>
                     </div>
 
-                    <div class="my-3">
+                    <div v-if="course.syllabus" class="my-3">
                         <h2 class="cursor-pointer text-lg font-bold" @click="fold.syllabus = !fold.syllabus">
                             <IconFold :fold="fold.syllabus" class="absolute text-gray-500" />
                             <span class="ml-7 lg:ml-8">教學大綱</span>
@@ -176,7 +180,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         </AniFade>
                     </div>
                 </div>
-                <div class="hidden lg:inline-block lg:w-1/3 lg:pt-6 lg:pl-1">
+                <div v-if="course.rating" class="hidden lg:inline-block lg:w-1/3 lg:pt-6 lg:pl-1">
                     <h1 class="border-l-2 border-indigo-500 pl-1 text-2xl">課程評價</h1>
                     <p class="m-2">共 {{ course.rating.count }} 個評分</p>
                     <div class="m-2 grid grid-cols-[4rem_auto]">
