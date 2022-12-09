@@ -1,4 +1,4 @@
-import type { CourseMeta, CourseInfo, CourseListQuery, PostListQuery, PostMeta, Post } from "./types";
+import type { CourseMeta, CourseInfo, CourseListQuery, PostListQuery, PostMeta, Post, PostForm } from "./types";
 import uni from "./uni";
 
 export const posts = {
@@ -13,6 +13,13 @@ export const posts = {
     },
     async get(id: string): Promise<Post> {
         const data = (await uni.req(`posts/${id}`)) as Post;
+        return data;
+    },
+    async create(body: PostForm): Promise<Post> {
+        const data = (await uni.req(`posts`, {
+            method: "POST",
+            body,
+        })) as Post;
         return data;
     },
 };

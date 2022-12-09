@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import type { PostForm } from "../../../types";
+import { posts } from "../../../api";
+import Swal from "sweetalert2";
 
 const route = useRoute();
+const router = useRouter();
 
 const placeholders = {
     review: {
@@ -36,6 +39,36 @@ const newPost = reactive<PostForm>({
         },
     },
 });
+const rawTagsInput = ref("");
+watchEffect(() => {
+    newPost.tags = rawTagsInput.value.split(" ");
+});
+const isWaiting = ref(false);
+
+function submit() {
+    isWaiting.value = true;
+    posts
+        .create(newPost)
+        .then((post) => {
+            Swal.fire({
+                icon: "success",
+                title: "發布成功",
+                text: `文章發布成功！`,
+            });
+            router.push(`/forum/article/${post.id}`);
+        })
+        .catch(() => {
+            // TODO: define error message to users
+            Swal.fire({
+                icon: "error",
+                title: "發布失敗",
+                text: "Unknown Error",
+            });
+        })
+        .finally(() => {
+            isWaiting.value = false;
+        });
+}
 </script>
 
 <template>
@@ -75,7 +108,7 @@ const newPost = reactive<PostForm>({
                 </label>
             </div>
 
-            <div class="my-2 flex flex-wrap gap-x-6">
+            <!-- <div class="my-2 flex flex-wrap gap-x-6">
                 <div>
                     <span class="mr-2">甜度</span>
                     <Rating v-model="newPost.course.rating.sweetness" />
@@ -88,20 +121,21 @@ const newPost = reactive<PostForm>({
                     <span class="mr-2">實用度</span>
                     <Rating v-model="newPost.course.rating.usefulness" />
                 </div>
-            </div>
+            </div> -->
 
             <div>
-                <Input label="分類" placeholder="加上分類，讓文章更容易被看見" v-model="newPost.title" />
+                <Input label="分類　請以空白分隔多個分類（暫時）" placeholder="加上分類，讓文章更容易被看見" v-model="rawTagsInput" />
             </div>
 
             <div class="mt-6 mb-32 flex gap-x-6">
-                <button
+                <!-- <button
                     class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
                 >
                     預覽
-                </button>
+                </button> -->
                 <button
                     class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
+                    @click="submit"
                 >
                     發布
                 </button>
