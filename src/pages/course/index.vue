@@ -122,7 +122,7 @@ async function query() {
             }, "")
         ).trim();
         const list = await courses.list({
-            q,
+            q: q || `order:${sort.by}`,
             limit: 100,
             offset: 0,
             sort: sort.by,
@@ -185,6 +185,10 @@ const course_animation = {
         }, 100 / prev_length.value);
     },
 };
+
+onMounted(() => {
+    query();
+});
 </script>
 
 <template>
