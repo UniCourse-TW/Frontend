@@ -2,6 +2,8 @@
 import Swal from "sweetalert2";
 import use_store from "../../store";
 import uni from "../../uni";
+import { useStorage } from "@vueuse/core";
+
 const route = useRoute();
 const router = useRouter();
 const store = use_store();
@@ -17,8 +19,10 @@ const conv: { [key: string]: string } = {
 const processing = ref(false);
 const type = ref(route.query.type === "register" ? "register" : "login");
 
+const stored_username = useStorage("unicourse-username", "");
+const remember_username = ref(true);
 const state = reactive({
-    username: "",
+    username: stored_username,
     password: "",
     email: "",
     invitation: "",
@@ -46,6 +50,9 @@ async function login() {
             title: "登入成功",
             text: `歡迎回來，${username}！`,
         });
+        if (!remember_username.value) {
+            stored_username.value = null;
+        }
         router.push("/me");
     } catch {}
     processing.value = false;
@@ -91,8 +98,19 @@ function keyup(evt: KeyboardEvent) {
                 <div v-if="type === 'login'" class="my-4 w-full">
                     <Input label="帳號" placeholder="請輸入帳號" v-model="state.username" />
                     <Input label="密碼" placeholder="請輸入密碼" type="password" v-model="state.password" @keyup="keyup" />
-                    <div class="my-2 h-4 w-full">
-                        <Link to="/auth/reset" class="float-right cursor-pointer text-blue-500 transition-all hover:text-fuchsia-500">
+                    <div class="mt-10 mb-2 flex h-4 w-full items-center justify-between">
+                        <div class="flex items-center">
+                            <input
+                                v-model="remember_username"
+                                id="remember-username-checkbox"
+                                type="checkbox"
+                                class="h-4 w-4 rounded border-blue-300 bg-blue-100 text-blue-500"
+                            />
+                            <label for="remember-username-checkbox" class="ml-2 text-sm font-medium text-blue-500 hover:text-fuchsia-500"
+                                >記住帳號</label
+                            >
+                        </div>
+                        <Link to="/auth/reset" class="cursor-pointer text-blue-500 transition-all hover:text-fuchsia-500">
                             忘記密碼？
                         </Link>
                     </div>
