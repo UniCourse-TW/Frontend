@@ -2,6 +2,8 @@
 import type { PropType } from "vue";
 import type { CourseLocation, CourseTime, CourseInfo } from "../../types";
 import { marked } from "marked";
+import { EndpointResponseBody } from "unicourse";
+import uni from "../../uni";
 
 const props = defineProps({
     course: {
@@ -10,13 +12,52 @@ const props = defineProps({
     },
 });
 
-const course = props.course;
-const gradings = computed(() => {
-    if (!course || !course.grading) return [];
+let course: EndpointResponseBody<`courses/${string}`>;
+const extra = computed<{
+    goals: string;
+    grade: string;
+    group: string;
+    hours: number;
+    quota: { limit: number; additional: number };
+    serial: number;
+    comment: string;
+    restrict: string;
+}>(() => {
+    if (!course) {
+        return { goals: "", grade: "", group: "", hours: 0, quota: { limit: 0, additional: 0 }, serial: 0, comment: "", restrict: "" };
+    }
 
+    const ex = course.extra && typeof course.extra === "object" && !Array.isArray(course.extra) ? course.extra : {};
+
+    return {
+        goals: typeof ex.goals === "string" ? ex.goals : "",
+        grade: typeof ex.grade === "string" ? ex.grade : "",
+        group: typeof ex.group === "string" ? ex.group : "",
+        hours: typeof ex.hours === "number" ? ex.number : 0,
+        quota: {
+            limit: typeof ex.quota?.limit === "number" ? ex.quota.limit : 0,
+            additional: typeof ex.quota?.additional === "number" ? ex.quota.additional : 0,
+        },
+        serial: typeof ex.serial === "number" ? ex.serial : 0,
+        comment: typeof ex.comment === "string" ? ex.comment : "",
+        restrict: typeof ex.restrict === "string" ? ex.restrict : "",
+    };
+});
+
+init();
+
+async function init() {
+    course = await uni.req(`courses/${props.course}`);
+}
+
+// const course = props.course;
+const gradings = computed(() => {
+    if (!course) return [];
+
+    const ex = course.extra && typeof course.extra === "object" && !Array.isArray(course.extra) ? course.extra : {};
     return course.grading
-        .sort((a, b) => b.weight - a.weight)
-        .map((grading) => ({
+        .sort((a: { weight: number }, b: { weight: number }) => b.weight - a.weight)
+        .map((grading: { weight: number }) => ({
             ...grading,
             color: grading.weight > 50 ? "text-gray-800" : `text-gray-${Math.floor(grading.weight / 10 + 3) * 100}`,
         }));
