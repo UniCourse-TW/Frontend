@@ -1,20 +1,91 @@
 <script lang="ts" setup>
-import type { PropType } from "vue";
 import type { CourseLocation, CourseTime, CourseInfo } from "../../types";
 import { marked } from "marked";
+import { EndpointResponseBody } from "unicourse";
+import uni from "../../uni";
 
 const props = defineProps({
-    course: {
-        type: Object as PropType<CourseInfo | null>,
-        default: () => null,
+    id: {
+        default: "",
     },
 });
 
-const course = props.course;
-const gradings = computed(() => {
-    if (!course || !course.grading) return [];
+let course: EndpointResponseBody<`courses/${string}`>;
+const extra = computed(() => {
+    if (!course) {
+        return {
+            goals: "",
+            grade: 1,
+            group: "",
+            hours: NaN,
+            quota: { limit: NaN, additional: NaN },
+            serial: 0,
+            comment: "",
+            restrict: "",
+            scheduel: "",
+            syllabus: "",
+            methodologies: { note: "", type: "" },
+        };
+    }
 
-    return course.grading
+    const ex = course.extra && typeof course.extra === "object" && !Array.isArray(course.extra) ? course.extra : {};
+
+    return {
+        goals: typeof ex.goals === "string" ? ex.goals : "",
+        grade: typeof ex.grade === "number" ? ex.grade : NaN,
+        group: typeof ex.group === "string" ? ex.group : "",
+        hours: typeof ex.hours === "number" ? ex.hours : NaN,
+        quota: {
+            limit:
+                typeof ex.quota === "object" && !Array.isArray(ex.quota)
+                    ? typeof ex.quota?.limit === "number"
+                        ? ex.quota.limit
+                        : NaN
+                    : NaN,
+            additional:
+                typeof ex.quota === "object" && !Array.isArray(ex.quota)
+                    ? typeof ex.quota?.additional === "number"
+                        ? ex.quota.additional
+                        : NaN
+                    : NaN,
+        },
+        serial: typeof ex.serial === "number" ? ex.serial : NaN,
+        comment: typeof ex.comment === "string" ? ex.comment : "",
+        restrict: typeof ex.restrict === "string" ? ex.restrict : "",
+        scheduel: typeof ex.scheduel === "string" ? ex.scheduel : "",
+        syllabus: typeof ex.syllabus === "string" ? ex.syllabus : "",
+        methodologies: {
+            note:
+                typeof ex.methodologies === "object" && !Array.isArray(ex.methodologies)
+                    ? typeof ex.methodologies?.note === "string"
+                        ? ex.methodologies.note
+                        : ""
+                    : "",
+            type:
+                typeof ex.methodologies === "object" && !Array.isArray(ex.methodologies)
+                    ? typeof ex.methodologies?.type === "number"
+                        ? ex.methodologies.type
+                        : ""
+                    : "",
+        },
+    };
+});
+
+init();
+
+async function init() {
+    course = await uni.req(`courses/${props.id}`);
+}
+
+// const course = props.course;
+type Grading = { weight: number; type: string; note: string };
+const gradings = computed<(Grading & { color: string })[]>(() => {
+    if (!course) return [];
+
+    const ex = course.extra && typeof course.extra === "object" && !Array.isArray(course.extra) ? course.extra : {};
+    if (!Array.isArray(ex.grading)) return [];
+
+    return (ex.grading as Grading[])
         .sort((a, b) => b.weight - a.weight)
         .map((grading) => ({
             ...grading,
@@ -47,7 +118,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
             <div v-else class="lg:flex">
                 <div class="w-full lg:inline-block lg:w-2/3 lg:pr-1">
                     <h2 title="授課系所與教師" class="my-1 text-sm text-gray-600">
-                        {{ course.department }} {{ course.teachers.map(({ name }) => name).join("、") }}
+                        {{ course.provider.name }} {{ course.teachers.map(({ name }) => name).join("、") }}
                     </h2>
 
                     <h1 class="my-1 text-xl font-bold">
@@ -57,7 +128,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                             <span class="text-gray-400">-</span>
                             <span title="開課學期" class="text-gray-600">{{ course.term }}</span>
                             <span class="text-gray-400"> | </span>
-                            <span title="該期開課序號" class="text-gray-600">{{ course.serial }}</span>
+                            <span title="該期開課序號" class="text-gray-600">{{ extra.serial }}</span>
                             <span class="text-gray-400"> | </span>
                             <span title="科目代碼" class="text-gray-600">{{ course.code }}</span>
                         </span>
@@ -67,14 +138,14 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
 
                     <h2 title="學分與授課時段" class="my-1 text-sm text-gray-500">
                         {{ course.credit }} 學分，實際授課
-                        <span :class="['font-bold', course.hours > course.credit ? 'text-yellow-500' : 'text-green-500']">{{
-                            course.hours || "?"
+                        <span :class="['font-bold', extra.hours > course.credit ? 'text-yellow-500' : 'text-green-500']">{{
+                            extra.hours || "N/A"
                         }}</span>
                         小時
-                        <template v-if="course.schedule">
+                        <div v-if="extra.scheduel">
                             <br class="sm:hidden" />
-                            ({{ course.schedule.map(readable_schedule).join("、") }})
-                        </template>
+                            ({{ extra.scheduel }})
+                        </div>
                     </h2>
 
                     <h2 title="相關學程" class="my-1 text-xs text-gray-400 sm:text-sm">
@@ -85,7 +156,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         <span>{{ course.description }}</span>
                     </div>
 
-                    <div v-if="course.rating" class="mb-4 w-full lg:hidden">
+                    <!-- <div v-if="course.rating" class="mb-4 w-full lg:hidden">
                         <h1 class="border-l-2 border-indigo-500 pl-1 text-2xl">課程評價</h1>
                         <p class="m-2">共 {{ course.rating.count }} 個評分</p>
                         <div class="m-2 grid grid-cols-[4rem_auto]">
@@ -107,11 +178,12 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         </div>
                         <hr />
                         <div class="flex w-full flex-col justify-center">
-                            <CourseReviewCard v-for="(review, idx) of course.reviews" :key="idx" :review="review" class="m-2" />
+                            <CourseReviewCard v-for="(review, idx) of course.reviews" :key="idx" :review="review"
+                                class="m-2" />
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div v-if="course.quota" class="my-3">
+                    <div v-if="extra.quota" class="my-3">
                         <h2 class="cursor-pointer text-lg font-bold" @click="fold.choose = !fold.choose">
                             <IconFold :fold="fold.choose" class="absolute translate-y-[5%] text-gray-500" />
                             <span class="ml-7 lg:ml-8">選課資訊</span>
@@ -120,17 +192,17 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         <AniFade direction="up">
                             <div v-show="!fold.choose" class="overflow-hidden p-2 text-gray-700">
                                 <p>
-                                    名額： <span class="font-bold text-indigo-600">{{ course.quota.limit }}</span> 人 + 授權碼
-                                    <span class="font-bold text-indigo-600">x{{ course.quota.additional }}</span>
+                                    名額： <span class="font-bold text-indigo-600">{{ extra.quota.limit }}</span> 人 + 授權碼
+                                    <span class="font-bold text-indigo-600">x{{ extra.quota.additional }}</span>
                                 </p>
-                                <p v-if="course.restrict" class="text-red-600">限制： {{ course.restrict }}</p>
-                                <p v-if="course.comment">備註： {{ course.comment }}</p>
-                                <p v-if="!course.restrict && !course.comment">沒有其餘限制</p>
+                                <p v-if="extra.restrict" class="text-red-600">限制： {{ extra.restrict }}</p>
+                                <p v-if="extra.comment">備註： {{ extra.comment }}</p>
+                                <p v-if="!extra.restrict && !extra.comment">沒有其餘限制</p>
                             </div>
                         </AniFade>
                     </div>
 
-                    <div v-if="course.grading" class="my-3">
+                    <div v-if="gradings" class="my-3">
                         <h2 class="cursor-pointer text-lg font-bold" @click="fold.grading = !fold.grading">
                             <IconFold :fold="fold.grading" class="absolute translate-y-[5%] text-gray-500" />
                             <span class="ml-7 lg:ml-8">評分方式</span>
@@ -148,7 +220,7 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         </AniFade>
                     </div>
 
-                    <div v-if="course.goals" class="my-3">
+                    <div v-if="extra.goals" class="my-3">
                         <h2 class="cursor-pointer text-lg font-bold" @click="fold.goals = !fold.goals">
                             <IconFold :fold="fold.goals" class="absolute text-gray-500" />
                             <span class="ml-7 lg:ml-8">教學目標及方法</span>
@@ -156,31 +228,31 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                         <hr class="mt-1 mb-2" />
                         <AniFade direction="up">
                             <div v-show="!fold.goals" class="overflow-hidden p-2">
-                                <div v-for="(goal, idx) of course.goals" :key="idx" class="my-1">
+                                <div v-for="(goal, idx) of extra.goals" :key="idx" class="my-1">
                                     <span class="text-gray-700">{{ idx + 1 }}. {{ goal }}</span>
                                 </div>
                                 <h3 class="mt-2 font-bold">教學方法</h3>
-                                <div v-for="(method, idx) of course.methodologies" :key="idx" class="my-1">
+                                <div v-for="(method, idx) of extra.methodologies" :key="idx" class="my-1">
                                     <span class="text-gray-700">
-                                        <span class="font-bold">{{ method.type }}</span> - {{ method.note }}
+                                        <span class="font-bold">{{ extra.methodologies.note }}</span> - {{ extra.methodologies.type }}
                                     </span>
                                 </div>
                             </div>
                         </AniFade>
                     </div>
 
-                    <div v-if="course.syllabus" class="my-3">
+                    <div v-if="extra.syllabus" class="my-3">
                         <h2 class="cursor-pointer text-lg font-bold" @click="fold.syllabus = !fold.syllabus">
                             <IconFold :fold="fold.syllabus" class="absolute text-gray-500" />
                             <span class="ml-7 lg:ml-8">教學大綱</span>
                         </h2>
                         <hr class="mt-1 mb-2" />
                         <AniFade direction="up">
-                            <div v-show="!fold.syllabus" class="overflow-hidden p-2" v-html="marked.parse(course.syllabus)"></div>
+                            <div v-show="!fold.syllabus" class="overflow-hidden p-2" v-html="marked.parse(extra.syllabus)"></div>
                         </AniFade>
                     </div>
                 </div>
-                <div v-if="course.rating" class="hidden lg:inline-block lg:w-1/3 lg:pt-6 lg:pl-1">
+                <!-- <div v-if="course.rating" class="hidden lg:inline-block lg:w-1/3 lg:pt-6 lg:pl-1">
                     <h1 class="border-l-2 border-indigo-500 pl-1 text-2xl">課程評價</h1>
                     <p class="m-2">共 {{ course.rating.count }} 個評分</p>
                     <div class="m-2 grid grid-cols-[4rem_auto]">
@@ -202,9 +274,10 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
                     </div>
                     <hr />
                     <div class="flex w-full flex-col justify-center">
-                        <CourseReviewCard v-for="(review, idx) of course.reviews" :key="idx" :review="review" class="m-2" />
+                        <CourseReviewCard v-for="(review, idx) of course.reviews" :key="idx" :review="review"
+                            class="m-2" />
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
