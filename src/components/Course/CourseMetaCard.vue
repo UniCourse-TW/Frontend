@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { PropType } from "vue";
-import type { CourseLocation, CourseTime, CourseTag } from "../../types";
+import type { CourseLocation, CourseTime, CourseTag, CourseMeta } from "../../types";
 
 const props = defineProps({
     name: { default: "" },
@@ -13,9 +13,9 @@ const props = defineProps({
     serial: { default: 0 },
     restrict: { default: "" },
     featured: { default: false },
-    programs: { type: Array as PropType<string[]>, default: () => [] },
+    programs: { type: Array as PropType<CourseMeta["programs"]>, default: () => [] },
     schedule: { type: Array as PropType<(CourseTime & CourseLocation)[]>, default: () => [] },
-    teachers: { type: Array as PropType<string[]>, default: () => [] },
+    teachers: { type: Array as PropType<CourseMeta["teachers"]>, default: () => [] },
     tags: { type: Array as PropType<CourseTag[]>, default: () => [] },
 });
 
@@ -39,11 +39,13 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
         ]"
     >
         <div>
-            <h2 title="授課系所與教師" class="my-1 text-sm text-gray-600">{{ props.department }} {{ props.teachers.join("、") }}</h2>
+            <h2 title="授課系所與教師" class="my-1 text-sm text-gray-600">
+                {{ props.department }} {{ props.teachers.map(({ name }) => name).join("、") }}
+            </h2>
 
             <h1 class="my-1 text-xl font-bold">
                 <span :class="props.featured ? 'text-rainbow' : ''">{{ props.name }}</span>
-                <span class="text-base">
+                <span class="ml-1 text-base">
                     <span title="開課學年度" class="text-gray-600">{{ props.year }}</span>
                     <span class="text-gray-400">-</span>
                     <span title="開課學期" class="text-gray-600">{{ props.term }}</span>
@@ -55,10 +57,11 @@ function readable_schedule({ day, from, to, campus, classroom }: CourseTime & Co
             </h1>
 
             <h2 title="學分與授課時段" class="my-1 text-sm text-gray-500">
-                {{ props.credit }} 學分 ({{ props.schedule.map(readable_schedule).join("、") }})
+                {{ props.credit }} 學分
+                <!-- ({{ props.schedule.map(readable_schedule).join("、") }}) -->
             </h2>
 
-            <h2 title="相關學程" class="my-1 text-xs text-gray-400 sm:text-sm">{{ props.programs.join(" | ") }}</h2>
+            <h2 title="相關學程" class="my-1 text-xs text-gray-400 sm:text-sm">{{ props.programs.map(({ name }) => name).join(" | ") }}</h2>
         </div>
         <div title="標籤" class="absolute bottom-0 left-0 w-full py-2 px-3 sm:px-5 lg:px-6">
             <div class="flex">

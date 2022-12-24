@@ -136,6 +136,7 @@ export interface CourseTag {
 }
 
 export interface CourseMeta {
+    id: string;
     /**
      * 開課學年度
      */
@@ -151,7 +152,10 @@ export interface CourseMeta {
     /**
      * 授課教師
      */
-    teachers: string[];
+    teachers: {
+        id: string;
+        name: string;
+    }[];
     /**
      * 開課系所
      */
@@ -183,7 +187,10 @@ export interface CourseMeta {
     /**
      * 學分學程
      */
-    programs: string[];
+    programs: {
+        id: string;
+        name: string;
+    }[];
     /**
      * 備註
      */
