@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { PropType } from "vue";
 import type { Post } from "../../types";
-import { marked } from "marked";
 
 const props = defineProps({
     post: {

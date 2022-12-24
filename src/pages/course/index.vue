@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import type { CourseInfo, CourseListFilter, CourseMeta, CourseTypeListFilter } from "../../types";
+import { EndpointResponseBody } from "unicourse";
+import type { CourseListFilter, CourseMeta, CourseTypeListFilter } from "../../types";
 import { courses } from "../../api";
 import SearchBar from "../../components/SearchBar.vue";
 
@@ -57,7 +58,7 @@ const prev_length = ref(0);
 const searching = ref(false);
 const first = ref(true);
 const adv = ref(false);
-const detail_course = ref(<CourseInfo | null>{});
+const detail_course = ref<EndpointResponseBody<`courses/${string}`> | null>(null);
 
 const advanced_values = reactive(<{ [key: string]: string }>{
     department: "",
@@ -326,10 +327,7 @@ onMounted(() => {
             </div>
         </div>
         <transition name="detail">
-            <div
-                v-if="detail_course && detail_course.name"
-                class="fixed top-0 left-0 z-20 h-screen w-screen bg-black/60 pt-2 sm:px-2 lg:p-4"
-            >
+            <div v-if="detail_course" class="fixed top-0 left-0 z-20 h-screen w-screen bg-black/60 pt-2 sm:px-2 lg:p-4">
                 <FullScreenCard :course="detail_course" class="h-full w-full rounded-t-lg sm:rounded-t-xl" />
                 <i-octicon-x
                     class="absolute top-4 right-2 cursor-pointer sm:right-4 lg:top-7 lg:right-7 lg:text-lg"

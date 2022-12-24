@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Post } from "../../../types";
+import { EndpointResponseBody } from "unicourse";
 import { posts } from "../../../api";
 
 useHead({ title: "文章 | UniCourse" });
@@ -7,7 +7,7 @@ useHead({ title: "文章 | UniCourse" });
 const route = useRoute();
 const article_id = route.params.article_id;
 
-const post = ref<Post | null>(null);
+const post = ref<EndpointResponseBody<`posts/${string}`> | null>(null);
 
 query();
 async function query() {

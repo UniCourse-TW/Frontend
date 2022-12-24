@@ -1,4 +1,5 @@
-import type { CourseMeta, CourseInfo, CourseListQuery, PostListQuery, PostMeta, Post, PostForm } from "./types";
+import { EndpointResponseBody } from "unicourse";
+import type { CourseMeta, CourseListQuery, PostListQuery, PostMeta, Post, PostForm } from "./types";
 import uni from "./uni";
 
 export const posts = {
@@ -11,8 +12,8 @@ export const posts = {
         const data = (await uni.req(`posts?${qs}`)) as PostMeta[];
         return data;
     },
-    async get(id: string): Promise<Post> {
-        const data = (await uni.req(`posts/${id}`)) as Post;
+    async get(id: string): Promise<EndpointResponseBody<`posts/${string}`>> {
+        const data = await uni.req(`posts/${id}`);
         return data;
     },
     async create(body: PostForm): Promise<Post> {
@@ -30,8 +31,8 @@ export const courses = {
         const data = (await uni.req(`courses?${qs}`)) as CourseMeta[];
         return data;
     },
-    async info(key = ""): Promise<CourseInfo> {
-        const data = (await uni.req(`courses/${key}`)) as CourseInfo;
+    async info(key = ""): Promise<EndpointResponseBody<`courses/${string}`>> {
+        const data = await uni.req(`courses/${key}`);
         return data;
     },
 };

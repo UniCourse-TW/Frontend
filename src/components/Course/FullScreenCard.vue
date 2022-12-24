@@ -1,16 +1,13 @@
 <script lang="ts" setup>
-import type { CourseLocation, CourseTime, CourseInfo } from "../../types";
+import type { CourseLocation, CourseTime } from "../../types";
 import { marked } from "marked";
 import { EndpointResponseBody } from "unicourse";
-import uni from "../../uni";
 
-const props = defineProps({
-    id: {
-        default: "",
-    },
-});
+const props = defineProps<{
+    course: EndpointResponseBody<`courses/${string}`>;
+}>();
 
-let course: EndpointResponseBody<`courses/${string}`>;
+const course = props.course;
 const extra = computed(() => {
     if (!course) {
         return {
@@ -71,13 +68,6 @@ const extra = computed(() => {
     };
 });
 
-init();
-
-async function init() {
-    course = await uni.req(`courses/${props.id}`);
-}
-
-// const course = props.course;
 type Grading = { weight: number; type: string; note: string };
 const gradings = computed<(Grading & { color: string })[]>(() => {
     if (!course) return [];
