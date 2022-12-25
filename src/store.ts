@@ -1,7 +1,9 @@
 import type { User } from "./types";
 import { createPinia, defineStore } from "pinia";
 
-const get_token = () => localStorage.getItem("unicourse") || undefined;
+const get_token = () => {
+    return localStorage.getItem("unicourse") || undefined;
+};
 
 const use_store = defineStore("coolest-store", {
     state: () => ({
@@ -17,7 +19,7 @@ const use_store = defineStore("coolest-store", {
         },
         logout() {
             localStorage.removeItem("unicourse");
-            this.token = get_token();
+            location.replace("/");
         },
     },
 });
