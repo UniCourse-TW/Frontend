@@ -9,6 +9,10 @@ export const uni = new UniCourse(store.token, {
     server: API_BASE,
 });
 
+if (store.token && !uni.is_valid()) {
+    store.logout();
+}
+
 ((login: typeof uni.login) => {
     uni.login = async (username: string, password: string) => {
         const result = await login(username, password);

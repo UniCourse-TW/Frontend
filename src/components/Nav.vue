@@ -21,15 +21,13 @@ const computed_nav = computed(() => {
 const open_menu = ref(false);
 
 const store = use_store();
-const router = useRouter();
 const logout = () => {
     store.logout();
-    Swal.fire({
-        icon: "success",
-        title: "登出成功",
-        text: "下次再見",
-    });
-    router.push("/");
+    // Swal.fire({
+    //     icon: "success",
+    //     title: "登出成功",
+    //     text: "下次再見",
+    // });
 };
 </script>
 
