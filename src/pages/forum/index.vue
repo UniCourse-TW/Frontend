@@ -442,13 +442,13 @@ const course_animation = {
             </div>
 
             <button
-                class="newPostButton1 bg-gray-100 px-2 text-blue-400 duration-200 file:transition-all hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400"
+                class="newPostBtn bg-gray-100 px-2 text-blue-400 duration-200 file:transition-all hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400"
                 @click="router.push('/forum/article/new')"
             >
                 <span>我要發文</span>
             </button>
             <button
-                class="newPostButton2 bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400"
+                class="newQuesionBtn bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400"
                 @click="router.push('/forum/article/new?type=question')"
             >
                 <span>我要發問</span>
@@ -463,7 +463,7 @@ const course_animation = {
     margin-right: 10%;
 }
 
-.newPostButton1 {
+.newPostBtn {
     position: fixed;
     bottom: 10%;
     right: 13%;
@@ -472,7 +472,7 @@ const course_animation = {
     border-radius: 100px;
 }
 
-.newPostButton2 {
+.newQuesionBtn {
     position: fixed;
     bottom: 10%;
     right: 4%;
