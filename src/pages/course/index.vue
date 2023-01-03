@@ -13,6 +13,7 @@ const warnings = {
     num: "只可以有數字！",
     num_letter: "只可以有數字和英文字母！",
     compare: "必須是比較格式：<=, >=, <, >, = 加上數字！",
+    dash: "數字間請以「-」隔開, 例如: 111-1",
     range: "必須是範圍格式：數字間以「,」或「-」隔開！",
 };
 
@@ -21,11 +22,11 @@ const advanced_search: [string, string, string, string, (v: string) => boolean][
     ["教師", "teacher", "紀", "", () => true],
     ["課程名稱", "title", "程式設計", "", () => true],
     ["科目代碼", "code", "CSU0002", warnings.num_letter, (v: string) => !v.match(/[^\w\d]/)],
+    ["開課學年學期", "term", "111-1", warnings.dash, (v: string) => !v.match(/[^\d-]/)],
+    ["學分學程", "program", "音樂科技", "", () => true],
+    /*    
     ["開課學年度", "year", "110", warnings.num, (v: string) => !v.match(/\D/)],
     ["開課學期", "term", "2", warnings.num, (v: string) => !v.match(/\D/)],
-    ["學分學程", "program", "音樂科技", "", () => true],
-
-    /*    
      ["開課序號", "serial", "2949", warnings.num, (v: string) => !v.match(/\D/)],
      ["標籤", "tag", "UX", "", () => true],
      ["通識領域", "general", "人文", "", () => true],
