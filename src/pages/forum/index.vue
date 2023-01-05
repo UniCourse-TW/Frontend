@@ -369,11 +369,6 @@ const course_animation = {
             <div class="px-4 lg:px-6">
                 <div class="flex justify-between">
                     <h2 class="text-lg lg:text-xl">公告</h2>
-                    <!-- <button
-                        class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
-                        @click="router.push('/forum/article/new?type=question')">
-                        <span>我要發問</span>
-                    </button> -->
                 </div>
                 <div class="w-full">
                     <transition-group
@@ -404,11 +399,6 @@ const course_animation = {
             <div class="px-4 lg:px-6">
                 <div class="flex justify-between">
                     <h2 class="text-lg lg:text-xl">最新貼文</h2>
-                    <!-- <button
-                        class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
-                        @click="router.push('/forum/article/new')">
-                        <span>我要發文</span>
-                    </button> -->
                 </div>
                 <div class="w-full">
                     <transition-group

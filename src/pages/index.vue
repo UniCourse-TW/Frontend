@@ -116,12 +116,52 @@ async function init() {
                 </div>
             </div>
         </div>
-        <div class="mx-auto h-1/4 w-full p-5 text-center lg:w-2/3">
+        <!-- <div class="mx-auto h-1/4 w-full p-5 text-center lg:w-2/3">
             <span>加入我們 / find us</span>
             <br />
             <Link class="mx-auto" aria-label="Join Our Discord Server" to="https://discord.gg/gMXEn97CkN" :icon="false">
-                <i-ion-logo-discord class="m-2 mx-auto h-8 w-8 text-purple-700" />
+            <i-ion-logo-discord class="m-2 mx-auto h-8 w-8 text-purple-700" />
             </Link>
+        </div> -->
+        <div class="underspace">
+            <span>加入我們 / find us</span>
+            <br />
+            <div class="flex">
+                <Link class="mx-auto" aria-label="Join Our FaceBook Server" to="https://www.facebook.com/unicourse.tw" :icon="false">
+                    <i-ion-logo-facebook
+                        class="m-2 mx-auto h-8 w-8 text-blue-500 duration-200 file:transition-all hover:scale-125 hover:text-blue-800"
+                    />
+                </Link>
+                <Link
+                    class="mx-auto"
+                    aria-label="Join Our Instagram Server"
+                    to="https://www.instagram.com/unicourse.tw/?igshid=YmMyMTA2M2Y="
+                    :icon="false"
+                >
+                    <i-ion-logo-instagram
+                        class="m-2 mx-auto h-8 w-8 text-pink-400 duration-200 file:transition-all hover:scale-125 hover:text-rose-700"
+                    />
+                </Link>
+                <Link class="mx-auto" aria-label="Join Our Discord Server" to="https://discord.gg/gMXEn97CkN" :icon="false">
+                    <i-ion-logo-discord
+                        class="m-2 mx-auto h-8 w-8 text-purple-600 duration-200 file:transition-all hover:scale-125 hover:text-purple-800"
+                    />
+                </Link>
+            </div>
         </div>
     </div>
 </template>
+
+<style scoped>
+.underspace {
+    bottom: 0%;
+    margin-top: 5%;
+    width: 100vw;
+    height: 17vh;
+    text-align: center;
+    line-height: 7vh;
+    background: #e2e4fd;
+    /* background: linear-gradient(90deg, #f5d0fe, rgb(199, 210, 254), rgb(199, 210, 254), rgb(147, 197, 253)); */
+    box-shadow: 0 0 20px rgb(176, 187, 222);
+}
+</style>

@@ -16,16 +16,15 @@ declare module "@vue/runtime-core" {
         FullScreenCard: typeof import("./../components/Course/FullScreenCard.vue")["default"];
         IconFold: typeof import("./../components/Icon/IconFold.vue")["default"];
         IconStars: typeof import("./../components/Icon/IconStars.vue")["default"];
-        IIconLogoDiscord: typeof import("~icons/ic/on-logo-discord")["default"];
-        IIonArrowUp: typeof import("~icons/ion/arrow-up")["default"];
         IIonLogoDiscord: typeof import("~icons/ion/logo-discord")["default"];
+        IIonLogoFacebook: typeof import("~icons/ion/logo-facebook")["default"];
+        IIonLogoInstagram: typeof import("~icons/ion/logo-instagram")["default"];
         Input: typeof import("./../components/Input.vue")["default"];
         IOcticonFilter16: typeof import("~icons/octicon/filter16")["default"];
         IOcticonFold16: typeof import("~icons/octicon/fold16")["default"];
         IOcticonLinkExternal: typeof import("~icons/octicon/link-external")["default"];
         IOcticonMilestone16: typeof import("~icons/octicon/milestone16")["default"];
         IOcticonSearch: typeof import("~icons/octicon/search")["default"];
-        IOcticonStarFill16: typeof import("~icons/octicon/star-fill16")["default"];
         IOcticonUnfold16: typeof import("~icons/octicon/unfold16")["default"];
         IOcticonX: typeof import("~icons/octicon/x")["default"];
         IOcticonXCircle16: typeof import("~icons/octicon/x-circle16")["default"];
