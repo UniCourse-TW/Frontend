@@ -10,6 +10,7 @@ declare module "@vue/runtime-core" {
         AniFade: typeof import("./../components/Animation/AniFade.vue")["default"];
         BigScreen: typeof import("./../components/BigScreen.vue")["default"];
         Card: typeof import("./../components/Card.vue")["default"];
+        copy: typeof import("./../components/Course/FullScreenCard copy.vue")["default"];
         CourseMetaCard: typeof import("./../components/Course/CourseMetaCard.vue")["default"];
         CourseReviewCard: typeof import("./../components/Course/CourseReviewCard.vue")["default"];
         ForumMetaCard: typeof import("./../components/Forum/ForumMetaCard.vue")["default"];
@@ -29,6 +30,7 @@ declare module "@vue/runtime-core" {
         IOcticonX: typeof import("~icons/octicon/x")["default"];
         IOcticonXCircle16: typeof import("~icons/octicon/x-circle16")["default"];
         Link: typeof import("./../components/Link.vue")["default"];
+        MainPageCourseCard: typeof import("./../components/Course/MainPageCourseCard.vue")["default"];
         Nav: typeof import("./../components/Nav.vue")["default"];
         Rating: typeof import("./../components/Rating.vue")["default"];
         RouterLink: typeof import("vue-router")["RouterLink"];

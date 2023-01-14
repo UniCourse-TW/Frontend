@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { EndpointResponseBody, GET } from "unicourse";
+import { EndpointResponseBody } from "unicourse";
+import { courses } from "../api";
 import uni from "../uni";
 
 useHead({ title: "UniCourse" });
@@ -19,7 +20,16 @@ const stats = reactive<{
         count: 0,
     },
 });
-
+const course_data = ref<EndpointResponseBody<`courses/${string}`> | null>(null);
+const course_data2 = ref<EndpointResponseBody<`courses/${string}`> | null>(null);
+show("claknmb5e0010o718gxwtb0bo");
+async function show(key: string) {
+    course_data.value = await courses.info(key);
+}
+show2("clakocb231i7fo718bzwgooi9");
+async function show2(key: string) {
+    course_data2.value = await courses.info(key);
+}
 init();
 
 async function init() {
@@ -37,6 +47,19 @@ async function init() {
                 src="https://unicourse-tw.github.io/Public-Assets/banner/banner_withText.svg"
                 class="m-auto mt-0 h-full w-full p-3 sm:p-5 lg:p-20"
             />
+        </div>
+        <div class="mx-auto h-1/2 w-full p-2 sm:h-2/5 sm:px-4 lg:h-2/3 lg:w-2/3 lg:px-6">
+            <div class="h-full w-full rounded-lg bg-white bg-opacity-40 p-3 shadow-lg transition-all hover:shadow-xl">
+                <div class="text-center text-lg text-purple-700">推薦課程</div>
+                <div class="">
+                    <div v-if="course_data2" class="pt-2 sm:px-2 lg:p-4">
+                        <MainPageCourseCard :course="course_data2" class="rounded-t-lg sm:rounded-t-xl" />
+                    </div>
+                    <div v-if="course_data" class="pt-2 sm:px-2 lg:p-4">
+                        <MainPageCourseCard :course="course_data" class="rounded-t-lg sm:rounded-t-xl" />
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="mx-auto h-4/5 w-full p-2 sm:h-2/5 sm:px-4 lg:w-2/3 lg:px-6">
             <div class="inline-block h-full w-1/2 pt-1 pr-2 sm:h-full sm:w-1/2 sm:pr-2 lg:h-full lg:w-1/2">
@@ -157,9 +180,9 @@ async function init() {
     bottom: 0%;
     margin-top: 5%;
     width: 100vw;
-    height: 17vh;
+    height: 18vh;
     text-align: center;
-    line-height: 7vh;
+    line-height: 9vh;
     background: #e2e4fd;
     /* background: linear-gradient(90deg, #f5d0fe, rgb(199, 210, 254), rgb(199, 210, 254), rgb(147, 197, 253)); */
     box-shadow: 0 0 20px rgb(176, 187, 222);
