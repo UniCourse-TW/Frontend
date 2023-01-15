@@ -1,3 +1,5 @@
+import { Post } from "@unicourse-tw/prisma";
+
 // #region General Type Definitions
 export interface ResponseError {
     title: string;
@@ -338,20 +340,7 @@ export interface PostRating {
     usefulness: number;
 }
 
-export interface PostMeta {
-    id: string;
-    type: "review" | "question" | "others";
-    author: string;
-    title: string;
-    time: string;
-    vote: PostVote;
-    tags: string[];
-    course:
-        | null
-        | (Pick<CourseMeta, "year" | "term" | "serial" | "name"> & {
-              teacher: string;
-          });
-}
+export type PostMeta = Post & { vote: { up: number; down: number }; replies: { author_id: string; content: string }[] };
 
 export interface PostInfo extends PostMeta {
     content: string;
@@ -394,28 +383,6 @@ export interface User {
             used: boolean;
             user_name: string;
         };
-    };
-}
-
-export interface Post {
-    id: string;
-    type: string;
-    author: string;
-    title: string;
-    content: string;
-    time: string;
-    vote: {
-        up: number;
-        down: number;
-    };
-    tags: string[];
-    course: {
-        year: number;
-        term: number;
-        serial: number;
-        name: string;
-        teacher: string;
-        rating: CourseRating;
     };
 }
 

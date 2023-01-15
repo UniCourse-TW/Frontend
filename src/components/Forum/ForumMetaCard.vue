@@ -1,14 +1,15 @@
 <script lang="ts" setup>
-import { PropType } from "vue";
-import type { PostMeta } from "../../types";
+import { PostMeta } from "../../types";
 
-const props = defineProps({
-    meta: {
-        default: () => null,
-        type: Object as PropType<PostMeta | null>,
+const props = withDefaults(
+    defineProps<{
+        meta?: PostMeta;
+        is_loading?: boolean;
+    }>(),
+    {
+        is_loading: false,
     },
-    is_loading: { default: false, type: Boolean },
-});
+);
 
 const router = useRouter();
 
@@ -25,14 +26,11 @@ function handle_click() {
                 <img src="https://picsum.photos/seed/10/32/32" class="rounded-full" />
                 <span class="text-lg">{{ meta.title }}</span>
             </div>
-            <div v-if="meta.course" class="text-sm text-gray-600">
-                課程：{{ `${meta.course.year}-${meta.course.term} ${meta.course.name}` }}
-            </div>
 
             <div class="flex-1"></div>
 
-            <div class="text-sm">{{ meta.tags.map((t) => `#${t}`).join(" ") }}</div>
-            <div class="text-sm text-gray-600">{{ meta.time }}</div>
+            <div class="text-sm">{{ meta.vote.up }} {{ meta.vote.down }}</div>
+            <div class="text-sm text-gray-600">{{ meta.updated }}</div>
         </div>
         <div v-else class="flex h-full animate-pulse flex-col gap-y-3">
             <div class="flex items-center gap-x-4">

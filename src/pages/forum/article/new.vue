@@ -1,43 +1,31 @@
 <script lang="ts" setup>
-import type { PostForm } from "../../../types";
+import { Post, PostType } from "@unicourse-tw/prisma";
 import { posts } from "../../../api";
 import Swal from "sweetalert2";
 
 const route = useRoute();
 const router = useRouter();
 
-const placeholders = {
-    review: {
+const placeholders: Record<PostType, { title: string; content: string }> = {
+    Article: {
         title: "輸入標題 如：「演算法外系修課心得」",
         content: "分享你的經驗",
     },
-    question: {
+    Question: {
         title: "輸入標題 如：「程式設計一可以旁聽嗎？」",
         content: "提出你的問題",
     },
-    others: {
-        title: "",
-        content: "",
-    },
+    Announcement: { title: "", content: "" },
+    Reply: { title: "", content: "" },
+    Other: { title: "", content: "" },
 };
 
-const newPost = reactive<PostForm>({
-    type: route.query.type === "question" ? "question" : "review",
+const newPost = reactive({
+    type: (route.query.type === "question" ? PostType.Question : PostType.Article) as PostType,
     title: "",
     content: "",
-    tags: [],
-    course: {
-        year: 0,
-        term: 0,
-        serial: 0,
-        name: "",
-        teacher: "",
-        rating: {
-            sweetness: 0,
-            easiness: 0,
-            usefulness: 0,
-        },
-    },
+    tags: [] as string[],
+    // course: "",
 });
 const rawTagsInput = ref("");
 watchEffect(() => {
@@ -82,8 +70,8 @@ function submit() {
                         v-model="newPost.type"
                         class="w-full border-b-[3px] border-blue-300 p-2 outline-none transition-all duration-200 focus:border-indigo-500"
                     >
-                        <option value="review">文章</option>
-                        <option value="question">發問</option>
+                        <option value="Article">文章</option>
+                        <option value="Question">發問</option>
                     </select>
                 </label>
             </div>

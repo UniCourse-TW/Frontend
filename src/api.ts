@@ -1,10 +1,10 @@
-import { EndpointResponseBody } from "unicourse";
-import type { CourseMeta, CourseListQuery, PostListQuery, PostMeta, Post, PostForm } from "./types";
+import { EndpointRequestBody, EndpointResponseBody, POST } from "unicourse";
+import type { CourseMeta, CourseListQuery, PostListQuery, PostMeta } from "./types";
 import uni from "./uni";
 
 export const posts = {
-    async get_latest(): Promise<PostMeta[]> {
-        const data = (await uni.req("posts/latest")) as PostMeta[];
+    async get_latest(): Promise<EndpointResponseBody<"posts/latest">> {
+        const data = await uni.req("posts/latest");
         return data;
     },
     async get_list(query: PostListQuery): Promise<PostMeta[]> {
@@ -16,11 +16,11 @@ export const posts = {
         const data = await uni.req(`posts/${id}`);
         return data;
     },
-    async create(body: PostForm): Promise<Post> {
-        const data = (await uni.req(`posts`, {
+    async create(body: EndpointRequestBody<`posts`, typeof POST>): Promise<EndpointResponseBody<`posts`, typeof POST>> {
+        const data = await uni.req(`posts`, {
             method: "POST",
             body,
-        })) as Post;
+        });
         return data;
     },
 };

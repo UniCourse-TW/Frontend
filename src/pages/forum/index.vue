@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { CourseInfo, CourseListFilter, CourseMeta, CourseTypeListFilter, ArticleTypeListFilter } from "../../types";
-import type { PostMeta } from "../../types";
+import type { PostMeta, CourseInfo, CourseListFilter, CourseMeta, CourseTypeListFilter, ArticleTypeListFilter } from "../../types";
 import { posts, courses } from "../../api";
 import SearchBar from "../../components/SearchBar.vue";
+import { PostType } from "@unicourse-tw/prisma";
 useHead({ title: "論壇 | UniCourse" });
 
 const holders = ["甜課", "資工系", "獨角獸", "設計", "老師人很好", "作業好多"];
@@ -167,16 +167,15 @@ function validate(val: string, func: (v: string) => boolean): boolean {
 const router = useRouter();
 
 const query_body = ref("");
-const latest_questions = reactive(<PostMeta[]>[]);
-const latest_posts = reactive(<PostMeta[]>[]);
-const latest_annoucement = reactive(<PostMeta[]>[]);
+
+const latest_posts = reactive<PostMeta[]>([]);
+const latest_annoucement = reactive<PostMeta[]>([]);
 const is_fetching = ref(true);
 
 posts
     .get_latest()
     .then((data) => {
-        latest_questions.splice(0, latest_questions.length, ...data.filter((e) => e.type === "question"));
-        latest_posts.splice(0, latest_posts.length, ...data.filter((e) => e.type !== "question"));
+        latest_posts.splice(0, latest_posts.length, ...data.filter((e) => e.type !== PostType.Question));
     })
     .catch(console.error)
     .finally(() => {
@@ -184,10 +183,6 @@ posts
         setTimeout(() => (is_fetching.value = false), 1000);
         // is_fetching.value = false;
     });
-
-// function query() {
-//     router.push({ path: "/forum/search", query: { q: query_body.value } });
-// }
 
 const post_animation = {
     before_enter(el: Element) {
@@ -369,11 +364,6 @@ const course_animation = {
             <div class="px-4 lg:px-6">
                 <div class="flex justify-between">
                     <h2 class="text-lg lg:text-xl">公告</h2>
-                    <!-- <button
-                        class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
-                        @click="router.push('/forum/article/new?type=question')">
-                        <span>我要發問</span>
-                    </button> -->
                 </div>
                 <div class="w-full">
                     <transition-group
@@ -404,11 +394,6 @@ const course_animation = {
             <div class="px-4 lg:px-6">
                 <div class="flex justify-between">
                     <h2 class="text-lg lg:text-xl">最新貼文</h2>
-                    <!-- <button
-                        class="break-normal bg-gray-100 px-2 text-blue-400 transition-all duration-200 hover:bg-gray-200 hover:text-lg hover:font-bold hover:text-fuchsia-400 sm:px-4"
-                        @click="router.push('/forum/article/new')">
-                        <span>我要發文</span>
-                    </button> -->
                 </div>
                 <div class="w-full">
                     <transition-group
@@ -433,10 +418,6 @@ const course_animation = {
                         <div v-else>
                             <div class="my-8 rounded border border-gray-300 p-8">目前沒有新文章/新提問</div>
                         </div>
-                        <!-- <div v-else-if="latest_questions.length" v-for="(meta, idx) of latest_questions" :key="meta.id"
-                            :data-idx="idx" class="my-4">
-                            <ForumMetaCard :meta="meta" />
-                        </div> -->
                     </transition-group>
                 </div>
             </div>
