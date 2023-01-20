@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { CourseLocation, CourseTime } from "../../types";
 import { marked } from "marked";
 import { EndpointResponseBody } from "unicourse";
 
@@ -90,15 +89,15 @@ const fold = reactive({
     syllabus: true,
 });
 
-function readable_schedule({ day, from, to, campus, classroom }: CourseTime & CourseLocation) {
-    if (day < 0) {
-        return "密集課程";
-    }
+// function readable_schedule({ day, from, to, campus, classroom }: CourseTime & CourseLocation) {
+//     if (day < 0) {
+//         return "密集課程";
+//     }
 
-    const days = ["", "一", "二", "三", "四", "五", "六", "日"];
+//     const days = ["", "一", "二", "三", "四", "五", "六", "日"];
 
-    return `週${days[day]} ${from === to ? `${from}` : `${from}-${to}`} ${campus} ${classroom}`;
-}
+//     return `週${days[day]} ${from === to ? `${from}` : `${from}-${to}`} ${campus} ${classroom}`;
+// }
 </script>
 
 <template>
