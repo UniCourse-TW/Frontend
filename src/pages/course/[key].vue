@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import type { CourseInfo } from "../../types";
+import { EndpointResponseBody } from "unicourse";
+import uni from "../..//uni";
 import { courses } from "../../api";
 const route = useRoute();
 
 const key = route.params.key as string;
 
-const course = ref<CourseInfo | null>(null);
+const course = ref<EndpointResponseBody<`courses/${string}`> | null>(null);
 const not_found = ref(false);
 
 query();
@@ -22,7 +23,7 @@ async function query() {
 </script>
 
 <template>
-    <FullScreenCard :course="course" class="h-screen w-screen" v-if="!not_found" />
+    <FullScreenCard :course="course" class="h-screen w-screen" v-if="!not_found && course" />
     <div class="flex h-screen w-screen items-start justify-center text-lg sm:text-xl lg:text-2xl" v-else>
         <div class="p-8 text-center">
             拍謝，我們找不到這門課！ＱＱ

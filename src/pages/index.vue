@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { EndpointResponseBody, GET } from "unicourse";
+import { EndpointResponseBody } from "unicourse";
 import uni from "../uni";
 
 useHead({ title: "UniCourse" });
