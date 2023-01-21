@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import use_store from "../../store";
 import uni from "../../uni";
 import { useStorage } from "@vueuse/core";
+import { EndpointResponseBody } from "unicourse";
 
 const route = useRoute();
 const router = useRouter();
@@ -45,10 +46,33 @@ async function login() {
     try {
         const { username } = await uni.login(state.username, state.password);
         store.login();
+        const me = reactive<EndpointResponseBody<"me">>({
+            username: "",
+            profile: {
+                avatar: "https://unicourse-tw.github.io/Public-Assets/icon/UniCourse_icon_fade.256x256.png",
+                banner: "",
+                bio: "",
+                email: "",
+                location: "",
+                name: "",
+                school: "",
+                extra: {},
+            },
+            email: {
+                email: "",
+                verified: false,
+            },
+            groups: [],
+            invitations: [],
+            perms: [],
+        });
+        try {
+            Object.assign(me, await uni.req("me"));
+        } catch {}
         Swal.fire({
             icon: "success",
             title: "登入成功",
-            text: `歡迎回來，${username}！`,
+            text: `歡迎回來，${me.profile.name}！`,
         });
         if (!remember_username.value) {
             stored_username.value = null;
