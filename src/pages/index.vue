@@ -48,7 +48,11 @@ async function init() {
                     位
                     <br />
                     使用者
-                    <img alt="Community" src="../assets/front/front0L.svg" class="inline-block h-full" />
+                    <img
+                        alt="Community"
+                        src="https://unicourse-tw.github.io/Public-Assets/frontpage/front0L.svg"
+                        class="inline-block h-full"
+                    />
                 </div>
             </div>
 
@@ -61,7 +65,11 @@ async function init() {
                     篇
                     <br />
                     文章
-                    <img alt="Articles" src="../assets/front/front0R.svg" class="inline-block h-full" />
+                    <img
+                        alt="Articles"
+                        src="https://unicourse-tw.github.io/Public-Assets/frontpage/front0R.svg"
+                        class="inline-block h-full"
+                    />
                 </div>
             </div>
         </div>
@@ -70,7 +78,11 @@ async function init() {
                 class="flex h-full w-full rounded-lg bg-white bg-opacity-40 px-3 py-6 text-center shadow-lg transition-all hover:shadow-xl"
             >
                 <div class="inline-block h-full w-1/2 flex-1">
-                    <img alt="Find Course" src="../assets/front/front01_transBG.svg" class="my-auto inline-block w-full" />
+                    <img
+                        alt="Find Course"
+                        src="https://unicourse-tw.github.io/Public-Assets/frontpage/front01_transBG.svg"
+                        class="my-auto inline-block w-full"
+                    />
                 </div>
                 <div class="my-auto inline-block h-full w-1/2 flex-1">
                     <div class="m-auto p-3 sm:p-5 lg:p-5">
@@ -87,7 +99,11 @@ async function init() {
                 class="flex h-full w-full rounded-lg bg-white bg-opacity-40 px-3 py-6 text-center shadow-lg transition-all hover:shadow-xl"
             >
                 <div class="inline-block h-full w-1/2 flex-1">
-                    <img alt="Answer Question" src="../assets/front/front02_transBG.svg" class="my-auto inline-block w-full" />
+                    <img
+                        alt="Answer Question"
+                        src="https://unicourse-tw.github.io/Public-Assets/frontpage/front02_transBG.svg"
+                        class="my-auto inline-block w-full"
+                    />
                 </div>
                 <div class="my-auto inline-block h-full w-1/2 flex-1">
                     <div class="m-auto p-3 sm:p-5 lg:p-5">
@@ -104,7 +120,11 @@ async function init() {
                 class="flex h-full w-full rounded-lg bg-white bg-opacity-40 px-3 py-6 text-center shadow-lg transition-all hover:shadow-xl"
             >
                 <div class="inline-block h-full w-1/2 flex-1">
-                    <img alt="Share Review" src="../assets/front/front03_transBG.svg" class="my-auto inline-block w-full" />
+                    <img
+                        alt="Share Review"
+                        src="https://unicourse-tw.github.io/Public-Assets/frontpage/front03_transBG.svg"
+                        class="my-auto inline-block w-full"
+                    />
                 </div>
                 <div class="my-auto inline-block h-full w-1/2 flex-1">
                     <div class="m-auto p-3 sm:p-5 lg:p-5">
