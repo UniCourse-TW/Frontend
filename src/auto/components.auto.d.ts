@@ -19,10 +19,6 @@ declare module "@vue/runtime-core" {
         IIconLogoDiscord: typeof import("~icons/ic/on-logo-discord")["default"];
         IIonArrowUp: typeof import("~icons/ion/arrow-up")["default"];
         IIonLogoDiscord: typeof import("~icons/ion/logo-discord")["default"];
-        IIonLogoFacebook: typeof import("~icons/ion/logo-facebook")["default"];
-        IIonLogoInstagram: typeof import("~icons/ion/logo-instagram")["default"];
-        IIonLogoLink: typeof import("~icons/ion/logo-link")["default"];
-        IIonLogoUrl: typeof import("~icons/ion/logo-url")["default"];
         Input: typeof import("./../components/Input.vue")["default"];
         IOcticonFilter16: typeof import("~icons/octicon/filter16")["default"];
         IOcticonFold16: typeof import("~icons/octicon/fold16")["default"];
