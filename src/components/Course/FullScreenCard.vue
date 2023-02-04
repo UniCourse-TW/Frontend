@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { marked } from "marked";
+import Swal from "sweetalert2";
 import { EndpointResponseBody } from "unicourse";
 
 const props = defineProps<{
@@ -98,6 +99,18 @@ const fold = reactive({
 
 //     return `週${days[day]} ${from === to ? `${from}` : `${from}-${to}`} ${campus} ${classroom}`;
 // }
+
+const course_url = "https://unicourse.tw/course/" + course.id;
+async function copy(data: string) {
+    try {
+        await navigator.clipboard.writeText(data);
+        Swal.fire({
+            icon: "success",
+            title: "複製成功",
+            text: "已複製到剪貼簿",
+        });
+    } catch {}
+}
 </script>
 
 <template>
@@ -106,12 +119,12 @@ const fold = reactive({
             <div v-if="!course" class="animate-pulse">載入中 ...</div>
             <div v-else class="lg:flex">
                 <div class="w-full lg:inline-block lg:w-2/3 lg:pr-1">
+                    <u class="text-xs text-gray-400 hover:text-gray-800" @click="copy(course_url)"> 分享此頁面</u>
                     <h2 title="授課系所與教師" class="my-1 text-sm text-gray-600">
                         {{ course.provider.name }} {{ course.teachers.map(({ name }) => name).join("、") }}
-                    </h2>
-
+                    </h2>                    
                     <h1 class="my-1 text-xl font-bold">
-                        <span>{{ course.name }}</span>
+                        <span>{{ course.name }} </span>
                         <span class="text-base">
                             <span title="開課學年度" class="text-gray-600">{{ course.year }}</span>
                             <span class="text-gray-400">-</span>
