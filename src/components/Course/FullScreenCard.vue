@@ -119,10 +119,10 @@ async function copy(data: string) {
             <div v-if="!course" class="animate-pulse">載入中 ...</div>
             <div v-else class="lg:flex">
                 <div class="w-full lg:inline-block lg:w-2/3 lg:pr-1">
+                    <u class="text-xs text-gray-400 hover:text-gray-800" @click="copy(course_url)"> 分享此頁面</u>
                     <h2 title="授課系所與教師" class="my-1 text-sm text-gray-600">
                         {{ course.provider.name }} {{ course.teachers.map(({ name }) => name).join("、") }}
-                    </h2>
-                    <u class="text-base text-gray-400 hover:text-gray-800" @click="copy(course_url)"> 分享此頁面</u>
+                    </h2>                    
                     <h1 class="my-1 text-xl font-bold">
                         <span>{{ course.name }} </span>
                         <span class="text-base">
