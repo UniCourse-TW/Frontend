@@ -7,6 +7,8 @@
 
 </div>
 
+**Deprecated! Use [realm](https://github.com/UniCourse-TW/realm) instead.**
+
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Tabel of Contents</summary>
